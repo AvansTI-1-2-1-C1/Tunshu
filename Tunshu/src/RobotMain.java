@@ -10,6 +10,7 @@ public class RobotMain {
             state = !state;
             BoeBot.digitalWrite(0, state);
             BoeBot.wait(0, 20000);
+            //testtttt
         }
     }
 }
