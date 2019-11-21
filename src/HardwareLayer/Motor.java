@@ -1,13 +1,25 @@
 package HardwareLayer;
 
-public class Motor implements Updatable, MotorCallBack {
+public class Motor implements Updatable, HardwareOnAndOff{
+    private boolean isOn;
+
     @Override
-    public int safetyCheck() {
-        return 0;
+    public boolean isOn() {
+        return isOn;
     }
 
     @Override
     public void update() {
 
+    }
+
+    @Override
+    public void on() {
+        isOn = true;
+    }
+
+    @Override
+    public void off() {
+        isOn = false;
     }
 }
