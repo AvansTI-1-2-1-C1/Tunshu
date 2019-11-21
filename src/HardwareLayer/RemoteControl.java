@@ -1,6 +1,6 @@
 package HardwareLayer;
 
-public class RemoteControl implements Updatable{
+public class RemoteControl implements Updatable {
     @Override
     public void update() {
 
