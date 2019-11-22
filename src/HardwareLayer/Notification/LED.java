@@ -2,9 +2,15 @@ package HardwareLayer.Notification;
 
 import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
+import TI.BoeBot;
 
 public class LED implements Updatable, Switchable {
     private boolean isOn;
+    private int number;
+
+    public LED(int number) {
+        this.number = number;
+    }
 
     @Override
     public boolean isOn() {
@@ -15,6 +21,8 @@ public class LED implements Updatable, Switchable {
     public void update() {
         if (isOn){
 
+        } else {
+            BoeBot.rgbSet(number,0,0,0);
         }
     }
 
