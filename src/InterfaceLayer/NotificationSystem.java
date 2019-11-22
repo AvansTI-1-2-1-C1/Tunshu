@@ -23,7 +23,7 @@ public class NotificationSystem implements Updatable {
 
     public void initNotificationSystem() {
         //led initialise
-        this.LEDs = new LED[5];
+        this.LEDs = new LED[6];
         LEDs[0] = new LED(0);
         LEDs[1] = new LED(1);
         LEDs[2] = new LED(2);

@@ -170,11 +170,11 @@ public class Drive {
         if (this.speed > 0) {
             if (this.forwards) {
                 this.left.setSpeed(1550 + this.speed);
-                BoeBot.wait(1700);
+                BoeBot.wait(850);
                 this.left.setSpeed(1500 + this.speed);
             } else if (this.backwards) {
                 this.left.setSpeed(1450 - this.speed);
-                BoeBot.wait(1700);
+                BoeBot.wait(850);
                 this.left.setSpeed(1500 - this.speed);
             }
         } else {
