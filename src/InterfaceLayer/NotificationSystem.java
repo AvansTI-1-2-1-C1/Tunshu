@@ -1,4 +1,10 @@
 package InterfaceLayer;
 
-public class NotificationSystem {
+import Updatable.Updatable;
+
+public class NotificationSystem implements Updatable {
+    @java.lang.Override
+    public void update() {
+
+    }
 }

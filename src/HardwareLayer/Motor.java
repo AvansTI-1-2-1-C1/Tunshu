@@ -1,5 +1,7 @@
 package HardwareLayer;
 
+import Updatable.Updatable;
+
 public class Motor implements Updatable, HardwareOnAndOff{
     private boolean isOn;
 

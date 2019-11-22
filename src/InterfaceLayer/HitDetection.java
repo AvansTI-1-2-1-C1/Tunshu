@@ -1,4 +1,10 @@
 package InterfaceLayer;
 
-public class HitDetection {
+import Updatable.Updatable;
+
+public class HitDetection implements Updatable {
+    @java.lang.Override
+    public void update() {
+
+    }
 }
