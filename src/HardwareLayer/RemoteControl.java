@@ -1,6 +1,7 @@
 package HardwareLayer;
 
 import TI.BoeBot;
+import Updatable.Updatable;
 
 public class RemoteControl implements Updatable, HardwareOnAndOff {
     private boolean isOn;

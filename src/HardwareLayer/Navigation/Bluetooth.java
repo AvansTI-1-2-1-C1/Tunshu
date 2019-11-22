@@ -1,7 +1,7 @@
 package HardwareLayer.Navigation;
 
 import HardwareLayer.HardwareOnAndOff;
-import HardwareLayer.Updatable;
+import Updatable.Updatable;
 
 public class Bluetooth implements Updatable, HardwareOnAndOff {
     private boolean isOn;

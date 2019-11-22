@@ -1,4 +1,4 @@
-package HardwareLayer;
+package Updatable;
 
 public interface Updatable {
     void update();

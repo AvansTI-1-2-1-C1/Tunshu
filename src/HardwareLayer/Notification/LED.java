@@ -1,7 +1,7 @@
 package HardwareLayer.Notification;
 
 import HardwareLayer.HardwareOnAndOff;
-import HardwareLayer.Updatable;
+import Updatable.Updatable;
 
 public class LED implements Updatable, HardwareOnAndOff {
     private boolean isOn;
@@ -13,7 +13,9 @@ public class LED implements Updatable, HardwareOnAndOff {
 
     @Override
     public void update() {
+        if (isOn){
 
+        }
     }
 
     @Override
