@@ -3,7 +3,7 @@ package InterfaceLayer;
 import TI.BoeBot;
 import TI.Servo;
 
-public class Drive {
+public class Drive{
 
     private Servo left;
     private Servo right;

@@ -20,10 +20,5 @@ public class Tunshu {
         }
     }
 
-    /**
-     * initialise all the classes and objects
-     */
-    public static void init(){
-        
-    }
+
 }

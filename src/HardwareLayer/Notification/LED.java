@@ -1,7 +1,7 @@
 package HardwareLayer.Notification;
 
 import HardwareLayer.HardwareOnAndOff;
-import Updatable.Updatable;
+import HeadInterfaces.Updatable;
 
 public class LED implements Updatable, HardwareOnAndOff {
     private boolean isOn;

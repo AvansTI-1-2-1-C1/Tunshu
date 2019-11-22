@@ -1,6 +1,6 @@
 package HardwareLayer;
 
-import Updatable.Updatable;
+import HeadInterfaces.Updatable;
 
 public class Motor implements Updatable, HardwareOnAndOff{
     private boolean isOn;

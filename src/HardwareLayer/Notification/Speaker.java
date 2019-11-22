@@ -1,7 +1,7 @@
 package HardwareLayer.Notification;
 
 import HardwareLayer.HardwareOnAndOff;
-import Updatable.Updatable;
+import HeadInterfaces.Updatable;
 
 public class Speaker implements Updatable, HardwareOnAndOff {
     private boolean isOn;

@@ -1,7 +1,7 @@
 package HardwareLayer.Sensor;
 
 import HardwareLayer.HardwareOnAndOff;
-import Updatable.Updatable;
+import HeadInterfaces.Updatable;
 
 public class Ultrasone implements Updatable, HardwareOnAndOff {
     private boolean isOn;

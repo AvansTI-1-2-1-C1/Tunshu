@@ -1,7 +1,7 @@
 package HardwareLayer.Navigation;
 
 import HardwareLayer.HardwareOnAndOff;
-import Updatable.Updatable;
+import HeadInterfaces.Updatable;
 
 public class LineFollower implements Updatable, HardwareOnAndOff {
     private boolean isOn;
