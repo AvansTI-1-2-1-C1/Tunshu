@@ -21,10 +21,6 @@ public class Tunshu {
             notificationSystem.update();
             drive.control(RemoteControl.detect(0));
 
-
-            //temp test
-            notificationSystem.LEDOn();
-            notificationSystem.alert();
         }
     }
 
