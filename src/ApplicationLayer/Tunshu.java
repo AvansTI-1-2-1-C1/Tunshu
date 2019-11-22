@@ -24,7 +24,7 @@ public class Tunshu {
 
             //temp test
             notificationSystem.LEDOn();
-            notificationSystem.alert();
+            notificationSystem.error();
         }
     }
 
