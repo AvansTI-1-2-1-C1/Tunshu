@@ -1,10 +1,10 @@
 package ApplicationLayer;
 
-import HeadInterfaces.InitCallBack;
+import InterfaceLayer.Drive;
 
-public class Init implements InitCallBack {
-    @Override
-    public static void onInit() {
+public class Init{
+    public static void init(Tunshu tunshu) {
+        Drive boebot = new Drive(13, 12);
 
     }
 }
