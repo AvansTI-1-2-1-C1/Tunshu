@@ -5,20 +5,27 @@ import InterfaceLayer.Drive;
 import TI.BoeBot;
 
 public class Tunshu {
+    private Drive drive;
 
-    public static void start() {
-
-        Init.onInit();
-        Drive boebot = new Drive(13, 12);
+    public void start() {
+        //initialise every object
+        init();
 
         /**
          * detection loop
          */
         while (true) {
             //BoeBot.wait(0, 20000);
-            boebot.control(RemoteControl.detect(0));
+            drive.control(RemoteControl.detect(0));
         }
     }
 
+
+    /**
+     * initialising every object we need
+     */
+    public void init(){
+        this.drive = new Drive(13, 12);
+    }
 
 }
