@@ -8,7 +8,7 @@ public class Tunshu {
 
     public static void start() {
 
-        init();
+        Init.onInit();
         Drive boebot = new Drive(13, 12);
 
         /**
@@ -20,10 +20,5 @@ public class Tunshu {
         }
     }
 
-    /**
-     * initialise all the classes and objects
-     */
-    public static void init(){
-        
-    }
+
 }

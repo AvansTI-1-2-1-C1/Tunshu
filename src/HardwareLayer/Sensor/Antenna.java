@@ -1,9 +1,9 @@
 package HardwareLayer.Sensor;
 
-import HardwareLayer.HardwareOnAndOff;
-import Updatable.Updatable;
+import HardwareLayer.Switchable;
+import HeadInterfaces.Updatable;
 
-public class Antenna implements Updatable, HardwareOnAndOff {
+public class Antenna implements Updatable, Switchable {
     private boolean isOn;
 
     @Override

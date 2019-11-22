@@ -1,6 +1,6 @@
 package InterfaceLayer;
 
-import Updatable.Updatable;
+import HeadInterfaces.Updatable;
 
 public class Route implements Updatable {
     @java.lang.Override

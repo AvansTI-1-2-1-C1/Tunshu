@@ -1,6 +1,6 @@
 package InterfaceLayer;
 
-import Updatable.Updatable;
+import HeadInterfaces.Updatable;
 
 public class RouteFollower implements Updatable {
 

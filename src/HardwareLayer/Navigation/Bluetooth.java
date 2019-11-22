@@ -1,9 +1,9 @@
 package HardwareLayer.Navigation;
 
-import HardwareLayer.HardwareOnAndOff;
-import Updatable.Updatable;
+import HardwareLayer.Switchable;
+import HeadInterfaces.Updatable;
 
-public class Bluetooth implements Updatable, HardwareOnAndOff {
+public class Bluetooth implements Updatable, Switchable {
     private boolean isOn;
 
     @Override
