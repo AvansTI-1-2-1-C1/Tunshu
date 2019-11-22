@@ -4,6 +4,8 @@ import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
 
+import java.awt.*;
+
 public class LED implements Updatable, Switchable {
     private boolean isOn;
     private int number;
@@ -19,11 +21,11 @@ public class LED implements Updatable, Switchable {
 
     @Override
     public void update() {
-        if (isOn){
-
+        if (isOn) {
+            BoeBot.rgbShow();
         } else {
-            BoeBot.rgbSet(number,0,0,0);
-        }
+            BoeBot.rgbSet(number, 0, 0, 0);
+    }
     }
 
     @Override
@@ -34,5 +36,14 @@ public class LED implements Updatable, Switchable {
     @Override
     public void off() {
         isOn = false;
+    }
+
+
+    public void setColor(Color color) {
+        BoeBot.rgbSet(number, color);
+    }
+
+    public void setColor(int red, int green, int blue) {
+        BoeBot.rgbSet(number, red,green,blue);
     }
 }
