@@ -2,10 +2,12 @@ package ApplicationLayer;
 
 import HardwareLayer.RemoteControl;
 import InterfaceLayer.Drive;
+import InterfaceLayer.NotificationSystem;
 import TI.BoeBot;
 
 public class Tunshu {
     private Drive drive;
+    private NotificationSystem notificationSystem;
 
     public void start() {
         //initialise every object
@@ -15,8 +17,14 @@ public class Tunshu {
          * detection loop
          */
         while (true) {
-            //BoeBot.wait(0, 20000);
+            BoeBot.wait(0, 20000);
+            notificationSystem.update();
             drive.control(RemoteControl.detect(0));
+
+
+            //temp test
+            notificationSystem.LEDOn();
+            notificationSystem.error();
         }
     }
 
@@ -26,6 +34,8 @@ public class Tunshu {
      */
     public void init(){
         this.drive = new Drive(13, 12);
+        this.notificationSystem = new NotificationSystem();
     }
+
 
 }
