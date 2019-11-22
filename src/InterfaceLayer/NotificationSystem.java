@@ -49,11 +49,21 @@ public class NotificationSystem implements Updatable {
             case 1:
                 alert();
                 break;
+            case 2:
+                reverse();
+                break;
             default:
                 error();
                 break;
         }
 
+    }
+
+
+    public void running() {
+        for (LED led : LEDs) {
+            led.setColor(Color.white);
+        }
     }
 
 
@@ -64,17 +74,20 @@ public class NotificationSystem implements Updatable {
         speaker.speakerFrequencyUpdate(128);
     }
 
+
     public void alert() {
         for (LED led : LEDs) {
             led.setColor(Color.red);
         }
     }
 
-    public void running() {
+    public void reverse(){
+        Color reverseColor = new Color(1/40f,1,1);
         for (LED led : LEDs) {
-            led.setColor(Color.white);
+            led.setColor(Color.red);
         }
     }
+
 
     public void setStatus(int status) {
         this.status = status;
