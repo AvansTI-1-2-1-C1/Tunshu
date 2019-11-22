@@ -7,8 +7,10 @@ import TI.BoeBot;
 public class Tunshu {
 
     public static void start() {
+
         init();
         Drive boebot = new Drive(13, 12);
+
         /**
          * detection loop
          */
@@ -22,6 +24,6 @@ public class Tunshu {
      * initialise all the classes and objects
      */
     public static void init(){
-
+        
     }
 }
