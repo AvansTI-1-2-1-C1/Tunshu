@@ -3,13 +3,14 @@ package InterfaceLayer;
 import HardwareLayer.Motor;
 import TI.BoeBot;
 
-public class Drive{
+public class Drive {
 
     private Motor left;
     private Motor right;
     private int speed;
     private boolean forwards;
     private boolean backwards;
+    private boolean speaker;
 
     public Drive(int servoLeft, int servoRight) {
         this.left = new Motor(servoLeft);
@@ -17,6 +18,7 @@ public class Drive{
         this.speed = 0;
         this.forwards = true;
         this.backwards = true;
+        this.speaker = false;
     }
 
     public void control(int button) {
@@ -54,7 +56,7 @@ public class Drive{
                 if (this.forwards) {
                     System.out.println("Eerst stop");
                     int oldSpeed = this.speed;
-                    this.speed = 50;
+                    this.speed = 0;
                     this.decelerate(oldSpeed);
                     this.forwards = false;
                 }
@@ -95,6 +97,14 @@ public class Drive{
                 System.out.println("Langzamer");
                 this.decreaseSpeed();
                 break;
+            case 656:
+                if (!this.speaker){
+
+                    this.speaker = true;
+                }else {
+                    this.speaker = false;
+                }
+
         }
     }
 
@@ -137,9 +147,15 @@ public class Drive{
 
     public void turnLeft() {
         if (this.speed > 0) {
-            this.right.setSpeed(1450 - this.speed);
-            BoeBot.wait(850);
-            this.right.setSpeed(1500 - this.speed);
+            if (this.forwards) {
+                this.right.setSpeed(1450 - this.speed);
+                BoeBot.wait(1700);
+                this.right.setSpeed(1500 - this.speed);
+            } else if (this.backwards) {
+                this.right.setSpeed(1550 + this.speed);
+                BoeBot.wait(1700);
+                this.right.setSpeed(1500 + this.speed);
+            }
         } else {
             this.left.setSpeed(1450);
             this.right.setSpeed(1450);
@@ -152,9 +168,15 @@ public class Drive{
     public void turnRight() {
 
         if (this.speed > 0) {
-            this.left.setSpeed(1550 + this.speed);
-            BoeBot.wait(850);
-            this.left.setSpeed(1500 + this.speed);
+            if (this.forwards) {
+                this.left.setSpeed(1550 + this.speed);
+                BoeBot.wait(1700);
+                this.left.setSpeed(1500 + this.speed);
+            } else if (this.backwards) {
+                this.left.setSpeed(1450 - this.speed);
+                BoeBot.wait(1700);
+                this.left.setSpeed(1500 - this.speed);
+            }
         } else {
             this.left.setSpeed(1550);
             this.right.setSpeed(1550);
