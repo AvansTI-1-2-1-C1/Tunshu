@@ -34,7 +34,6 @@ public class Drive {
                     this.backwards = false;
                 }
                 if (this.forwards) {
-                    BoeBot.wait(1);
                     this.speed = 50;
                     this.accelerate(0);
                 }
@@ -49,10 +48,9 @@ public class Drive {
                     int oldSpeed = this.speed;
                     this.speed = 50;
                     this.decelerate(oldSpeed);
-                    this.forwards = forwards;
+                    this.forwards = false;
                 }
                 if (this.backwards) {
-                    BoeBot.wait(1);
                     this.speed = 50;
                     this.accelerate(0);
                 }
@@ -62,14 +60,12 @@ public class Drive {
             //Boebot gaat achteruit
             case 3216:
                 System.out.println("Links");
-                BoeBot.wait(1);
                 this.turnLeft();
                 break;
 
             //Boebot gaat naar links
             case 1168:
                 System.out.println("Rechts");
-                BoeBot.wait(1);
                 this.turnRight();
                 break;
 
