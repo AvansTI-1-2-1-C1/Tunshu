@@ -12,6 +12,7 @@ public class LED implements Updatable, Switchable {
 
     public LED(int number) {
         this.number = number;
+        isOn = false;
     }
 
     @Override

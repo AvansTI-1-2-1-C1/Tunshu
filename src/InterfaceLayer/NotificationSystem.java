@@ -37,6 +37,12 @@ public class NotificationSystem implements Updatable {
         }
     }
 
+    public void alert(){
+        for (LED led : LEDs){
+            led.setColor(Color.red);
+        }
+    }
+
 
     /**
      * turns every neopixel on
