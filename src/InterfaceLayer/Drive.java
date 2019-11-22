@@ -86,7 +86,7 @@ public class Drive {
                 System.out.println("Sneller");
                 this.increaseSpeed();
                 break;
-                
+
             case 3984:
                 System.out.println("Langzamer");
                 this.decreaseSpeed();
