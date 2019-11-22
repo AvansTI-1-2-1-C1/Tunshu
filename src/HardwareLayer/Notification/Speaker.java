@@ -1,9 +1,9 @@
 package HardwareLayer.Notification;
 
-import HardwareLayer.HardwareOnAndOff;
+import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 
-public class Speaker implements Updatable, HardwareOnAndOff {
+public class Speaker implements Updatable, Switchable {
     private boolean isOn;
 
     @Override

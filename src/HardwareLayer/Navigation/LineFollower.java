@@ -1,9 +1,9 @@
 package HardwareLayer.Navigation;
 
-import HardwareLayer.HardwareOnAndOff;
+import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 
-public class LineFollower implements Updatable, HardwareOnAndOff {
+public class LineFollower implements Updatable, Switchable {
     private boolean isOn;
 
     @Override

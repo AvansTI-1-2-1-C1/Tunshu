@@ -1,6 +1,6 @@
 package HardwareLayer;
 
-public interface HardwareOnAndOff {
+public interface Switchable {
 
 
     boolean isOn();

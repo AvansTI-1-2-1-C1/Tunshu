@@ -1,9 +1,9 @@
 package HardwareLayer.Sensor;
 
-import HardwareLayer.HardwareOnAndOff;
+import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 
-public class Ultrasone implements Updatable, HardwareOnAndOff {
+public class Ultrasone implements Updatable, Switchable {
     private boolean isOn;
 
     @Override

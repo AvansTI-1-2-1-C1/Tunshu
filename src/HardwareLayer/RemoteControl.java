@@ -3,7 +3,7 @@ package HardwareLayer;
 import TI.BoeBot;
 import HeadInterfaces.Updatable;
 
-public class RemoteControl implements Updatable, HardwareOnAndOff {
+public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
 
 
