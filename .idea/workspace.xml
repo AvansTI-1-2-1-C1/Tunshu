@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f37f1a84-c5f1-4621-8d9c-cc04cacf9c9c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
 <<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/src/HardwareLayer/Motor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HardwareLayer/Motor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HardwareLayer/Navigation/Bluetooth.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HardwareLayer/Navigation/Bluetooth.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HardwareLayer/Navigation/LineFollower.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HardwareLayer/Navigation/LineFollower.java" afterDir="false" />
@@ -12,6 +16,7 @@
       <change beforePath="$PROJECT_DIR$/src/HardwareLayer/RemoteControl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HardwareLayer/RemoteControl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HardwareLayer/Sensor/Antenna.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HardwareLayer/Sensor/Antenna.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/HardwareLayer/Sensor/Ultrasone.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HardwareLayer/Sensor/Ultrasone.java" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/src/HardwareLayer/Updatable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Updatable/Updatable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/HitDetection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/HitDetection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/NotificationSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/NotificationSystem.java" afterDir="false" />
@@ -33,6 +38,10 @@
       <change beforePath="$PROJECT_DIR$/out/production/Tunshu/InterfaceLayer/Drive.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Tunshu/InterfaceLayer/Drive.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/InterfaceLayer/Drive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/InterfaceLayer/Drive.java" afterDir="false" />
 >>>>>>> master
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -43,6 +52,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+<<<<<<< Updated upstream
       <file pinned="false" current-in-tab="false">
 <<<<<<< HEAD
         <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/HitDetection.java">
@@ -55,10 +65,34 @@
             <state relative-caret-position="51">
               <caret line="3" selection-start-line="3" selection-end-line="3" />
 >>>>>>> master
+=======
+<<<<<<< Updated upstream
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/HardwareLayer/HardwareOnAndOff.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="51">
+              <caret line="3" column="4" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+=======
+<<<<<<< Updated upstream
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/RouteFollower.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+=======
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ApplicationLayer/Tunshu.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< Updated upstream
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/Override.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -215,6 +249,8 @@
           </provider>
         </entry>
       </file>
+=======
+>>>>>>> Stashed changes
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -262,17 +298,23 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="180" />
-    <option name="y" value="265" />
-    <option name="width" value="1405" />
-    <option name="height" value="780" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="971" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+      <pane id="PackagesPane" />
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -302,8 +344,12 @@
               <item name="Tunshu" type="b2602c69:ProjectViewProjectNode" />
               <item name="Tunshu" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
               <item name="HardwareLayer" type="462c0819:PsiDirectoryNode" />
               <item name="Navigation" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -321,6 +367,17 @@
 >>>>>>> master
               <item name="InterfaceLayer" type="462c0819:PsiDirectoryNode" />
             </path>
+<<<<<<< Updated upstream
+=======
+            <path>
+              <item name="Tunshu" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Tunshu" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+=======
+>>>>>>> Stashed changes
+              <item name="InterfaceLayer" type="462c0819:PsiDirectoryNode" />
+            </path>
+>>>>>>> Stashed changes
           </expand>
           <select />
         </subPane>
@@ -337,9 +394,15 @@
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1574414921930" />
 >>>>>>> master
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+<<<<<<< Updated upstream
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+=======
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+>>>>>>> Stashed changes
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -398,6 +461,7 @@
     <option name="totallyTimeSpent" value="6888000" />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
@@ -407,12 +471,22 @@
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.120469086" />
 >>>>>>> master
+=======
+    <frame x="0" y="23" width="1680" height="971" extended-state="6" />
+    <layout>
+<<<<<<< Updated upstream
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26008064" />
+=======
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25274727" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info anchor="bottom" id="Floobits" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32954547" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32954547" />
@@ -445,6 +519,17 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+    <entry file="file://$PROJECT_DIR$/src/ApplicationLayer/Tunshu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> Stashed changes
     <entry file="file://$PROJECT_DIR$/Tunshu.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
@@ -452,7 +537,31 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/src/Main.java">
+=======
+<<<<<<< Updated upstream
+=======
+    <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/Drive.java">
+=======
+    <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/HitDetection.java">
+>>>>>>> Stashed changes
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/HitDetection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="25" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+>>>>>>> Stashed changes
+    <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/NotificationSystem.java">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
           <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
@@ -607,7 +716,12 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
     <entry file="file://$PROJECT_DIR$/src/InterfaceLayer/RouteFollower.java">
+=======
+<<<<<<< Updated upstream
+    <entry file="file://$PROJECT_DIR$/src/HardwareLayer/Notification/Speaker.java">
+>>>>>>> Stashed changes
       <provider selected="true" editor-type-id="text-editor">
 <<<<<<< HEAD
         <state relative-caret-position="85">
@@ -641,6 +755,7 @@
           <caret line="13" selection-start-line="13" selection-end-line="13" />
 =======
         <state relative-caret-position="51">
+<<<<<<< Updated upstream
           <caret line="3" selection-start-line="3" selection-end-line="3" />
         </state>
       </provider>
@@ -659,6 +774,18 @@
             <element signature="e#5714#5715#0" expanded="true" />
           </folding>
 >>>>>>> master
+=======
+          <caret line="3" column="4" lean-forward="true" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="4" />
+=======
+    <entry file="file://$PROJECT_DIR$/Tunshu/src/RobotMain.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ApplicationLayer/Tunshu.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         </state>
       </provider>
     </entry>
@@ -719,6 +846,13 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+                <option value="0.6" />
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
               </list>
             </option>
           </splitter-proportions>
