@@ -2,6 +2,7 @@ package InterfaceLayer;
 
 import HardwareLayer.Motor;
 import TI.BoeBot;
+import TI.Timer;
 
 public class Drive {
 
@@ -10,74 +11,88 @@ public class Drive {
     private int speed;
     private boolean forwards;
     private boolean backwards;
+    private int oldSpeed;
 
     public Drive(int servoLeft, int servoRight) {
         this.left = new Motor(servoLeft);
         this.right = new Motor(servoRight);
         this.speed = 0;
+        this.oldSpeed = 0;
         this.forwards = true;
         this.backwards = true;
     }
 
     public void followLine(){
-        while(BoeBot.analogRead(1 ) < 1500){
-            int counter4 = 5;
-            int counter2 = 20;
-            while(BoeBot.analogRead(0) > 1500){
-                this.left.setSpeed(1550+counter2);
-                this.right.setSpeed(1460 + counter4);
-                BoeBot.wait(20);
-                counter2 = counter2 + 10;
-                counter4++;
+        Timer t4 =  new Timer(50);
+        if(t4.timeout()) {
+            while (BoeBot.analogRead(1) < 1500) {
+                Timer t3 = new Timer(30);
+                if (t3.timeout()) {
+                    int counter4 = 5;
+                    int counter2 = 20;
+                    while (BoeBot.analogRead(0) > 1500) {
+                        Timer t1 = new Timer(20);
+                        if (t1.timeout()) {
+                            this.left.setSpeed(1550 + counter2);
+                            this.right.setSpeed(1460 + counter4);
+                            counter2 = counter2 + 10;
+                            counter4++;
+                            t1.mark();
+                        }
+                    }
+                    int counter1 = 20;
+                    int counter3 = 5;
+                    while (BoeBot.analogRead(2) > 1500) {
+                        Timer t2 = new Timer(20);
+                        if (t2.timeout()) {
+                            this.left.setSpeed(1540 - counter3);
+                            this.right.setSpeed(1450 - counter1);
+                            counter1 = counter1 + 10;
+                            counter3++;
+                            t2.mark();
+                        }
+                    }
+                    t3.mark();
+                }
             }
-            int counter1 = 20;
-            int counter3 = 5;
-            while(BoeBot.analogRead(2) > 1500){
-
-                this.left.setSpeed(1540 -counter3);
-                this.right.setSpeed(1450 - counter1);
-                BoeBot.wait(20);
-                counter1 = counter1 +10;
-                counter3++;
-            }
-            BoeBot.wait(30);
+            this.oldSpeed = this.speed;
+            this.speed = 100;
+            this.accelerate();
+            t4.mark();
         }
-        this.left.setSpeed(1600);
-        this.right.setSpeed(1400);
-
     }
 
-    public void accelerate(int oldSpeed) {
+    public void accelerate() {
         if (this.forwards) {
-            while (oldSpeed < this.speed) {
-                oldSpeed++;
-                this.left.setSpeed(1500 + oldSpeed);
-                this.right.setSpeed(1500 - oldSpeed);
+            while (this.oldSpeed < this.speed) {
+                this.oldSpeed++;
+                this.left.setSpeed(1500 + this.oldSpeed);
+                this.right.setSpeed(1500 - this.oldSpeed);
                 BoeBot.wait(10);
             }
         } else if (this.backwards) {
-            while (oldSpeed < this.speed) {
-                oldSpeed++;
-                this.left.setSpeed(1500 - oldSpeed);
-                this.right.setSpeed(1500 + oldSpeed);
+            while (this.oldSpeed < this.speed) {
+                this.oldSpeed++;
+                this.left.setSpeed(1500 - this.oldSpeed);
+                this.right.setSpeed(1500 + this.oldSpeed);
                 BoeBot.wait(10);
             }
         }
     }
 
-    public void decelerate(int oldSpeed) {
+    public void decelerate() {
         if (this.backwards) {
-            while (oldSpeed > this.speed) {
-                oldSpeed--;
-                this.left.setSpeed(1500 - oldSpeed);
-                this.right.setSpeed(1500 + oldSpeed);
+            while (this.oldSpeed > this.speed) {
+                this.oldSpeed--;
+                this.left.setSpeed(1500 - this.oldSpeed);
+                this.right.setSpeed(1500 + this.oldSpeed);
                 BoeBot.wait(10);
             }
         } else if (this.forwards) {
-            while (oldSpeed > this.speed) {
-                oldSpeed--;
-                this.left.setSpeed(1500 + oldSpeed);
-                this.right.setSpeed(1500 - oldSpeed);
+            while (this.oldSpeed > this.speed) {
+                this.oldSpeed--;
+                this.left.setSpeed(1500 + this.oldSpeed);
+                this.right.setSpeed(1500 - this.oldSpeed);
                 BoeBot.wait(10);
             }
         }
@@ -132,17 +147,17 @@ public class Drive {
 
     public void increaseSpeed() {
         if (this.speed < 200) {
-            int oldSpeed = this.speed;
+            this.oldSpeed = this.speed;
             this.speed += 50;
-            accelerate(oldSpeed);
+            accelerate();
         }
     }
 
     public void decreaseSpeed() {
         if (this.speed > 0) {
-            int oldSpeed = this.speed;
+            this.oldSpeed = this.speed;
             this.speed -= 50;
-            decelerate(oldSpeed);
+            decelerate();
         }
     }
 
@@ -168,5 +183,9 @@ public class Drive {
 
     public void setBackwards(boolean backwards) {
         this.backwards = backwards;
+    }
+
+    public void setOldSpeed(int oldSpeed) {
+        this.oldSpeed = oldSpeed;
     }
 }

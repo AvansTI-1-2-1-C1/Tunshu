@@ -8,27 +8,27 @@ public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
 
 
-    public static int detect(int pin){
+    public static int detect(int pin) {
         int binaryInput[] = new int[12];
-        int pulsenLen = BoeBot.pulseIn(pin,false,6000);
+        int pulsenLen = BoeBot.pulseIn(pin, false, 6000);
         int buttonNumber = 0;
         // if the puls length is longer then 2000 its the starting bit.
 
-        if (pulsenLen > 2000){
+        if (pulsenLen > 2000) {
             int lengtes[] = new int[12];
             // fill 12 slots of the array in reversed order.
 
-            for (int i = 11; i >= 0;i--){
-                lengtes[i] = BoeBot.pulseIn(pin,false,20000);
+            for (int i = 11; i >= 0; i--) {
+                lengtes[i] = BoeBot.pulseIn(pin, false, 20000);
             }
 
             /**
              * turns the digits into 1 and 0 according to the length.
              */
             for (int i = 0; i < 12; i++) {
-                if (lengtes[i]<900){
+                if (lengtes[i] < 900) {
                     binaryInput[i] = 0;
-                }else {
+                } else {
                     binaryInput[i] = 1;
                 }
             }
@@ -39,7 +39,7 @@ public class RemoteControl implements Updatable, Switchable {
         return buttonNumber;
     }
 
-    public static void useButton(Drive drive){
+    public static void useButton(Drive drive) {
         switch (detect(0)) {
             case 0:
                 break;
@@ -47,8 +47,9 @@ public class RemoteControl implements Updatable, Switchable {
             case 1:
                 System.out.println("Stop");
                 drive.handBreak();
+                drive.setOldSpeed(0);
                 drive.setSpeed(0);
-                drive.decelerate(drive.getSpeed());
+                drive.decelerate();
                 drive.handBreak();
                 break;
 
@@ -56,14 +57,15 @@ public class RemoteControl implements Updatable, Switchable {
                 System.out.println("Vooruit");
                 if (drive.isBackwards()) {
                     System.out.println("Eerst stop");
-                    int oldSpeed = drive.getSpeed();
+                    drive.setOldSpeed(drive.getSpeed());
                     drive.setSpeed(0);
-                    drive.decelerate(oldSpeed);
+                    drive.decelerate();
                     drive.setBackwards(false);
                 }
                 if (drive.isForwards()) {
+                    drive.setOldSpeed(0);
                     drive.setSpeed(50);
-                    drive.accelerate(0);
+                    drive.accelerate();
                 }
                 drive.setForwards(true);
                 break;
@@ -73,14 +75,15 @@ public class RemoteControl implements Updatable, Switchable {
                 System.out.println("Achteruit");
                 if (drive.isForwards()) {
                     System.out.println("Eerst stop");
-                    int oldSpeed = drive.getSpeed();
+                    drive.setOldSpeed(drive.getSpeed());
                     drive.setSpeed(0);
-                    drive.decelerate(oldSpeed);
+                    drive.decelerate();
                     drive.setForwards(false);
                 }
                 if (drive.isBackwards()) {
                     drive.setSpeed(50);
-                    drive.accelerate(0);
+                    drive.setOldSpeed(0);
+                    drive.accelerate();
                 }
                 drive.setBackwards(true);
                 break;
@@ -128,7 +131,7 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
 
-    public static int convertBinary(int[] numbers){
+    public static int convertBinary(int[] numbers) {
         int getal = 0;
         for (int i = 0; i < 12; i++) {
             getal += (Math.pow(2, i) * numbers[i]);
