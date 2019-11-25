@@ -132,6 +132,7 @@ public class NotificationSystem implements Updatable {
     private void alert() {
         //set the tone of the beep
         speaker.speakerFrequencyUpdate(128);
+
         //if the time has ended switch the light boolean
         if (blinkTimer.timeout()) {
             lightSwitch = !lightSwitch;
@@ -182,7 +183,7 @@ public class NotificationSystem implements Updatable {
                 }else {
                     speaker.off();
                 }
-                
+
             } else {
                 LEDs[0].off();
                 LEDs[1].off();

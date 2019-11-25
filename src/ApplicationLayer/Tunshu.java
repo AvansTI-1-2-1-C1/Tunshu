@@ -23,11 +23,16 @@ public class Tunshu {
          * detection loop
          */
         while (true) {
-            BoeBot.wait(0, 20000);
+            //updates
+            hitDetection.update();
             notificationSystem.update();
+            override.update();
+            route.update();
+            routeFollower.update();
+
             notificationSystem.setStatus(1);
             RemoteControl.useButton(drive, notificationSystem);
-
+            BoeBot.wait(2);
         }
     }
 
@@ -43,12 +48,12 @@ public class Tunshu {
          * route
          * routeFollower
          */
-//        this.drive = new Drive(12, 13);
-//        this.hitDetection = new HitDetection();
+        this.drive = new Drive(12, 13);
+        this.hitDetection = new HitDetection();
         this.notificationSystem = new NotificationSystem();
-//        this.override = new Override();
-//        this.route = new Route();
-//        this.routeFollower = new RouteFollower();
+        this.override = new Override();
+        this.route = new Route();
+        this.routeFollower = new RouteFollower();
     }
 
 
