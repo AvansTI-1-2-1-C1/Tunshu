@@ -36,6 +36,7 @@ public class LED implements Updatable, Switchable {
 
     @Override
     public void off() {
+        BoeBot.rgbSet(number,0,0,0);
         isOn = false;
     }
 

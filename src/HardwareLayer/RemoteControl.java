@@ -116,13 +116,13 @@ public class RemoteControl implements Updatable, Switchable {
                 drive.decreaseSpeed();
                 break;
             case 656:
-                if (!this.speaker){
-
-                    this.speaker = true;
-                }else {
-
-                    this.speaker = false;
-                }
+//                if (!this.speaker){
+//
+//                    this.speaker = true;
+//                }else {
+//
+//                    this.speaker = false;
+//                }
 
         }
     }

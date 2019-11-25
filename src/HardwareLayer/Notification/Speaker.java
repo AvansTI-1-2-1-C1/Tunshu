@@ -13,14 +13,15 @@ public class Speaker implements Updatable, Switchable {
     private int speakerFrequency;
 
 
-    public Speaker( ){
+    public Speaker() {
 
-        this.pin = 6;//GPIO pin number for the speaker.
-        this.speakerPWM = new PWM( pin, this.speakerFrequency);
+        this.pin = 1;//GPIO pin number for the speaker.
         this.speakerFrequency = 0;
+        this.speakerPWM = new PWM(pin, 128);
+        this.isOn = false;
     }
 
-    public void speakerFrequencyUpdate( int frequency ){
+    public void speakerFrequencyUpdate(int frequency) {
 
         this.speakerFrequency = frequency;
 
@@ -34,11 +35,10 @@ public class Speaker implements Updatable, Switchable {
     @Override
     public void update() {
 
-        if ( isOn ){
-            this.speakerFrequency = 128;
-        }
-        else{
-            this.speakerFrequency = 0;
+        if (isOn) {
+            this.speakerPWM.start();
+        } else {
+            this.speakerPWM.stop();
         }
 
     }

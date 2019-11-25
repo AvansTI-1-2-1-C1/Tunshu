@@ -4,17 +4,27 @@ import HardwareLayer.Notification.LED;
 import HardwareLayer.Notification.Speaker;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
+import TI.PWM;
 import TI.Timer;
 
 import java.awt.*;
 
 public class NotificationSystem implements Updatable {
+    /**
+     * status codes:
+     *  0: running normally
+     *  1: alert
+     *  2: reverse
+     *  else: error
+     */
+    
     private LED[] LEDs;
     private Speaker speaker;
     private int status;
     private Timer blinkTimer;
-    private Timer reverseTimer;
     private boolean lightSwitch;
+
+    private Timer reverseTimer;
     private boolean reverseBeepInterval;
 
     /**
@@ -24,7 +34,7 @@ public class NotificationSystem implements Updatable {
         initNotificationSystem();
     }
 
-    public void initNotificationSystem() {
+    private void initNotificationSystem() {
         //led initialise
         this.LEDs = new LED[6];
         LEDs[0] = new LED(0);
@@ -42,14 +52,14 @@ public class NotificationSystem implements Updatable {
         this.status = 0;
 
         //timer for how long the lights are on and off
-        blinkTimer = new Timer(300);
+        blinkTimer = new Timer(100);
         //starts the timer
         blinkTimer.mark();
 
         //boolean for reading if the lights are on or off
         lightSwitch = true;
 
-        reverseTimer = new Timer(1200);
+        reverseTimer = new Timer(500);
         reverseTimer.mark();
 
         reverseBeepInterval = true;
@@ -60,12 +70,14 @@ public class NotificationSystem implements Updatable {
     @java.lang.Override
     public void update() {
         BoeBot.rgbShow();
-        if (blinkTimer.timeout()){
+        speaker.update();
+        if (blinkTimer.timeout()) {
             lightSwitch = !lightSwitch;
             blinkTimer.mark();
         }
-        if (reverseTimer.timeout()){
+        if (reverseTimer.timeout()) {
             reverseBeepInterval = !reverseBeepInterval;
+            reverseTimer.mark();
         }
 
         switch (status) {
@@ -86,51 +98,63 @@ public class NotificationSystem implements Updatable {
     }
 
 
-    public void running() {
-        speaker.speakerFrequencyUpdate(80);
-        for (LED led : LEDs) {
-            led.setColor(Color.white);
-        }
-        speaker.on();
+    private void running() {
+        LEDs[5].setColor(Color.white);
+        LEDs[3].setColor(Color.white);
+
+        LEDs[0].setColor(155, 0, 0);
+        LEDs[2].setColor(155, 0, 0);
     }
 
 
-    public void error() {
+    private void error() {
         speaker.speakerFrequencyUpdate(128);
-        if (lightSwitch){
+        if (lightSwitch) {
             for (LED led : LEDs) {
                 led.setColor(Color.yellow);
             }
-            speaker.on();
+            speaker.off();
         } else {
             ledOff();
         }
     }
 
-
-    public void alert() {
+    /**
+     * alert means there is something and then it flashed the lights red and of and sounds a beep
+     */
+    private void alert() {
         speaker.speakerFrequencyUpdate(128);
-        if (lightSwitch){
+        if (lightSwitch) {
             for (LED led : LEDs) {
                 led.setColor(Color.red);
             }
             speaker.on();
         } else {
             ledOff();
+            speaker.off();
         }
 
     }
 
-    public void reverse(){
-        Color reverseColor = new Color(1/40f,1,1);
+    /**
+     * reverse means the middle back light goes on and turns red
+     */
+    private void reverse() {
         speaker.speakerFrequencyUpdate(80);
-        if ( reverseBeepInterval ){
-            for (LED led : LEDs) {
-                led.setColor(Color.red);
-            }
+        if (reverseBeepInterval) {
+            LEDs[0].on();
+            LEDs[1].on();
+            LEDs[2].on();
+            LEDs[0].setColor(Color.red);
+            LEDs[1].setColor(Color.red);
+            LEDs[2].setColor(Color.red);
             speaker.on();
+        } else {
+            LEDs[0].off();
+            LEDs[1].off();
+            LEDs[2].off();
+            speaker.off();
         }
-
     }
 
 
