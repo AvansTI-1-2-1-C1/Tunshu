@@ -33,6 +33,7 @@ public class NotificationSystem implements Updatable {
 
         //speaker initialise
         this.speaker = new Speaker();
+
         this.status = 0;
         blinkTimer = new Timer(100);
     }
@@ -64,6 +65,7 @@ public class NotificationSystem implements Updatable {
         for (LED led : LEDs) {
             led.setColor(Color.white);
         }
+        speaker.speakerFrequencyUpdate(128);
     }
 
 
@@ -71,7 +73,7 @@ public class NotificationSystem implements Updatable {
         for (LED led : LEDs) {
             led.setColor(Color.yellow);
         }
-        speaker.speakerFrequencyUpdate(128);
+        speaker.speakerFrequencyUpdate(80);
     }
 
 
@@ -79,6 +81,7 @@ public class NotificationSystem implements Updatable {
         for (LED led : LEDs) {
             led.setColor(Color.red);
         }
+        speaker.speakerFrequencyUpdate(128);
     }
 
     public void reverse(){
@@ -86,6 +89,7 @@ public class NotificationSystem implements Updatable {
         for (LED led : LEDs) {
             led.setColor(Color.red);
         }
+        speaker.speakerFrequencyUpdate(128);
     }
 
 
@@ -116,10 +120,29 @@ public class NotificationSystem implements Updatable {
     /**
      * turns the speaker on
      */
-    public void SpeakerOn() {
+    public void SpeakerError() {
         while (true) {
             speaker.on();
-            BoeBot.wait(800);
+        }
+    }
+
+    public void SpeakerRunning() {
+        while (true) {
+            speaker.on();
+        }
+    }
+
+    public void SpeakerAlert() {
+        while (true) {
+            speaker.on();
+            BoeBot.wait(600);
+        }
+    }
+
+    public void SpeakerReverse() {
+        while (true) {
+            speaker.on();
+            BoeBot.wait(1000);
         }
     }
 
