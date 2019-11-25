@@ -12,7 +12,8 @@ public class NotificationSystem implements Updatable {
     private LED[] LEDs;
     private Speaker speaker;
     private int status;
-    Timer blinkTimer;
+    private Timer blinkTimer;
+    private boolean lichtSwitch;
 
     /**
      * we call initialise notification system so all the objects and variables are set right
@@ -34,14 +35,27 @@ public class NotificationSystem implements Updatable {
         //speaker initialise
         this.speaker = new Speaker();
 
+        //set status to 0
+        //status 0 = running
         this.status = 0;
-        blinkTimer = new Timer(100);
+
+        //timer for how long the lights are on and off
+        blinkTimer = new Timer(300);
+        //starts the timer
+        blinkTimer.mark();
+
+        //boolean for reading if the lights are on or off
+        lichtSwitch = true;
+
     }
 
 
     @java.lang.Override
     public void update() {
         BoeBot.rgbShow();
+        if (blinkTimer.timeout()){
+            lichtSwitch = !lichtSwitch;
+        }
 
         switch (status) {
             case 0:
@@ -70,16 +84,24 @@ public class NotificationSystem implements Updatable {
 
 
     public void error() {
-        for (LED led : LEDs) {
-            led.setColor(Color.yellow);
+        if (lichtSwitch){
+            for (LED led : LEDs) {
+                led.setColor(Color.yellow);
+            }
+        } else {
+            ledOff();
         }
         speaker.speakerFrequencyUpdate(80);
     }
 
 
     public void alert() {
-        for (LED led : LEDs) {
-            led.setColor(Color.red);
+        if (lichtSwitch){
+            for (LED led : LEDs) {
+                led.setColor(Color.red);
+            }
+        } else {
+            ledOff();
         }
         speaker.speakerFrequencyUpdate(128);
     }
@@ -111,7 +133,7 @@ public class NotificationSystem implements Updatable {
     /**
      * turns every neopixel off
      */
-    public void LEDoff() {
+    public void ledOff() {
         for (LED led : LEDs) {
             led.off();
         }
