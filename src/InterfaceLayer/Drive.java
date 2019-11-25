@@ -19,6 +19,34 @@ public class Drive {
         this.backwards = true;
     }
 
+    public void followLine(){
+        while(BoeBot.analogRead(1 ) < 1500){
+            int counter4 = 5;
+            int counter2 = 20;
+            while(BoeBot.analogRead(0) > 1500){
+                this.left.setSpeed(1550+counter2);
+                this.right.setSpeed(1460 + counter4);
+                BoeBot.wait(20);
+                counter2 = counter2 + 10;
+                counter4++;
+            }
+            int counter1 = 20;
+            int counter3 = 5;
+            while(BoeBot.analogRead(2) > 1500){
+
+                this.left.setSpeed(1540 -counter3);
+                this.right.setSpeed(1450 - counter1);
+                BoeBot.wait(20);
+                counter1 = counter1 +10;
+                counter3++;
+            }
+            BoeBot.wait(30);
+        }
+        this.left.setSpeed(1600);
+        this.right.setSpeed(1400);
+
+    }
+
     public void accelerate(int oldSpeed) {
         if (this.forwards) {
             while (oldSpeed < this.speed) {
