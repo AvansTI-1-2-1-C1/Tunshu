@@ -32,7 +32,7 @@ public class Tunshu {
     /**
      * initialising every object we need
      */
-    public void init(){
+    public void init() {
         this.drive = new Drive(12, 13);
         this.hitDetection = new HitDetection();
         this.notificationSystem = new NotificationSystem();
