@@ -16,7 +16,7 @@ public class Speaker implements Updatable, Switchable {
     public Speaker( ){
 
         this.pin = 6;//GPIO pin number for the speaker.
-        this.speakerPWM = new PWM( pin,0);
+        this.speakerPWM = new PWM( pin, this.speakerFrequency);
         this.speakerFrequency = 0;
     }
 
@@ -34,22 +34,24 @@ public class Speaker implements Updatable, Switchable {
     @Override
     public void update() {
 
+        if ( isOn ){
+            this.speakerFrequency = 128;
+        }
+        else{
+            this.speakerFrequency = 0;
+        }
+
     }
 
 
     @Override
     public void on() {
-
-        this.speakerPWM = new PWM( this.pin, this.speakerFrequency );
         isOn = true;
-
     }
 
     @Override
     public void off() {
-
-        this.speakerPWM = new PWM( this.pin, this.speakerFrequency );
         isOn = false;
-
     }
+
 }

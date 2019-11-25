@@ -13,7 +13,9 @@ public class NotificationSystem implements Updatable {
     private Speaker speaker;
     private int status;
     private Timer blinkTimer;
+    private Timer reverseTimer;
     private boolean lichtSwitch;
+    private boolean reverseBeepInterval;
 
     /**
      * we call initialise notification system so all the objects and variables are set right
@@ -47,6 +49,11 @@ public class NotificationSystem implements Updatable {
         //boolean for reading if the lights are on or off
         lichtSwitch = true;
 
+        reverseTimer = new Timer(1200);
+        reverseTimer.mark();
+
+        reverseBeepInterval = true;
+
     }
 
 
@@ -55,6 +62,9 @@ public class NotificationSystem implements Updatable {
         BoeBot.rgbShow();
         if (blinkTimer.timeout()){
             lichtSwitch = !lichtSwitch;
+        }
+        if (reverseTimer.timeout()){
+            reverseBeepInterval = !reverseBeepInterval;
         }
 
         switch (status) {
@@ -76,42 +86,50 @@ public class NotificationSystem implements Updatable {
 
 
     public void running() {
+        speaker.speakerFrequencyUpdate(80);
         for (LED led : LEDs) {
             led.setColor(Color.white);
         }
-        speaker.speakerFrequencyUpdate(128);
+        speaker.on();
     }
 
 
     public void error() {
+        speaker.speakerFrequencyUpdate(128);
         if (lichtSwitch){
             for (LED led : LEDs) {
                 led.setColor(Color.yellow);
             }
+            speaker.on();
         } else {
             ledOff();
         }
-        speaker.speakerFrequencyUpdate(80);
     }
 
 
     public void alert() {
+        speaker.speakerFrequencyUpdate(128);
         if (lichtSwitch){
             for (LED led : LEDs) {
                 led.setColor(Color.red);
             }
+            speaker.on();
         } else {
             ledOff();
         }
-        speaker.speakerFrequencyUpdate(128);
+
     }
 
     public void reverse(){
         Color reverseColor = new Color(1/40f,1,1);
-        for (LED led : LEDs) {
-            led.setColor(Color.red);
+        speaker.speakerFrequencyUpdate(80);
+        if ( reverseBeepInterval ){
+            for (LED led : LEDs) {
+                led.setColor(Color.red);
+            }
+            speaker.on();
         }
-        speaker.speakerFrequencyUpdate(128);
+
     }
 
 
@@ -139,41 +157,5 @@ public class NotificationSystem implements Updatable {
         }
     }
 
-    /**
-     * turns the speaker on
-     */
-    public void SpeakerError() {
-        while (true) {
-            speaker.on();
-        }
-    }
-
-    public void SpeakerRunning() {
-        while (true) {
-            speaker.on();
-        }
-    }
-
-    public void SpeakerAlert() {
-        while (true) {
-            speaker.on();
-            BoeBot.wait(600);
-        }
-    }
-
-    public void SpeakerReverse() {
-        while (true) {
-            speaker.on();
-            BoeBot.wait(1000);
-        }
-    }
-
-
-    /**
-     * turns the speaker off
-     */
-    public void SpeakerOff() {
-        speaker.off();
-    }
 
 }
