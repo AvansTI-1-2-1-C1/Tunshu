@@ -6,6 +6,8 @@ import HeadInterfaces.Updatable;
 public class LineFollower implements Updatable, Switchable {
     private boolean isOn;
 
+
+
     @Override
     public boolean isOn() {
         return isOn;

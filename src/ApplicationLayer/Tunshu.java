@@ -19,7 +19,6 @@ public class Tunshu {
         while (true) {
             BoeBot.wait(0, 20000);
             notificationSystem.update();
-            drive.control(RemoteControl.detect(0));
             RemoteControl.useButton(drive);
 
         }
@@ -30,7 +29,7 @@ public class Tunshu {
      * initialising every object we need
      */
     public void init(){
-        this.drive = new Drive(13, 12);
+        this.drive = new Drive(12, 13);
         this.notificationSystem = new NotificationSystem();
     }
 
