@@ -12,7 +12,7 @@ public class NotificationSystem implements Updatable {
     private LED[] LEDs;
     private Speaker speaker;
     private int status;
-    Timer blinkTimer;
+    private Timer blinkTimer;
     private boolean lichtSwitch;
 
     /**
@@ -53,6 +53,9 @@ public class NotificationSystem implements Updatable {
     @java.lang.Override
     public void update() {
         BoeBot.rgbShow();
+        if (blinkTimer.timeout()){
+            lichtSwitch = !lichtSwitch;
+        }
 
         switch (status) {
             case 0:
