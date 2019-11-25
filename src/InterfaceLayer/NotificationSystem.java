@@ -13,7 +13,7 @@ public class NotificationSystem implements Updatable {
     private Speaker speaker;
     private int status;
     private Timer blinkTimer;
-    private boolean lichtSwitch;
+    private boolean lightSwitch;
 
     /**
      * we call initialise notification system so all the objects and variables are set right
@@ -45,7 +45,7 @@ public class NotificationSystem implements Updatable {
         blinkTimer.mark();
 
         //boolean for reading if the lights are on or off
-        lichtSwitch = true;
+        lightSwitch = true;
 
     }
 
@@ -54,7 +54,7 @@ public class NotificationSystem implements Updatable {
     public void update() {
         BoeBot.rgbShow();
         if (blinkTimer.timeout()){
-            lichtSwitch = !lichtSwitch;
+            lightSwitch = !lightSwitch;
         }
 
         switch (status) {
@@ -84,7 +84,7 @@ public class NotificationSystem implements Updatable {
 
 
     public void error() {
-        if (lichtSwitch){
+        if (lightSwitch){
             for (LED led : LEDs) {
                 led.setColor(Color.yellow);
             }
@@ -96,7 +96,7 @@ public class NotificationSystem implements Updatable {
 
 
     public void alert() {
-        if (lichtSwitch){
+        if (lightSwitch){
             for (LED led : LEDs) {
                 led.setColor(Color.red);
             }
@@ -108,8 +108,8 @@ public class NotificationSystem implements Updatable {
 
     public void reverse(){
         Color reverseColor = new Color(1/40f,1,1);
-        for (LED led : LEDs) {
-            led.setColor(Color.red);
+        for (int i = 0; i < 3; i++) {
+            LEDs[i].setColor(Color.red);
         }
         speaker.speakerFrequencyUpdate(128);
     }
