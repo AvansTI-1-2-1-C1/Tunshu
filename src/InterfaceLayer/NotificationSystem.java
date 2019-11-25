@@ -47,7 +47,7 @@ public class NotificationSystem implements Updatable {
         blinkTimer.mark();
 
         //boolean for reading if the lights are on or off
-        lichtSwitch = true;
+        lightSwitch = true;
 
         reverseTimer = new Timer(1200);
         reverseTimer.mark();
@@ -61,7 +61,7 @@ public class NotificationSystem implements Updatable {
     public void update() {
         BoeBot.rgbShow();
         if (blinkTimer.timeout()){
-            lichtSwitch = !lichtSwitch;
+            lightSwitch = !lightSwitch;
         }
         if (reverseTimer.timeout()){
             reverseBeepInterval = !reverseBeepInterval;

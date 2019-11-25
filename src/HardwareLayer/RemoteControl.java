@@ -120,7 +120,7 @@ public class RemoteControl implements Updatable, Switchable {
 
                     this.speaker = true;
                 }else {
-                    
+
                     this.speaker = false;
                 }
 
