@@ -40,11 +40,20 @@ public class LED implements Updatable, Switchable {
         isOn = false;
     }
 
-
+    /**
+     * sets the according led to the given color
+     * @param color
+     */
     public void setColor(Color color) {
         BoeBot.rgbSet(number, color);
     }
 
+    /**
+     * sets the led to the according rgb color
+     * @param red
+     * @param green
+     * @param blue
+     */
     public void setColor(int red, int green, int blue) {
         BoeBot.rgbSet(number, red,green,blue);
     }

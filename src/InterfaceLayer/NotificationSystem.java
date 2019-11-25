@@ -17,15 +17,13 @@ public class NotificationSystem implements Updatable {
      *  2: reverse
      *  else: error
      */
-    
+
     private LED[] LEDs;
     private Speaker speaker;
     private int status;
     private Timer blinkTimer;
     private boolean lightSwitch;
-
     private Timer reverseTimer;
-    private boolean reverseBeepInterval;
 
     /**
      * we call initialise notification system so all the objects and variables are set right
@@ -53,33 +51,27 @@ public class NotificationSystem implements Updatable {
 
         //timer for how long the lights are on and off
         blinkTimer = new Timer(100);
-        //starts the timer
+        //timer for the length of the beeps and lights when reversing
+        reverseTimer = new Timer(500);
+
+        //starts the timers
         blinkTimer.mark();
+        reverseTimer.mark();
 
         //boolean for reading if the lights are on or off
         lightSwitch = true;
-
-        reverseTimer = new Timer(500);
-        reverseTimer.mark();
-
-        reverseBeepInterval = true;
 
     }
 
 
     @java.lang.Override
     public void update() {
+        //update all the leds
         BoeBot.rgbShow();
+        //update the speaker
         speaker.update();
-        if (blinkTimer.timeout()) {
-            lightSwitch = !lightSwitch;
-            blinkTimer.mark();
-        }
-        if (reverseTimer.timeout()) {
-            reverseBeepInterval = !reverseBeepInterval;
-            reverseTimer.mark();
-        }
 
+        //switch that selects which method needs to be run
         switch (status) {
             case 0:
                 running();
@@ -123,16 +115,29 @@ public class NotificationSystem implements Updatable {
      * alert means there is something and then it flashed the lights red and of and sounds a beep
      */
     private void alert() {
+        //set the tone of the beep
         speaker.speakerFrequencyUpdate(128);
-        if (lightSwitch) {
-            for (LED led : LEDs) {
-                led.setColor(Color.red);
+        //if the time has ended switch the light boolean
+        if (blinkTimer.timeout()) {
+            lightSwitch = !lightSwitch;
+
+            //turns the leds to the corresponding collor
+            if (lightSwitch) {
+                for (LED led : LEDs) {
+                    led.setColor(Color.red);
+                }
+                speaker.on();
+            } else {
+                ledOff();
+                speaker.off();
             }
-            speaker.on();
-        } else {
-            ledOff();
-            speaker.off();
+
+            //start the timer again
+            blinkTimer.mark();
         }
+
+
+
 
     }
 
@@ -140,24 +145,40 @@ public class NotificationSystem implements Updatable {
      * reverse means the middle back light goes on and turns red
      */
     private void reverse() {
+        //set the tone of the beep
         speaker.speakerFrequencyUpdate(80);
-        if (reverseBeepInterval) {
-            LEDs[0].on();
-            LEDs[1].on();
-            LEDs[2].on();
-            LEDs[0].setColor(Color.red);
-            LEDs[1].setColor(Color.red);
-            LEDs[2].setColor(Color.red);
-            speaker.on();
-        } else {
-            LEDs[0].off();
-            LEDs[1].off();
-            LEDs[2].off();
-            speaker.off();
+        //if the time has passed switch the light
+        if (reverseTimer.timeout()) {
+            lightSwitch = !lightSwitch;
+            if (lightSwitch) {
+                LEDs[0].on();
+                LEDs[1].on();
+                LEDs[2].on();
+                LEDs[0].setColor(Color.red);
+                LEDs[1].setColor(Color.red);
+                LEDs[2].setColor(Color.red);
+                speaker.on();
+            } else {
+                LEDs[0].off();
+                LEDs[1].off();
+                LEDs[2].off();
+                speaker.off();
+            }
+            reverseTimer.mark();
         }
+
+
     }
 
-
+    /**
+     * sets the status of the boebot
+     * @param status
+     * status codes:
+     *  0: running normally
+     *  1: alert
+     *  2: reverse
+     *  else: error
+     */
     public void setStatus(int status) {
         this.status = status;
     }
