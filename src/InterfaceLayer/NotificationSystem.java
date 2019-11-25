@@ -55,6 +55,7 @@ public class NotificationSystem implements Updatable {
         BoeBot.rgbShow();
         if (blinkTimer.timeout()){
             lightSwitch = !lightSwitch;
+            blinkTimer.mark();
         }
 
         switch (status) {
