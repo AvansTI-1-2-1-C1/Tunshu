@@ -35,11 +35,8 @@ public class NotificationSystem implements Updatable {
         //speaker initialise
         this.speaker = new Speaker();
 
-<<<<<<< HEAD
         //set status to 0
         //status 0 = running
-=======
->>>>>>> master
         this.status = 0;
 
         //timer for how long the lights are on and off
