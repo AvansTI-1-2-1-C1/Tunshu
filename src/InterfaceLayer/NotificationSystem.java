@@ -24,7 +24,7 @@ public class NotificationSystem implements Updatable {
 
     public void initNotificationSystem() {
         //led initialise
-        this.LEDs = new LED[5];
+        this.LEDs = new LED[6];
         LEDs[0] = new LED(0);
         LEDs[1] = new LED(1);
         LEDs[2] = new LED(2);
@@ -35,8 +35,11 @@ public class NotificationSystem implements Updatable {
         //speaker initialise
         this.speaker = new Speaker();
 
+<<<<<<< HEAD
         //set status to 0
         //status 0 = running
+=======
+>>>>>>> master
         this.status = 0;
 
         //timer for how long the lights are on and off
@@ -76,6 +79,7 @@ public class NotificationSystem implements Updatable {
         for (LED led : LEDs) {
             led.setColor(Color.white);
         }
+        speaker.speakerFrequencyUpdate(128);
     }
 
 
@@ -87,7 +91,7 @@ public class NotificationSystem implements Updatable {
         } else {
             ledOff();
         }
-        speaker.speakerFrequencyUpdate(128);
+        speaker.speakerFrequencyUpdate(80);
     }
 
 
@@ -99,6 +103,7 @@ public class NotificationSystem implements Updatable {
         } else {
             ledOff();
         }
+        speaker.speakerFrequencyUpdate(128);
     }
 
     public void reverse(){
@@ -106,6 +111,7 @@ public class NotificationSystem implements Updatable {
         for (LED led : LEDs) {
             led.setColor(Color.red);
         }
+        speaker.speakerFrequencyUpdate(128);
     }
 
 
@@ -136,10 +142,29 @@ public class NotificationSystem implements Updatable {
     /**
      * turns the speaker on
      */
-    public void SpeakerOn() {
+    public void SpeakerError() {
         while (true) {
             speaker.on();
-            BoeBot.wait(800);
+        }
+    }
+
+    public void SpeakerRunning() {
+        while (true) {
+            speaker.on();
+        }
+    }
+
+    public void SpeakerAlert() {
+        while (true) {
+            speaker.on();
+            BoeBot.wait(600);
+        }
+    }
+
+    public void SpeakerReverse() {
+        while (true) {
+            speaker.on();
+            BoeBot.wait(1000);
         }
     }
 
