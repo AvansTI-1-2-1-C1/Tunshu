@@ -12,10 +12,10 @@ import java.awt.*;
 public class NotificationSystem implements Updatable {
     /**
      * status codes:
-     *  0: running normally
-     *  1: alert
-     *  2: reverse
-     *  else: error
+     * 0: running normally
+     * 1: alert
+     * 2: reverse
+     * else: error
      */
 
     private LED[] LEDs;
@@ -89,7 +89,11 @@ public class NotificationSystem implements Updatable {
 
     }
 
-
+    /**
+     * the normal status
+     * 2 lights in front white
+     * 2 lights in the back red
+     */
     private void running() {
         LEDs[5].setColor(Color.white);
         LEDs[3].setColor(Color.white);
@@ -98,17 +102,19 @@ public class NotificationSystem implements Updatable {
         LEDs[2].setColor(155, 0, 0);
     }
 
-
+    /**
+     * if a status is called that is unknown
+     */
     private void error() {
+        //set the tone of the beep
         speaker.speakerFrequencyUpdate(128);
-        if (lightSwitch) {
-            for (LED led : LEDs) {
-                led.setColor(Color.yellow);
-            }
-            speaker.off();
-        } else {
-            ledOff();
+        
+        //sets all the lights to orange
+        for (LED led : LEDs) {
+            led.setColor(Color.yellow);
         }
+        speaker.on();
+
     }
 
     /**
@@ -135,10 +141,6 @@ public class NotificationSystem implements Updatable {
             //start the timer again
             blinkTimer.mark();
         }
-
-
-
-
     }
 
     /**
@@ -172,12 +174,12 @@ public class NotificationSystem implements Updatable {
 
     /**
      * sets the status of the boebot
-     * @param status
-     * status codes:
-     *  0: running normally
-     *  1: alert
-     *  2: reverse
-     *  else: error
+     *
+     * @param status status codes:
+     *               0: running normally
+     *               1: alert
+     *               2: reverse
+     *               else: error
      */
     public void setStatus(int status) {
         this.status = status;
