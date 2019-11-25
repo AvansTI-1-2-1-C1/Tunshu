@@ -1,8 +1,10 @@
 package HardwareLayer;
 
+import HardwareLayer.Notification.Speaker;
 import InterfaceLayer.Drive;
 import TI.BoeBot;
 import HeadInterfaces.Updatable;
+import InterfaceLayer.NotificationSystem;
 
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
@@ -39,7 +41,7 @@ public class RemoteControl implements Updatable, Switchable {
         return buttonNumber;
     }
 
-    public static void useButton(Drive drive) {
+    public static void useButton(Drive drive, NotificationSystem speaker) {
         switch (detect(0)) {
             case 0:
                 break;
@@ -119,14 +121,8 @@ public class RemoteControl implements Updatable, Switchable {
                 drive.decreaseSpeed();
                 break;
             case 656:
-//                if (!this.speaker){
-//
-//                    this.speaker = true;
-//                }else {
-//
-//                    this.speaker = false;
-//                }
-
+                speaker.mute();
+                break;
         }
     }
 

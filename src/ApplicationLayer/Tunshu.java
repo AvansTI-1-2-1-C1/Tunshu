@@ -1,5 +1,6 @@
 package ApplicationLayer;
 
+import HardwareLayer.Notification.Speaker;
 import HardwareLayer.RemoteControl;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
@@ -13,6 +14,7 @@ public class Tunshu {
     private Route route;
     private RouteFollower routeFollower;
 
+
     public void start() {
         //initialise every object
         init();
@@ -24,7 +26,7 @@ public class Tunshu {
             BoeBot.wait(0, 20000);
             notificationSystem.update();
             notificationSystem.setStatus(1);
-//            RemoteControl.useButton(drive);
+            RemoteControl.useButton(drive, notificationSystem);
 
         }
     }
