@@ -24,6 +24,7 @@ public class NotificationSystem implements Updatable {
     private Timer blinkTimer;
     private boolean lightSwitch;
     private Timer reverseTimer;
+    private boolean isMuted;
 
     /**
      * we call initialise notification system so all the objects and variables are set right
@@ -46,7 +47,6 @@ public class NotificationSystem implements Updatable {
         this.speaker = new Speaker();
 
         //set status to 0
-        //status 0 = running
         this.status = 0;
 
         //timer for how long the lights are on and off
@@ -60,6 +60,9 @@ public class NotificationSystem implements Updatable {
 
         //boolean for reading if the lights are on or off
         lightSwitch = true;
+
+        //boolean to know if the speaker has to be muted
+        isMuted = false;
 
     }
 
@@ -108,12 +111,18 @@ public class NotificationSystem implements Updatable {
     private void error() {
         //set the tone of the beep
         speaker.speakerFrequencyUpdate(128);
-        
+
         //sets all the lights to orange
         for (LED led : LEDs) {
             led.setColor(Color.yellow);
         }
-        speaker.on();
+
+        //if isMuted speaker is turned of else it is tuned on
+        if (!isMuted){
+            speaker.on();
+        } else {
+            speaker.off();
+        }
 
     }
 
@@ -132,7 +141,14 @@ public class NotificationSystem implements Updatable {
                 for (LED led : LEDs) {
                     led.setColor(Color.red);
                 }
-                speaker.on();
+
+                //if isMuted speaker is turned of else it is tuned on
+                if (!isMuted) {
+                    speaker.on();
+                } else {
+                    speaker.off();
+                }
+
             } else {
                 ledOff();
                 speaker.off();
@@ -159,7 +175,14 @@ public class NotificationSystem implements Updatable {
                 LEDs[0].setColor(Color.red);
                 LEDs[1].setColor(Color.red);
                 LEDs[2].setColor(Color.red);
-                speaker.on();
+
+                //if isMuted speaker is turned of else it is tuned on
+                if (!isMuted){
+                    speaker.on();
+                }else {
+                    speaker.off();
+                }
+                
             } else {
                 LEDs[0].off();
                 LEDs[1].off();
@@ -205,5 +228,10 @@ public class NotificationSystem implements Updatable {
         }
     }
 
-
+    /**
+     * mutes the speaker when the boolean is true
+     */
+    public void mute() {
+        isMuted = !isMuted;
+    }
 }

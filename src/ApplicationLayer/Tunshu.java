@@ -39,7 +39,7 @@ public class Tunshu {
          * hitDetection
          * override
          * route
-         * routeFollowe
+         * routeFollower
          */
 //        this.drive = new Drive(12, 13);
 //        this.hitDetection = new HitDetection();
