@@ -10,7 +10,6 @@ public class Drive {
     private int speed;
     private boolean forwards;
     private boolean backwards;
-    private boolean speaker;
 
     public Drive(int servoLeft, int servoRight) {
         this.left = new Motor(servoLeft);
@@ -18,94 +17,6 @@ public class Drive {
         this.speed = 0;
         this.forwards = true;
         this.backwards = true;
-        this.speaker = false;
-    }
-
-    public void control(int button) {
-        switch (button) {
-            case 0:
-                break;
-
-            case 1:
-                System.out.println("Stop");
-                this.handBreak();
-                this.speed = 0;
-                this.decelerate(this.speed);
-                this.handBreak();
-                break;
-
-            case 144:
-                System.out.println("Vooruit");
-                if (this.backwards) {
-                    System.out.println("Eerst stop");
-                    int oldSpeed = this.speed;
-                    this.speed = 0;
-                    this.decelerate(oldSpeed);
-                    this.backwards = false;
-                }
-                if (this.forwards) {
-                    this.speed = 50;
-                    this.accelerate(0);
-                }
-                this.forwards = true;
-                break;
-
-            // Boebot gaat vooruit
-            case 2192:
-                System.out.println("Achteruit");
-                if (this.forwards) {
-                    System.out.println("Eerst stop");
-                    int oldSpeed = this.speed;
-                    this.speed = 0;
-                    this.decelerate(oldSpeed);
-                    this.forwards = false;
-                }
-                if (this.backwards) {
-                    this.speed = 50;
-                    this.accelerate(0);
-                }
-                this.backwards = true;
-                break;
-
-            //Boebot gaat achteruit
-            case 3216:
-                System.out.println("Links");
-                this.turnLeft();
-                break;
-
-            //Boebot gaat naar links
-            case 1168:
-                System.out.println("Rechts");
-                this.turnRight();
-                break;
-
-            //Boebot gaat naar rechts
-            case 2704:
-                System.out.println("Fullstop");
-                this.forwards = false;
-                this.backwards = false;
-                this.handBreak();
-                this.speed = 0;
-                break;
-
-            case 1936:
-                System.out.println("Sneller");
-                this.increaseSpeed();
-                break;
-
-            case 3984:
-                System.out.println("Langzamer");
-                this.decreaseSpeed();
-                break;
-            case 656:
-                if (!this.speaker){
-
-                    this.speaker = true;
-                }else {
-                    this.speaker = false;
-                }
-
-        }
     }
 
     public void accelerate(int oldSpeed) {
@@ -205,5 +116,29 @@ public class Drive {
             this.speed -= 50;
             decelerate(oldSpeed);
         }
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public boolean isForwards() {
+        return forwards;
+    }
+
+    public void setForwards(boolean forwards) {
+        this.forwards = forwards;
+    }
+
+    public boolean isBackwards() {
+        return backwards;
+    }
+
+    public void setBackwards(boolean backwards) {
+        this.backwards = backwards;
     }
 }

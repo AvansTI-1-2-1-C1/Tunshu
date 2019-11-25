@@ -20,6 +20,7 @@ public class Tunshu {
             BoeBot.wait(0, 20000);
             notificationSystem.update();
             drive.control(RemoteControl.detect(0));
+            RemoteControl.useButton(drive);
 
         }
     }
