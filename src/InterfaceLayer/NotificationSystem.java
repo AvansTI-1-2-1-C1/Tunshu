@@ -14,7 +14,7 @@ public class NotificationSystem implements Updatable {
     private int status;
     private Timer blinkTimer;
     private Timer reverseTimer;
-    private boolean lichtSwitch;
+    private boolean lightSwitch;
     private boolean reverseBeepInterval;
 
     /**
@@ -96,7 +96,7 @@ public class NotificationSystem implements Updatable {
 
     public void error() {
         speaker.speakerFrequencyUpdate(128);
-        if (lichtSwitch){
+        if (lightSwitch){
             for (LED led : LEDs) {
                 led.setColor(Color.yellow);
             }
@@ -109,7 +109,7 @@ public class NotificationSystem implements Updatable {
 
     public void alert() {
         speaker.speakerFrequencyUpdate(128);
-        if (lichtSwitch){
+        if (lightSwitch){
             for (LED led : LEDs) {
                 led.setColor(Color.red);
             }
