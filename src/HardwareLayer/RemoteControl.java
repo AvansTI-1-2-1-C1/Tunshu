@@ -1,5 +1,6 @@
 package HardwareLayer;
 
+import InterfaceLayer.Drive;
 import TI.BoeBot;
 import HeadInterfaces.Updatable;
 
@@ -37,6 +38,95 @@ public class RemoteControl implements Updatable, Switchable {
         }
         return buttonNumber;
     }
+
+    public static void useButton(Drive drive){
+        switch (detect(0)) {
+            case 0:
+                break;
+
+            case 1:
+                System.out.println("Stop");
+                drive.handBreak();
+                drive.setSpeed(0);
+                drive.decelerate(drive.getSpeed());
+                drive.handBreak();
+                break;
+
+            case 144:
+                System.out.println("Vooruit");
+                if (drive.isBackwards()) {
+                    System.out.println("Eerst stop");
+                    int oldSpeed = drive.getSpeed();
+                    drive.setSpeed(0);
+                    drive.decelerate(oldSpeed);
+                    drive.setBackwards(false);
+                }
+                if (drive.isForwards()) {
+                    drive.setSpeed(50);
+                    drive.accelerate(0);
+                }
+                drive.setForwards(true);
+                break;
+
+            // Boebot gaat vooruit
+            case 2192:
+                System.out.println("Achteruit");
+                if (drive.isForwards()) {
+                    System.out.println("Eerst stop");
+                    int oldSpeed = drive.getSpeed();
+                    drive.setSpeed(0);
+                    drive.decelerate(oldSpeed);
+                    drive.setForwards(false);
+                }
+                if (drive.isBackwards()) {
+                    drive.setSpeed(50);
+                    drive.accelerate(0);
+                }
+                drive.setBackwards(true);
+                break;
+
+            //Boebot gaat achteruit
+            case 3216:
+                System.out.println("Links");
+                drive.turnLeft();
+                break;
+
+            //Boebot gaat naar links
+            case 1168:
+                System.out.println("Rechts");
+                drive.turnRight();
+                break;
+
+            //Boebot gaat naar rechts
+            case 2704:
+                System.out.println("Fullstop");
+                drive.setForwards(false);
+                drive.setForwards(false);
+                drive.handBreak();
+                drive.setSpeed(0);
+                break;
+
+            case 1936:
+                System.out.println("Sneller");
+                drive.increaseSpeed();
+                break;
+
+            case 3984:
+                System.out.println("Langzamer");
+                drive.decreaseSpeed();
+                break;
+            case 656:
+                if (!this.speaker){
+
+                    this.speaker = true;
+                }else {
+                    
+                    this.speaker = false;
+                }
+
+        }
+    }
+
 
     public static int convertBinary(int[] numbers){
         int getal = 0;
