@@ -4,10 +4,16 @@ import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
 
-public class Ultrasone implements Updatable, Switchable {
+public class Ultrasonic implements Updatable, Switchable {
     private boolean isOn;
+    private double distance;
+    private UltrasonicCallBack ultrasonicCallBack;
 
-    public static double ultrasonicSensorDistance() {
+    public Ultrasonic(UltrasonicCallBack ultrasonicCallBack) {
+        this.ultrasonicCallBack = ultrasonicCallBack;
+    }
+
+    public void update() {
         BoeBot.digitalWrite(5, false);
         BoeBot.uwait(2);
         BoeBot.digitalWrite(5, true);
@@ -15,19 +21,15 @@ public class Ultrasone implements Updatable, Switchable {
         BoeBot.digitalWrite(5, false);
         double time = BoeBot.pulseIn(4, true, 3000);
         if (time < 0) {
-            return 44.03;
+            this.distance = 44.03;
         }
-        return ((time * 0.034) / 2.0);
+        this.distance = ((time * 0.034) / 2.0);
+        ultrasonicCallBack.ultrasonicSensorDistance(this.distance);
     }
 
     @Override
     public boolean isOn() {
         return isOn;
-    }
-
-    @Override
-    public void update() {
-
     }
 
     @Override
