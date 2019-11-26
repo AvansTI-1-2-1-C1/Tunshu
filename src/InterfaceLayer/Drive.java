@@ -63,6 +63,7 @@ public class Drive {
     }
 
     public void accelerate() {
+        //Accelerates the Boebot slowly forward
         if (this.forwards) {
             while (this.oldSpeed < this.speed) {
                 this.oldSpeed++;
@@ -70,7 +71,9 @@ public class Drive {
                 this.right.setSpeed(1500 - this.oldSpeed);
                 BoeBot.wait(10);
             }
-        } else if (this.backwards) {
+        }
+        //Accelerates the Boebot slowly backwards
+        else if (this.backwards) {
             while (this.oldSpeed < this.speed) {
                 this.oldSpeed++;
                 this.left.setSpeed(1500 - this.oldSpeed);
@@ -81,18 +84,19 @@ public class Drive {
     }
 
     public void decelerate() {
-        if (this.backwards) {
-            while (this.oldSpeed > this.speed) {
-                this.oldSpeed--;
-                this.left.setSpeed(1500 - this.oldSpeed);
-                this.right.setSpeed(1500 + this.oldSpeed);
-                BoeBot.wait(10);
-            }
-        } else if (this.forwards) {
+        //Decelerates the Boebot slowly
+        if (this.forwards) {
             while (this.oldSpeed > this.speed) {
                 this.oldSpeed--;
                 this.left.setSpeed(1500 + this.oldSpeed);
                 this.right.setSpeed(1500 - this.oldSpeed);
+                BoeBot.wait(10);
+            }
+        } else if (this.backwards) {
+            while (this.oldSpeed > this.speed) {
+                this.oldSpeed--;
+                this.left.setSpeed(1500 - this.oldSpeed);
+                this.right.setSpeed(1500 + this.oldSpeed);
                 BoeBot.wait(10);
             }
         }
@@ -100,6 +104,7 @@ public class Drive {
 
 
     public void turnLeft() {
+        //Turns the Boebot to the left while driving
         if (this.speed > 0) {
             if (this.forwards) {
                 this.right.setSpeed(1450 - this.speed);
@@ -110,7 +115,9 @@ public class Drive {
                 BoeBot.wait(1700);
                 this.right.setSpeed(1500 + this.speed);
             }
-        } else {
+        }
+        //Turns the Boebot left on its axis
+        else {
             this.left.setSpeed(1450);
             this.right.setSpeed(1450);
             BoeBot.wait(775);
@@ -120,7 +127,7 @@ public class Drive {
     }
 
     public void turnRight() {
-
+        //Turns the Boebot to the right while driving
         if (this.speed > 0) {
             if (this.forwards) {
                 this.left.setSpeed(1550 + this.speed);
@@ -131,7 +138,9 @@ public class Drive {
                 BoeBot.wait(850);
                 this.left.setSpeed(1500 - this.speed);
             }
-        } else {
+        }
+        //Turns the Boebot to the right on its axis
+        else {
             this.left.setSpeed(1550);
             this.right.setSpeed(1550);
             BoeBot.wait(775);
@@ -141,11 +150,13 @@ public class Drive {
     }
 
     public void handBreak() {
+        //Stops the Boebot instantly
         this.right.setSpeed(1500);
         this.left.setSpeed(1500);
     }
 
     public void increaseSpeed() {
+        //Increases the speed of the Boebot by 50
         if (this.speed < 200) {
             this.oldSpeed = this.speed;
             this.speed += 50;
@@ -154,6 +165,7 @@ public class Drive {
     }
 
     public void decreaseSpeed() {
+        //Decreases the speed of the Boebot by 50
         if (this.speed > 0) {
             this.oldSpeed = this.speed;
             this.speed -= 50;

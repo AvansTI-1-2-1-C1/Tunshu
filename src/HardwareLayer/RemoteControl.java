@@ -121,6 +121,7 @@ public class RemoteControl implements Updatable, Switchable {
                 drive.decreaseSpeed();
                 break;
             case 656:
+                System.out.println("mute");
                 speaker.mute();
                 break;
         }
