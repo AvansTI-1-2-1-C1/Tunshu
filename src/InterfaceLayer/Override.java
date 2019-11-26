@@ -19,7 +19,7 @@ public class Override implements Updatable, RemoteControlCallBack {
 
 
     @java.lang.Override
-    public void buttonPresses(int sellectedButtonCode) {
-        this.sellectedButtonCode = sellectedButtonCode;
+    public void buttonPresses(RemoteControl remoteControl, int buttonPress) {
+
     }
 }
