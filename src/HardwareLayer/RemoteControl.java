@@ -8,6 +8,11 @@ import InterfaceLayer.NotificationSystem;
 
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
+    private RemoteControlCallBack remoteControlCallBack;
+
+    public RemoteControl(RemoteControlCallBack remoteControlCallBack) {
+        this.remoteControlCallBack = remoteControlCallBack;
+    }
 
 
     public static int detect(int pin) {
@@ -40,6 +45,7 @@ public class RemoteControl implements Updatable, Switchable {
         }
         return buttonNumber;
     }
+
 
     public static void useButton(Drive drive, NotificationSystem speaker) {
         switch (detect(0)) {

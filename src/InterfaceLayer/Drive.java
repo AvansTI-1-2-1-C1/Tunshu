@@ -13,9 +13,9 @@ public class Drive {
     private boolean backwards;
     private int oldSpeed;
 
-    public Drive(int servoLeft, int servoRight) {
-        this.left = new Motor(servoLeft);
-        this.right = new Motor(servoRight);
+    public Drive() {
+        this.left = new Motor(12);
+        this.right = new Motor(13);
         this.speed = 0;
         this.oldSpeed = 0;
         this.forwards = true;
