@@ -41,8 +41,10 @@ public class Tunshu {
 
             if(hitDetection.getState()){
                 drive.decelerate();
+                notificationSystem.setStatus(1);
             } else{
                 drive.accelerate();
+                notificationSystem.setStatus(0);
             }
             //tests
             remoteControl.useButton();
