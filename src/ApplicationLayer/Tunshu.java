@@ -32,19 +32,19 @@ public class Tunshu {
 //        drive.accelerate(100);
         while (true) {
             //updates
-            for(Updatable updatable: this.updatables){
-                updatable.update();
-            }
-
+//            for(Updatable updatable: this.updatables){
+//                updatable.update();
+//            }
+            override.update();
             //wait so it is less CPU heavy
             BoeBot.wait(2);
 
-            if(hitDetection.getState()){
-                drive.handBreak();
-                notificationSystem.setStatus(1);
-            } else{
-                notificationSystem.setStatus(0);
-            }
+//            if(hitDetection.getState()){
+//                drive.handBreak();
+//                notificationSystem.setStatus(1);
+//            } else{
+//                notificationSystem.setStatus(0);
+//            }
             //tests
         }
     }

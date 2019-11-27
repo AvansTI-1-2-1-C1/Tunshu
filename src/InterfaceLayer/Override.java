@@ -3,6 +3,9 @@ package InterfaceLayer;
 import HardwareLayer.RemoteControl;
 import HardwareLayer.RemoteControlCallBack;
 import HeadInterfaces.Updatable;
+import TI.BoeBot;
+
+import static HardwareLayer.RemoteControl.convertBinary;
 
 
 public class Override implements Updatable, RemoteControlCallBack {
@@ -16,6 +19,34 @@ public class Override implements Updatable, RemoteControlCallBack {
         this.remoteControl = new RemoteControl(this);
         this.drive = drive;
         this.notificationSystem = notificationSystem;
+    }
+    public void updateIn() {
+        int nummer = 0;
+        int pin = 1;
+        int binaryInput[] = new int[12];
+        int pulseLen = BoeBot.pulseIn(pin, false, 6000);
+
+        // if the pulse length is longer then 2000 its the starting bit.
+        if (pulseLen > 2000) {
+            int lengths[] = new int[12];
+            // fill 12 slots of the array in reversed order.
+
+            for (int i = 11; i >= 0; i--) {
+                lengths[i] = BoeBot.pulseIn(pin, false, 20000);
+            }
+
+            /**
+             * turns the digits into 1 and 0 according to the length.
+             */
+            for (int i = 0; i < 12; i++) {
+                if (lengths[i] < 900) {
+                    binaryInput[i] = 0;
+                } else {
+                    binaryInput[i] = 1;
+                }
+            }
+            this.selectedButtonCode = convertBinary(binaryInput);
+        }
     }
 
     public void useButton() {
@@ -103,12 +134,12 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.drive.decelerate(0);
                 break;
         }
+        this.selectedButtonCode = 0;
     }
-
 
     @java.lang.Override
     public void update() {
-        remoteControl.update();
+        updateIn();
         useButton();
 
     }

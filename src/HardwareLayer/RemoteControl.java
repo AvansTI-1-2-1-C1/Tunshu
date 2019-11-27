@@ -9,20 +9,23 @@ import InterfaceLayer.NotificationSystem;
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
     private RemoteControlCallBack remoteControlCallBack;
-    private Drive drive;
-    private NotificationSystem notificationSystem;
+
 
     public RemoteControl(RemoteControlCallBack remoteControlCallBack) {
         this.remoteControlCallBack = remoteControlCallBack;
     }
 
     public void update() {
-        int pin = 0;
+
+        int pin = 1;
         int binaryInput[] = new int[12];
         int pulseLen = BoeBot.pulseIn(pin, false, 6000);
-        
-        // if the puls length is longer then 2000 its the starting bit.
 
+        // if the puls length is longer then 2000 its the starting bit.
+        if(pulseLen != -1) {
+            System.out.println("Start update");
+            System.out.println(pulseLen);
+        }
         if (pulseLen > 2000) {
             System.out.println("Update2");
             int lengths[] = new int[12];
