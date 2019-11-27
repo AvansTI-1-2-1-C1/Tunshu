@@ -20,13 +20,11 @@ public class RemoteControl implements Updatable, Switchable {
         this.notificationSystem = notificationSystem;
     }
 
-
-    public static int detect(int pin) {
+    public void update(int pin) {
         int binaryInput[] = new int[12];
         int pulsenLen = BoeBot.pulseIn(pin, false, 6000);
-        int buttonNumber = 0;
+        
         // if the puls length is longer then 2000 its the starting bit.
-
         if (pulsenLen > 2000) {
             int lengtes[] = new int[12];
             // fill 12 slots of the array in reversed order.
@@ -45,11 +43,8 @@ public class RemoteControl implements Updatable, Switchable {
                     binaryInput[i] = 1;
                 }
             }
-
-            buttonNumber = convertBinary(binaryInput);
-
+            remoteControlCallBack.onButtonPress(convertBinary(binaryInput));
         }
-        return buttonNumber;
     }
 
 

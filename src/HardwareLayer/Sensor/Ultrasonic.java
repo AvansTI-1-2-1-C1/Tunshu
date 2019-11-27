@@ -36,6 +36,9 @@ public class Ultrasonic implements Updatable, Switchable {
 
         //The time will be converted to the distance travelled by the sound pulse
         this.distance = ((time * 0.034) / 2.0);
+
+        //This line will call a method in hit detection with a specific parameter, in this case we use this to return
+        //a value to hit detection
         ultrasonicCallBack.ultrasonicSensorDistance(this.distance);
     }
 

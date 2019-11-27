@@ -5,22 +5,24 @@ import HardwareLayer.RemoteControlCallBack;
 import HeadInterfaces.Updatable;
 
 public class Override implements Updatable, RemoteControlCallBack {
+
     private RemoteControl remoteControl;
     private int sellectedButtonCode;
-    private RemoteControlCallBack remoteControlCallBack;
 
     public Override() {
-        this.remoteControl = new RemoteControl(this.remoteControlCallBack);
+        this.remoteControl = new RemoteControl(this);
     }
 
     @java.lang.Override
     public void update() {
         remoteControl.update();
+
+
     }
 
 
     @java.lang.Override
-    public void buttonPresses(RemoteControl remoteControl, int buttonPress) {
-
+    public void onButtonPress(int buttonPress) {
+        this.sellectedButtonCode = buttonPress;
     }
 }
