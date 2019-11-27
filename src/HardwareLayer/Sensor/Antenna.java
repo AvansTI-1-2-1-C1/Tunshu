@@ -20,7 +20,7 @@ public class Antenna implements Updatable, Switchable {
 
     @Override
     public void update() {
-        antennaCallBack.antennaState(BoeBot.digitalRead(2) || BoeBot.digitalRead(3));
+        antennaCallBack.antennaState(!BoeBot.digitalRead(2) || !BoeBot.digitalRead(3));
     }
 
     @Override
