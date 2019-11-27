@@ -21,8 +21,8 @@ public class Override implements Updatable, RemoteControlCallBack {
         this.notificationSystem = notificationSystem;
     }
     public void updateIn() {
-        int nummer = 0;
-        int pin = 1;
+
+        int pin = 0;
         int binaryInput[] = new int[12];
         int pulseLen = BoeBot.pulseIn(pin, false, 6000);
 

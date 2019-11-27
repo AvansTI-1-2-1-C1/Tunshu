@@ -25,7 +25,6 @@ public class Tunshu {
         //initialise every object
         init();
 
-
         /**
          * detection loop
          */
@@ -38,7 +37,7 @@ public class Tunshu {
                 updatable.update();
             }
 
-            //@todo
+
             if(hitDetectionTimer.timeout()){
                 hitDetection.update();
                 hitDetectionTimer.mark();
@@ -75,7 +74,7 @@ public class Tunshu {
         this.route = new Route();
         this.routeFollower = new RouteFollower();
         this.updatables = new ArrayList<>();
-
+        this.updatables.add(hitDetection);
         this.updatables.add(notificationSystem);
         this.updatables.add(override);
         this.updatables.add(route);
