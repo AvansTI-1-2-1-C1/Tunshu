@@ -142,12 +142,12 @@ public class Drive implements Updatable {
     }
 
     /**
-     * turn right by using time as a parameter this is easier if you want to turn a specific amount
+     * turning the BoeBot during time milliseconds and with the speed of turnSpeed.
      *
      * @param time in milliseconds
-     * @param turnSpeed how fast the other servo motor is going (needs to be positive else turning left)
+     * @param turnSpeed how fast the other servo motor is going, given as a positive integer turns right else turns left
      */
-    public void turnRight(int time, int turnSpeed) {
+    public void turn(int time, int turnSpeed) {
         boolean turning = true;
         Timer turnLength = new Timer(time);
         turnLength.mark();
