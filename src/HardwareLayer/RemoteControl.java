@@ -63,7 +63,7 @@ public class RemoteControl implements Updatable, Switchable {
                 this.drive.handBreak();
                 this.drive.setOldSpeed(0);
                 this.drive.setSpeed(0);
-                this.drive.decelerate();
+                this.drive.decelerate(0);
                 this.drive.handBreak();
                 break;
 
@@ -72,15 +72,11 @@ public class RemoteControl implements Updatable, Switchable {
                 System.out.println("Vooruit");
                 if (this.drive.isBackwards()) {
                     System.out.println("Eerst stop");
-                    this.drive.setOldSpeed(this.drive.getSpeed());
-                    this.drive.setSpeed(0);
-                    this.drive.decelerate();
+                    this.drive.decelerate(0);
                     this.drive.setBackwards(false);
                 }
                 if (this.drive.isForwards()) {
-                    this.drive.setOldSpeed(0);
-                    this.drive.setSpeed(50);
-                    this.drive.accelerate();
+                    this.drive.accelerate(50);
                 }
                 this.drive.setForwards(true);
                 break;
@@ -90,15 +86,11 @@ public class RemoteControl implements Updatable, Switchable {
                 System.out.println("Achteruit");
                 if (this.drive.isForwards()) {
                     System.out.println("Eerst stop");
-                    this.drive.setOldSpeed(drive.getSpeed());
-                    this.drive.setSpeed(0);
-                    this.drive.decelerate();
+                    this.drive.decelerate(0);
                     this.drive.setForwards(false);
                 }
                 if (this.drive.isBackwards()) {
-                    this.drive.setSpeed(50);
-                    this.drive.setOldSpeed(0);
-                    this.drive.accelerate();
+                    this.drive.accelerate(50);
                 }
                 this.drive.setBackwards(true);
                 break;
@@ -139,19 +131,11 @@ public class RemoteControl implements Updatable, Switchable {
                 break;
             case 16:
                 for (int i = 0; i < 2; i++) {
-
-                    this.drive.setOldSpeed(this.drive.getSpeed());
-                    this.drive.setSpeed(50);
-                    this.drive.accelerate();
-
-                    this.drive.setOldSpeed(this.drive.getSpeed());
-                    this.drive.setSpeed(0);
-                    this.drive.decelerate();
+                    this.drive.accelerate(50);
+                    this.drive.decelerate(0);
                     this.drive.turnLeft();
                 }
-                this.drive.setOldSpeed(this.drive.getSpeed());
-                this.drive.setSpeed(0);
-                this.drive.decelerate();
+                this.drive.decelerate(0);
             break;
         }
     }
@@ -162,7 +146,7 @@ public class RemoteControl implements Updatable, Switchable {
         for (int i = 0; i < 12; i++) {
             getal += (Math.pow(2, i) * numbers[i]);
         }
-        //System.out.println(getal);
+//        System.out.println(getal);
         return getal;
 
     }

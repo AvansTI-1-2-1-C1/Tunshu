@@ -29,7 +29,7 @@ public class Tunshu {
          * detection loop
          */
 
-
+//        drive.accelerate(100);
         while (true) {
             //updates
             for(Updatable updatable: this.updatables){
@@ -40,7 +40,7 @@ public class Tunshu {
             BoeBot.wait(2);
 
             if(hitDetection.getState()){
-                drive.decelerate();
+                drive.handBreak();
                 notificationSystem.setStatus(1);
             } else{
                 drive.accelerate();

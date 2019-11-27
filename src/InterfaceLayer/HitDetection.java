@@ -5,6 +5,7 @@ import HardwareLayer.Sensor.AntennaCallBack;
 import HardwareLayer.Sensor.Ultrasonic;
 import HardwareLayer.Sensor.UltrasonicCallBack;
 import HeadInterfaces.Updatable;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallBack {
 
@@ -29,11 +30,12 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
         ultrasonic.update();
         antenna.update();
 
-        hitDetectionState = this.ultraSonicDistance < 10 || this.antennaState;
+        hitDetectionState = (this.ultraSonicDistance < 10 && this.ultraSonicDistance > 0) || this.antennaState;
 
     }
 
     public boolean getState(){
+//        System.out.println(hitDetectionState);
 
         return hitDetectionState;
 
