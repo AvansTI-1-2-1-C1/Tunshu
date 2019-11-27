@@ -55,14 +55,14 @@ public class Drive {
                     t3.mark();
                 }
             }
-            this.oldSpeed = this.speed;
-            this.speed = 100;
-            this.accelerate();
+            this.accelerate(100);
             t4.mark();
         }
     }
 
-    public void accelerate() {
+    public void accelerate(int speed) {
+        this.oldSpeed = this.speed;
+        this.speed = speed;
         //Accelerates the Boebot slowly forward
         if (this.forwards) {
             while (this.oldSpeed < this.speed) {
@@ -83,7 +83,9 @@ public class Drive {
         }
     }
 
-    public void decelerate() {
+    public void decelerate(int speed) {
+        this.oldSpeed = this.speed;
+        this.speed = speed;
         //Decelerates the Boebot slowly
         if (this.forwards) {
             while (this.oldSpeed > this.speed) {
@@ -156,21 +158,23 @@ public class Drive {
     }
 
     public void increaseSpeed() {
+        int speed = this.speed;
         //Increases the speed of the Boebot by 50
         if (this.speed < 200) {
-            this.oldSpeed = this.speed;
-            this.speed += 50;
-            accelerate();
+            speed += 50;
+            accelerate(speed);
         }
+        this.speed = speed;
     }
 
     public void decreaseSpeed() {
+        int speed = this.speed;
         //Decreases the speed of the Boebot by 50
         if (this.speed > 0) {
-            this.oldSpeed = this.speed;
-            this.speed -= 50;
-            decelerate();
+            speed -= 50;
+            decelerate(speed);
         }
+        this.speed = speed;
     }
 
     public int getSpeed() {

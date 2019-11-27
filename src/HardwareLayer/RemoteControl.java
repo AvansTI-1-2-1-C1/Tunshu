@@ -12,10 +12,8 @@ public class RemoteControl implements Updatable, Switchable {
     private Drive drive;
     private NotificationSystem notificationSystem;
 
-    public RemoteControl(RemoteControlCallBack remoteControlCallBack, Drive drive, NotificationSystem notificationSystem) {
+    public RemoteControl(RemoteControlCallBack remoteControlCallBack) {
         this.remoteControlCallBack = remoteControlCallBack;
-        this.drive = drive;
-        this.notificationSystem = notificationSystem;
     }
     public RemoteControl(Drive drive, NotificationSystem notificationSystem) {
         this.drive = drive;
@@ -139,6 +137,22 @@ public class RemoteControl implements Updatable, Switchable {
                 System.out.println("mute");
                 this.notificationSystem.mute();
                 break;
+            case 16:
+                for (int i = 0; i < 2; i++) {
+
+                    this.drive.setOldSpeed(this.drive.getSpeed());
+                    this.drive.setSpeed(50);
+                    this.drive.accelerate();
+
+                    this.drive.setOldSpeed(this.drive.getSpeed());
+                    this.drive.setSpeed(0);
+                    this.drive.decelerate();
+                    this.drive.turnLeft();
+                }
+                this.drive.setOldSpeed(this.drive.getSpeed());
+                this.drive.setSpeed(0);
+                this.drive.decelerate();
+            break;
         }
     }
 

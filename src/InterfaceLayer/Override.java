@@ -7,9 +7,10 @@ import HeadInterfaces.Updatable;
 public class Override implements Updatable, RemoteControlCallBack {
     private RemoteControl remoteControl;
     private int sellectedButtonCode;
+    private RemoteControlCallBack remoteControlCallBack;
 
     public Override() {
-        this.remoteControl = new RemoteControl(this);
+        this.remoteControl = new RemoteControl(this.remoteControlCallBack);
     }
 
     @java.lang.Override
