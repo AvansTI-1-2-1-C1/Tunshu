@@ -29,15 +29,7 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
         ultrasonic.update();
         antenna.update();
 
-        if(this.ultraSonicDistance < 10){
-            hitDetectionState = false;
-        }
-        if(this.antennaState){
-            hitDetectionState = false;
-        }
-        if(this.ultraSonicDistance > 10 && !this.antennaState){
-            hitDetectionState = true;
-        }
+        hitDetectionState = this.ultraSonicDistance < 10 || this.antennaState;
 
     }
 
