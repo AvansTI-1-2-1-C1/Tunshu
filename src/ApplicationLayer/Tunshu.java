@@ -6,10 +6,12 @@ import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
 import TI.BoeBot;
+import TI.Timer;
 
 import java.util.ArrayList;
 
 public class Tunshu {
+
     private Drive drive;
     private HitDetection hitDetection;
     private NotificationSystem notificationSystem;
@@ -31,9 +33,15 @@ public class Tunshu {
 
 //        drive.accelerate(100);
         while (true) {
+            Timer hitDetectionTimer = new Timer(50);
             //updates
             for(Updatable updatable: this.updatables){
                 updatable.update();
+            }
+
+            if(hitDetectionTimer.timeout()){
+                hitDetection.update();
+                hitDetectionTimer.mark();
             }
 
             //wait so it is less CPU heavy
@@ -67,7 +75,7 @@ public class Tunshu {
         this.route = new Route();
         this.routeFollower = new RouteFollower();
         this.updatables = new ArrayList<>();
-        this.updatables.add(hitDetection);
+
         this.updatables.add(notificationSystem);
         this.updatables.add(override);
         this.updatables.add(route);
