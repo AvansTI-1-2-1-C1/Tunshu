@@ -14,6 +14,7 @@ public class Drive implements Updatable {
     private boolean backwards;
     private int oldSpeed;
     private Timer circelTimer;
+    private int servoMotorMiddle;
 
     public Drive() {
         this.left = new Motor(12);
@@ -23,11 +24,12 @@ public class Drive implements Updatable {
         this.forwards = true;
         this.backwards = true;
         this.circelTimer = new Timer(1500);
+        this.servoMotorMiddle = 1500;
     }
 
-    public void followLine(){
-        Timer t4 =  new Timer(50);
-        if(t4.timeout()) {
+    public void followLine() {
+        Timer t4 = new Timer(50);
+        if (t4.timeout()) {
             while (BoeBot.analogRead(1) < 1500) {
                 Timer t3 = new Timer(30);
                 if (t3.timeout()) {
@@ -64,48 +66,52 @@ public class Drive implements Updatable {
     }
 
     public void accelerate(int speed) {
-            this.oldSpeed = this.speed;
-            this.speed = speed;
-            //Accelerates the Boebot slowly forward
-            if (this.forwards) {
-                while (this.oldSpeed < this.speed) {
-                    this.oldSpeed++;
-                    this.left.setSpeed(1500 + this.oldSpeed);
-                    this.right.setSpeed(1500 - this.oldSpeed);
-                    BoeBot.wait(10);
-                }
+        this.oldSpeed = this.speed;
+        this.speed = speed;
+        //Accelerates the Boebot slowly forward
+        if (this.forwards) {
+            //@todo we dont want to use a while loop and a wait here because while we accelerate we cant detect anything
+            while (this.oldSpeed < this.speed) {
+                this.oldSpeed++;
+                this.left.setSpeed(1500 + this.oldSpeed);
+                this.right.setSpeed(1500 - this.oldSpeed);
+                BoeBot.wait(10);
             }
-            //Accelerates the Boebot slowly backwards
-            else if (this.backwards) {
-                while (this.oldSpeed < this.speed) {
-                    this.oldSpeed++;
-                    this.left.setSpeed(1500 - this.oldSpeed);
-                    this.right.setSpeed(1500 + this.oldSpeed);
-                    BoeBot.wait(10);
-                }
+        }
+        //Accelerates the Boebot slowly backwards
+        else if (this.backwards) {
+            //@todo we dont want to use a while loop and a wait here because while we accelerate we cant detect anything
+            while (this.oldSpeed < this.speed) {
+                this.oldSpeed++;
+                this.left.setSpeed(1500 - this.oldSpeed);
+                this.right.setSpeed(1500 + this.oldSpeed);
+                BoeBot.wait(10);
             }
+        }
 
     }
 
     public void decelerate(int speed) {
-            this.oldSpeed = this.speed;
-            this.speed = speed;
-            //Decelerates the Boebot slowly
-            if (this.forwards) {
-                while (this.oldSpeed > this.speed) {
-                    this.oldSpeed--;
-                    this.left.setSpeed(1500 + this.oldSpeed);
-                    this.right.setSpeed(1500 - this.oldSpeed);
-                    BoeBot.wait(10);
-                }
-            } else if (this.backwards) {
-                while (this.oldSpeed > this.speed) {
-                    this.oldSpeed--;
-                    this.left.setSpeed(1500 - this.oldSpeed);
-                    this.right.setSpeed(1500 + this.oldSpeed);
-                    BoeBot.wait(10);
-                }
+        this.oldSpeed = this.speed;
+        this.speed = speed;
+        //Decelerates the Boebot slowly
+        if (this.forwards) {
+            //@todo we dont want to use a while loop and a wait here because while we accelerate we cant detect anything
+            while (this.oldSpeed > this.speed) {
+                this.oldSpeed--;
+                this.left.setSpeed(1500 + this.oldSpeed);
+                this.right.setSpeed(1500 - this.oldSpeed);
+                BoeBot.wait(10);
             }
+        } else if (this.backwards) {
+            //@todo we dont want to use a while loop and a wait here because while we accelerate we cant detect anything
+            while (this.oldSpeed > this.speed) {
+                this.oldSpeed--;
+                this.left.setSpeed(1500 - this.oldSpeed);
+                this.right.setSpeed(1500 + this.oldSpeed);
+                BoeBot.wait(10);
+            }
+        }
     }
 
 
@@ -114,10 +120,12 @@ public class Drive implements Updatable {
         if (this.speed > 0) {
             if (this.forwards) {
                 this.right.setSpeed(1450 - this.speed);
+                //@todo
                 BoeBot.wait(1700);
                 this.right.setSpeed(1500 - this.speed);
             } else if (this.backwards) {
                 this.right.setSpeed(1550 + this.speed);
+                //@todo
                 BoeBot.wait(1700);
                 this.right.setSpeed(1500 + this.speed);
             }
@@ -126,21 +134,84 @@ public class Drive implements Updatable {
         else {
             this.left.setSpeed(1450);
             this.right.setSpeed(1450);
+            //@todo
             BoeBot.wait(775);
             this.left.setSpeed(1500);
             this.right.setSpeed(1500);
         }
     }
 
+    /**
+     * turn right by using time as a parameter this is easier if you want to turn a specific amount
+     *
+     * @param time in milliseconds
+     * @param turnSpeed how fast the other servo motor is going (needs to be positive else turning left)
+     */
+    public void turnRight(int time, int turnSpeed) {
+        boolean turning = true;
+        Timer turnLength = new Timer(time);
+        turnLength.mark();
+        //check if the BoeBot is already moving
+        if (this.speed > 0) {
+            if (this.forwards) {
+                while (turning) {
+                    //updates the hit detection so we stay safe
+                    //@todo add hitDetection.update() or something
+
+                    //set the speed of the motor to 50 more then the speed so it turns
+                    this.left.setSpeed(servoMotorMiddle + speed + turnSpeed);
+                    if (turnLength.timeout()) {
+                        //set the motor to the speed it was
+                        this.left.setSpeed(servoMotorMiddle + speed);
+                        turning = false;
+                    }
+                }
+            } else {
+                while (turning) {
+                    //updates the hit detection so we stay safe
+                    //@todo add hitDetection.update() or something
+
+                    //set the speed of the motor to 50 more then the speed so it turns
+                    this.left.setSpeed(servoMotorMiddle - speed + turnSpeed);
+                    if (turnLength.timeout()) {
+                        //set the motor to the speed it was
+                        this.left.setSpeed(servoMotorMiddle - speed);
+                        turning = false;
+                    }
+                }
+            }
+        }
+        //the BoeBot is not moving
+        else {
+            while (turning) {
+                //updates the hit detection so we stay safe
+                //@todo add hitDetection.update() or something
+
+                //set the speed of the motors to the turnSpeed, one clockwise and one counter clockwise
+                this.left.setSpeed(servoMotorMiddle + turnSpeed);
+                this.right.setSpeed(servoMotorMiddle + turnSpeed);
+                if (turnLength.timeout()) {
+                    //set the motors still at the end of the time
+                    this.left.setSpeed(servoMotorMiddle);
+                    this.right.setSpeed(servoMotorMiddle);
+                    turning = false;
+                }
+            }
+        }
+    }
+
+
     public void turnRight() {
         //Turns the Boebot to the right while driving
         if (this.speed > 0) {
             if (this.forwards) {
                 this.left.setSpeed(1550 + this.speed);
+                //@todo
                 BoeBot.wait(850);
                 this.left.setSpeed(1500 + this.speed);
             } else if (this.backwards) {
                 this.left.setSpeed(1450 - this.speed);
+                //@todo
                 BoeBot.wait(850);
                 this.left.setSpeed(1500 - this.speed);
             }
@@ -149,6 +220,7 @@ public class Drive implements Updatable {
         else {
             this.left.setSpeed(1550);
             this.right.setSpeed(1550);
+            //@todo
             BoeBot.wait(775);
             this.left.setSpeed(1500);
             this.right.setSpeed(1500);
@@ -181,16 +253,14 @@ public class Drive implements Updatable {
         this.speed = speed;
     }
 
-    public void cirkel(){
-        if(!circelTimer.timeout()) {
+    public void cirkel() {
+        if (!circelTimer.timeout()) {
             this.left.setSpeed(1550 + speed);
             this.right.setSpeed(1350 - speed);
-        }else {
+        } else {
             this.accelerate(this.speed);
             circelTimer.mark();
         }
-
-
     }
 
     public int getSpeed() {

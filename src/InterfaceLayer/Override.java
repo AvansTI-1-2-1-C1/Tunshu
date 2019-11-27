@@ -4,6 +4,7 @@ import HardwareLayer.RemoteControl;
 import HardwareLayer.RemoteControlCallBack;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
+import TI.Timer;
 
 import static HardwareLayer.RemoteControl.convertBinary;
 
@@ -14,11 +15,14 @@ public class Override implements Updatable, RemoteControlCallBack {
     private int selectedButtonCode;
     private Drive drive;
     private NotificationSystem notificationSystem;
+    private int previousButtonCode;
+    private Timer inputDelay;
 
     public Override(Drive drive, NotificationSystem notificationSystem) {
         this.remoteControl = new RemoteControl(this);
         this.drive = drive;
         this.notificationSystem = notificationSystem;
+        this.inputDelay = new Timer(200);
     }
     public void updateIn() {
 
@@ -50,6 +54,16 @@ public class Override implements Updatable, RemoteControlCallBack {
     }
 
     public void useButton() {
+        //check if the selected button was pressed right before by checking it against the previous button code and the timer
+        if (selectedButtonCode== previousButtonCode){
+            if (!inputDelay.timeout()){
+                return;
+            }
+        }else {
+            previousButtonCode = selectedButtonCode;
+        }
+
+        //switch statement that selects the corresponding method
         switch (this.selectedButtonCode) {
             case 0:
                 break;
@@ -129,6 +143,7 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.drive.cirkel();
                 break;
         }
+        inputDelay.mark();
         this.selectedButtonCode = 0;
     }
 
