@@ -103,6 +103,12 @@ public class NotificationSystem implements Updatable {
 
         LEDs[0].setColor(155, 0, 0);
         LEDs[2].setColor(155, 0, 0);
+
+        if (!isMuted){
+            speaker.on();
+        } else {
+            speaker.off();
+        }
     }
 
     /**
@@ -144,11 +150,12 @@ public class NotificationSystem implements Updatable {
                 }
 
                 //if isMuted speaker is turned of else it is tuned on
-                if (!isMuted) {
-                    speaker.on();
-                } else {
-                    speaker.off();
-                }
+//                if (!isMuted) {
+//                    speaker.on();
+//                } else {
+//                    speaker.off();
+//                }
+                speaker.on();
 
             } else {
                 ledOff();
@@ -233,6 +240,12 @@ public class NotificationSystem implements Updatable {
      * mutes the speaker when the boolean is true
      */
     public void mute() {
+
         isMuted = !isMuted;
+        if ( !isMuted ){
+            speaker.off();
+        } else {
+            speaker.on();
+        }
     }
 }
