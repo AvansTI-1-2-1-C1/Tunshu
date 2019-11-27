@@ -46,12 +46,15 @@ public class Tunshu {
             //wait so it is less CPU heavy
             BoeBot.wait(2);
 
-//            if(hitDetection.getState()){
-//                drive.handBreak();
-//                notificationSystem.setStatus(1);
-//            } else{
-//                notificationSystem.setStatus(0);
-//            }
+            if(hitDetection.getState()){
+                drive.handbrake();
+                drive.setOldSpeed(0);
+                drive.setSpeed(0);
+                drive.decelerate(0);
+                drive.handbrake();
+            } else{
+                notificationSystem.setStatus(0);
+            }
             //tests
         }
     }

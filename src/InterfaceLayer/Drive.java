@@ -22,6 +22,7 @@ public class Drive implements Updatable {
         this.oldSpeed = 0;
         this.forwards = true;
         this.backwards = true;
+        this.circelTimer = new Timer(1500);
     }
 
     public void followLine(){
@@ -63,47 +64,48 @@ public class Drive implements Updatable {
     }
 
     public void accelerate(int speed) {
-        this.oldSpeed = this.speed;
-        this.speed = speed;
-        //Accelerates the Boebot slowly forward
-        if (this.forwards) {
-            while (this.oldSpeed < this.speed) {
-                this.oldSpeed++;
-                this.left.setSpeed(1500 + this.oldSpeed);
-                this.right.setSpeed(1500 - this.oldSpeed);
-                BoeBot.wait(10);
+            this.oldSpeed = this.speed;
+            this.speed = speed;
+            //Accelerates the Boebot slowly forward
+            if (this.forwards) {
+                while (this.oldSpeed < this.speed) {
+                    this.oldSpeed++;
+                    this.left.setSpeed(1500 + this.oldSpeed);
+                    this.right.setSpeed(1500 - this.oldSpeed);
+                    BoeBot.wait(10);
+                }
             }
-        }
-        //Accelerates the Boebot slowly backwards
-        else if (this.backwards) {
-            while (this.oldSpeed < this.speed) {
-                this.oldSpeed++;
-                this.left.setSpeed(1500 - this.oldSpeed);
-                this.right.setSpeed(1500 + this.oldSpeed);
-                BoeBot.wait(10);
+            //Accelerates the Boebot slowly backwards
+            else if (this.backwards) {
+                while (this.oldSpeed < this.speed) {
+                    this.oldSpeed++;
+                    this.left.setSpeed(1500 - this.oldSpeed);
+                    this.right.setSpeed(1500 + this.oldSpeed);
+                    BoeBot.wait(10);
+                }
             }
-        }
+
     }
 
     public void decelerate(int speed) {
-        this.oldSpeed = this.speed;
-        this.speed = speed;
-        //Decelerates the Boebot slowly
-        if (this.forwards) {
-            while (this.oldSpeed > this.speed) {
-                this.oldSpeed--;
-                this.left.setSpeed(1500 + this.oldSpeed);
-                this.right.setSpeed(1500 - this.oldSpeed);
-                BoeBot.wait(10);
+            this.oldSpeed = this.speed;
+            this.speed = speed;
+            //Decelerates the Boebot slowly
+            if (this.forwards) {
+                while (this.oldSpeed > this.speed) {
+                    this.oldSpeed--;
+                    this.left.setSpeed(1500 + this.oldSpeed);
+                    this.right.setSpeed(1500 - this.oldSpeed);
+                    BoeBot.wait(10);
+                }
+            } else if (this.backwards) {
+                while (this.oldSpeed > this.speed) {
+                    this.oldSpeed--;
+                    this.left.setSpeed(1500 - this.oldSpeed);
+                    this.right.setSpeed(1500 + this.oldSpeed);
+                    BoeBot.wait(10);
+                }
             }
-        } else if (this.backwards) {
-            while (this.oldSpeed > this.speed) {
-                this.oldSpeed--;
-                this.left.setSpeed(1500 - this.oldSpeed);
-                this.right.setSpeed(1500 + this.oldSpeed);
-                BoeBot.wait(10);
-            }
-        }
     }
 
 
@@ -162,7 +164,7 @@ public class Drive implements Updatable {
     public void increaseSpeed() {
         int speed = this.speed;
         //Increases the speed of the Boebot by 50
-        if (this.speed < 200) {
+        if (this.speed < 200 && this.speed < 200) {
             speed += 50;
             accelerate(speed);
         }
@@ -172,7 +174,7 @@ public class Drive implements Updatable {
     public void decreaseSpeed() {
         int speed = this.speed;
         //Decreases the speed of the Boebot by 50
-        if (this.speed > 0) {
+        if (this.speed > 0 && this.speed < 200) {
             speed -= 50;
             decelerate(speed);
         }
@@ -181,9 +183,8 @@ public class Drive implements Updatable {
 
     public void cirkel(){
         if(!circelTimer.timeout()) {
-            circelTimer.setInterval(800);
-            this.left.setSpeed(1500 + speed);
-            this.right.setSpeed(1450 - speed);
+            this.left.setSpeed(1550 + speed);
+            this.right.setSpeed(1350 - speed);
         }else {
             this.accelerate(this.speed);
             circelTimer.mark();

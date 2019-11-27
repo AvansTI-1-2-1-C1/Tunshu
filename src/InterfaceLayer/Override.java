@@ -126,12 +126,7 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.notificationSystem.mute();
                 break;
             case 16:
-                for (int i = 0; i < 2; i++) {
-                    this.drive.accelerate(50);
-                    this.drive.decelerate(0);
-                    this.drive.turnLeft();
-                }
-                this.drive.decelerate(0);
+                this.drive.cirkel();
                 break;
         }
         this.selectedButtonCode = 0;
