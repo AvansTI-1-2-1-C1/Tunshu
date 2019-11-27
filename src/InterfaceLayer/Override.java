@@ -56,11 +56,11 @@ public class Override implements Updatable, RemoteControlCallBack {
 
             case 1:
                 System.out.println("Stop");
-                this.drive.handBreak();
+                this.drive.handbrake();
                 this.drive.setOldSpeed(0);
                 this.drive.setSpeed(0);
                 this.drive.decelerate(0);
-                this.drive.handBreak();
+                this.drive.handbrake();
                 break;
 
             case 144:
@@ -108,7 +108,7 @@ public class Override implements Updatable, RemoteControlCallBack {
                 System.out.println("Fullstop");
                 this.drive.setForwards(false);
                 this.drive.setForwards(false);
-                this.drive.handBreak();
+                this.drive.handbrake();
                 this.drive.setSpeed(0);
                 break;
 

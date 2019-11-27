@@ -96,6 +96,7 @@ public class NotificationSystem implements Updatable {
      * the normal status
      * 2 lights in front white
      * 2 lights in the back red
+     * other lights off
      */
     private void running() {
         LEDs[5].setColor(Color.white);
@@ -103,6 +104,9 @@ public class NotificationSystem implements Updatable {
 
         LEDs[0].setColor(155, 0, 0);
         LEDs[2].setColor(155, 0, 0);
+
+        LEDs[1].off();
+        LEDs[4].off();
 
         if (!isMuted){
             speaker.on();
