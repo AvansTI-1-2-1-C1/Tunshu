@@ -153,7 +153,7 @@ public class Drive implements Updatable {
         }
     }
 
-    public void handBreak() {
+    public void handbrake() {
         //Stops the Boebot instantly
         this.right.setSpeed(1500);
         this.left.setSpeed(1500);

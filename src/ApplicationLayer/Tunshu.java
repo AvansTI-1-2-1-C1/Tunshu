@@ -1,6 +1,5 @@
 package ApplicationLayer;
 
-import HardwareLayer.Notification.Speaker;
 import HardwareLayer.RemoteControl;
 import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
@@ -39,6 +38,7 @@ public class Tunshu {
                 updatable.update();
             }
 
+            //@todo
             if(hitDetectionTimer.timeout()){
                 hitDetection.update();
                 hitDetectionTimer.mark();
@@ -47,8 +47,9 @@ public class Tunshu {
             //wait so it is less CPU heavy
             BoeBot.wait(2);
 
+            //@todo
             if(hitDetection.getState()){
-                drive.handBreak();
+                drive.handbrake();
                 notificationSystem.setStatus(1);
             } else{
                 notificationSystem.setStatus(0);
