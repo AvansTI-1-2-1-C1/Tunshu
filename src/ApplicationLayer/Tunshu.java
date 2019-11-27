@@ -43,7 +43,7 @@ public class Tunshu {
                 drive.handBreak();
                 notificationSystem.setStatus(1);
             } else{
-                drive.accelerate();
+                drive.accelerate(100);
                 notificationSystem.setStatus(0);
             }
             //tests
