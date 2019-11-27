@@ -43,11 +43,9 @@ public class Tunshu {
                 drive.handBreak();
                 notificationSystem.setStatus(1);
             } else{
-                drive.accelerate(100);
                 notificationSystem.setStatus(0);
             }
             //tests
-            remoteControl.useButton();
         }
     }
 
@@ -65,10 +63,9 @@ public class Tunshu {
         this.drive = new Drive();
         this.hitDetection = new HitDetection();
         this.notificationSystem = new NotificationSystem();
-        this.override = new Override();
+        this.override = new Override(this.drive, this.notificationSystem);
         this.route = new Route();
         this.routeFollower = new RouteFollower();
-        this.remoteControl = new RemoteControl(this.drive, this.notificationSystem);
         this.updatables = new ArrayList<>();
         this.updatables.add(hitDetection);
         this.updatables.add(notificationSystem);

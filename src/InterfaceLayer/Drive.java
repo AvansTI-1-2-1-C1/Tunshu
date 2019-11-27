@@ -1,10 +1,11 @@
 package InterfaceLayer;
 
 import HardwareLayer.Motor;
+import HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
 
-public class Drive {
+public class Drive implements Updatable {
 
     private Motor left;
     private Motor right;
@@ -12,6 +13,7 @@ public class Drive {
     private boolean forwards;
     private boolean backwards;
     private int oldSpeed;
+    private Timer circelTimer;
 
     public Drive() {
         this.left = new Motor(12);
@@ -177,6 +179,19 @@ public class Drive {
         this.speed = speed;
     }
 
+    public void cirkel(){
+        if(!circelTimer.timeout()) {
+            circelTimer.setInterval(800);
+            this.left.setSpeed(1500 + speed);
+            this.right.setSpeed(1450 - speed);
+        }else {
+            this.accelerate(this.speed);
+            circelTimer.mark();
+        }
+
+
+    }
+
     public int getSpeed() {
         return speed;
     }
@@ -203,5 +218,10 @@ public class Drive {
 
     public void setOldSpeed(int oldSpeed) {
         this.oldSpeed = oldSpeed;
+    }
+
+    @java.lang.Override
+    public void update() {
+
     }
 }
