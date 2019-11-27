@@ -9,7 +9,6 @@ import InterfaceLayer.NotificationSystem;
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
     private RemoteControlCallBack remoteControlCallBack;
-    private Drive drive;
     private NotificationSystem notificationSystem;
 
     public RemoteControl(RemoteControlCallBack remoteControlCallBack) {
@@ -54,7 +53,6 @@ public class RemoteControl implements Updatable, Switchable {
         for (int i = 0; i < 12; i++) {
             getal += (Math.pow(2, i) * numbers[i]);
         }
-//        System.out.println(getal);
         return getal;
 
     }

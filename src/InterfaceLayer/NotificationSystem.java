@@ -104,6 +104,9 @@ public class NotificationSystem implements Updatable {
         LEDs[0].setColor(155, 0, 0);
         LEDs[2].setColor(155, 0, 0);
 
+        LEDs[1].off();
+        LEDs[4].off();
+
         if (!isMuted){
             speaker.on();
         } else {
