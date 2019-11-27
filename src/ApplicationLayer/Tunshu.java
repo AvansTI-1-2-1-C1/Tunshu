@@ -13,6 +13,7 @@ public class Tunshu {
     private InterfaceLayer.Override override;
     private Route route;
     private RouteFollower routeFollower;
+    private RemoteControl remoteControl;
 
 
     public void start() {
@@ -34,7 +35,7 @@ public class Tunshu {
             BoeBot.wait(2);
 
             //tests
-            RemoteControl.useButton(drive, notificationSystem);
+            remoteControl.useButton();
         }
     }
 
@@ -56,6 +57,7 @@ public class Tunshu {
         this.override = new Override();
         this.route = new Route();
         this.routeFollower = new RouteFollower();
+        this.remoteControl = new RemoteControl(this.drive, this.notificationSystem);
     }
 
 

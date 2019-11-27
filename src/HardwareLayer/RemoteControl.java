@@ -9,9 +9,17 @@ import InterfaceLayer.NotificationSystem;
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
     private RemoteControlCallBack remoteControlCallBack;
+    private Drive drive;
+    private NotificationSystem notificationSystem;
 
-    public RemoteControl(RemoteControlCallBack remoteControlCallBack) {
+    public RemoteControl(RemoteControlCallBack remoteControlCallBack, Drive drive, NotificationSystem notificationSystem) {
         this.remoteControlCallBack = remoteControlCallBack;
+        this.drive = drive;
+        this.notificationSystem = notificationSystem;
+    }
+    public RemoteControl(Drive drive, NotificationSystem notificationSystem) {
+        this.drive = drive;
+        this.notificationSystem = notificationSystem;
     }
 
 
@@ -47,88 +55,89 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
 
-    public static void useButton(Drive drive, NotificationSystem speaker) {
+    public void useButton() {
         switch (detect(0)) {
             case 0:
                 break;
 
             case 1:
                 System.out.println("Stop");
-                drive.handBreak();
-                drive.setOldSpeed(0);
-                drive.setSpeed(0);
-                drive.decelerate();
-                drive.handBreak();
+                this.drive.handBreak();
+                this.drive.setOldSpeed(0);
+                this.drive.setSpeed(0);
+                this.drive.decelerate();
+                this.drive.handBreak();
                 break;
 
             case 144:
+                // Boebot gaat vooruit
                 System.out.println("Vooruit");
-                if (drive.isBackwards()) {
+                if (this.drive.isBackwards()) {
                     System.out.println("Eerst stop");
-                    drive.setOldSpeed(drive.getSpeed());
-                    drive.setSpeed(0);
-                    drive.decelerate();
-                    drive.setBackwards(false);
+                    this.drive.setOldSpeed(this.drive.getSpeed());
+                    this.drive.setSpeed(0);
+                    this.drive.decelerate();
+                    this.drive.setBackwards(false);
                 }
-                if (drive.isForwards()) {
-                    drive.setOldSpeed(0);
-                    drive.setSpeed(50);
-                    drive.accelerate();
+                if (this.drive.isForwards()) {
+                    this.drive.setOldSpeed(0);
+                    this.drive.setSpeed(50);
+                    this.drive.accelerate();
                 }
-                drive.setForwards(true);
+                this.drive.setForwards(true);
                 break;
 
-            // Boebot gaat vooruit
             case 2192:
+                //Boebot gaat achteruit
                 System.out.println("Achteruit");
-                if (drive.isForwards()) {
+                if (this.drive.isForwards()) {
                     System.out.println("Eerst stop");
-                    drive.setOldSpeed(drive.getSpeed());
-                    drive.setSpeed(0);
-                    drive.decelerate();
-                    drive.setForwards(false);
+                    this.drive.setOldSpeed(drive.getSpeed());
+                    this.drive.setSpeed(0);
+                    this.drive.decelerate();
+                    this.drive.setForwards(false);
                 }
-                if (drive.isBackwards()) {
-                    drive.setSpeed(50);
-                    drive.setOldSpeed(0);
-                    drive.accelerate();
+                if (this.drive.isBackwards()) {
+                    this.drive.setSpeed(50);
+                    this.drive.setOldSpeed(0);
+                    this.drive.accelerate();
                 }
-                drive.setBackwards(true);
+                this.drive.setBackwards(true);
                 break;
 
-            //Boebot gaat achteruit
             case 3216:
+                //Boebot turns left
                 System.out.println("Links");
-                drive.turnLeft();
+                this.drive.turnLeft();
                 break;
 
-            //Boebot gaat naar links
             case 1168:
+                //Boebot turns right
                 System.out.println("Rechts");
-                drive.turnRight();
+                this.drive.turnRight();
                 break;
 
-            //Boebot gaat naar rechts
             case 2704:
+                //Sto
                 System.out.println("Fullstop");
-                drive.setForwards(false);
-                drive.setForwards(false);
-                drive.handBreak();
-                drive.setSpeed(0);
+                this.drive.setForwards(false);
+                this.drive.setForwards(false);
+                this.drive.handBreak();
+                this.drive.setSpeed(0);
                 break;
 
             case 1936:
                 System.out.println("Sneller");
-                drive.increaseSpeed();
+                this.drive.increaseSpeed();
                 break;
 
             case 3984:
                 System.out.println("Langzamer");
-                drive.decreaseSpeed();
+                this.drive.decreaseSpeed();
                 break;
             case 656:
                 System.out.println("mute");
-                speaker.mute();
+                this.notificationSystem.mute();
                 break;
         }
     }
