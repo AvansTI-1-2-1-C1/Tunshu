@@ -22,7 +22,7 @@ public class Drive implements Updatable {
         this.speed = 0;
         this.oldSpeed = 0;
         this.forwards = true;
-        this.backwards = true;
+        this.backwards = false;
         this.circelTimer = new Timer(1500);
         this.servoMotorMiddle = 1500;
     }

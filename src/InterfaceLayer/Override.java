@@ -29,11 +29,11 @@ public class Override implements Updatable, RemoteControlCallBack {
 
     public void useButton() {
         //check if the selected button was pressed right before by checking it against the previous button code and the timer
-        if (selectedButtonCode== previousButtonCode){
-            if (!inputDelay.timeout()){
+        if (selectedButtonCode == previousButtonCode) {
+            if (!inputDelay.timeout()) {
                 return;
             }
-        }else {
+        } else {
             previousButtonCode = selectedButtonCode;
         }
 
@@ -49,6 +49,8 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.drive.setSpeed(0);
                 this.drive.decelerate(0);
                 this.drive.handbrake();
+                this.drive.setForwards(true);
+                this.drive.setBackwards(false);
                 break;
 
             case 144:
@@ -58,11 +60,10 @@ public class Override implements Updatable, RemoteControlCallBack {
                     System.out.println("Eerst stop");
                     this.drive.decelerate(0);
                     this.drive.setBackwards(false);
-                }
-                if (this.drive.isForwards()) {
+                    this.drive.setForwards(true);
+                } else if (this.drive.isForwards()) {
                     this.drive.accelerate(50);
                 }
-                this.drive.setForwards(true);
                 break;
 
             case 2192:
@@ -72,11 +73,10 @@ public class Override implements Updatable, RemoteControlCallBack {
                     System.out.println("First stop");
                     this.drive.decelerate(0);
                     this.drive.setForwards(false);
-                }
-                if (this.drive.isBackwards()) {
+                    this.drive.setBackwards(true);
+                } else if (this.drive.isBackwards()) {
                     this.drive.accelerate(50);
                 }
-                this.drive.setBackwards(true);
                 notificationSystem.setStatus("reverse");
                 break;
 
@@ -93,10 +93,10 @@ public class Override implements Updatable, RemoteControlCallBack {
                 break;
 
             case 2704:
-                //Sto
+                //Stop
                 System.out.println("Fullstop");
-                this.drive.setForwards(false);
-                this.drive.setForwards(false);
+                this.drive.setForwards(true);
+                this.drive.setBackwards(false);
                 this.drive.handbrake();
                 this.drive.setSpeed(0);
                 break;
@@ -118,8 +118,8 @@ public class Override implements Updatable, RemoteControlCallBack {
                 routeFollower.update();
                 break;
 
-                default:
-                    break;
+            default:
+                break;
         }
         inputDelay.mark();
         this.selectedButtonCode = 0;
@@ -136,6 +136,5 @@ public class Override implements Updatable, RemoteControlCallBack {
     @java.lang.Override
     public void onButtonPress(int buttonPress) {
         this.selectedButtonCode = buttonPress;
-        System.out.println(buttonPress);
-    }
+}
 }
