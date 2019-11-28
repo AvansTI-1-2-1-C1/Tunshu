@@ -3,6 +3,10 @@ package InterfaceLayer;
 import HardwareLayer.RemoteControl;
 import HardwareLayer.RemoteControlCallBack;
 import HeadInterfaces.Updatable;
+import TI.BoeBot;
+import TI.Timer;
+
+import static HardwareLayer.RemoteControl.convertBinary;
 
 
 public class Override implements Updatable, RemoteControlCallBack {
@@ -11,25 +15,66 @@ public class Override implements Updatable, RemoteControlCallBack {
     private int selectedButtonCode;
     private Drive drive;
     private NotificationSystem notificationSystem;
+    private int previousButtonCode;
+    private Timer inputDelay;
 
     public Override(Drive drive, NotificationSystem notificationSystem) {
         this.remoteControl = new RemoteControl(this);
         this.drive = drive;
         this.notificationSystem = notificationSystem;
+        this.inputDelay = new Timer(500);
+    }
+    public void updateIn() {
+
+        int pin = 0;
+        int binaryInput[] = new int[12];
+        int pulseLen = BoeBot.pulseIn(pin, false, 6000);
+
+        // if the pulse length is longer then 2000 its the starting bit.
+        if (pulseLen > 2000) {
+            int lengths[] = new int[12];
+            // fill 12 slots of the array in reversed order.
+
+            for (int i = 11; i >= 0; i--) {
+                lengths[i] = BoeBot.pulseIn(pin, false, 20000);
+            }
+
+            /**
+             * turns the digits into 1 and 0 according to the length.
+             */
+            for (int i = 0; i < 12; i++) {
+                if (lengths[i] < 900) {
+                    binaryInput[i] = 0;
+                } else {
+                    binaryInput[i] = 1;
+                }
+            }
+            this.selectedButtonCode = convertBinary(binaryInput);
+        }
     }
 
     public void useButton() {
+        //check if the selected button was pressed right before by checking it against the previous button code and the timer
+        if (selectedButtonCode== previousButtonCode){
+            if (!inputDelay.timeout()){
+                return;
+            }
+        }else {
+            previousButtonCode = selectedButtonCode;
+        }
+
+        //switch statement that selects the corresponding method
         switch (this.selectedButtonCode) {
             case 0:
                 break;
 
             case 1:
                 System.out.println("Stop");
-                this.drive.handBreak();
+                this.drive.handbrake();
                 this.drive.setOldSpeed(0);
                 this.drive.setSpeed(0);
                 this.drive.decelerate(0);
-                this.drive.handBreak();
+                this.drive.handbrake();
                 break;
 
             case 144:
@@ -77,7 +122,7 @@ public class Override implements Updatable, RemoteControlCallBack {
                 System.out.println("Fullstop");
                 this.drive.setForwards(false);
                 this.drive.setForwards(false);
-                this.drive.handBreak();
+                this.drive.handbrake();
                 this.drive.setSpeed(0);
                 break;
 
@@ -95,20 +140,16 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.notificationSystem.mute();
                 break;
             case 16:
-                for (int i = 0; i < 2; i++) {
-                    this.drive.accelerate(50);
-                    this.drive.decelerate(0);
-                    this.drive.turnLeft();
-                }
-                this.drive.decelerate(0);
+                this.drive.cirkel();
                 break;
         }
+        inputDelay.mark();
+        this.selectedButtonCode = 0;
     }
-
 
     @java.lang.Override
     public void update() {
-        remoteControl.update();
+        updateIn();
         useButton();
 
     }

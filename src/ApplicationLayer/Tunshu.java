@@ -1,5 +1,6 @@
 package ApplicationLayer;
 
+import HardwareLayer.RemoteControl;
 import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
@@ -22,7 +23,6 @@ public class Tunshu {
         //initialise every object
         init();
 
-
         /**
          * detection loop
          */
@@ -35,6 +35,7 @@ public class Tunshu {
                 updatable.update();
             }
 
+
             if(hitDetectionTimer.timeout()){
                 hitDetection.update();
                 hitDetectionTimer.mark();
@@ -44,8 +45,12 @@ public class Tunshu {
             BoeBot.wait(2);
 
             if(hitDetection.getState()){
-                drive.handBreak();
                 notificationSystem.setStatus(1);
+                drive.handbrake();
+                drive.setOldSpeed(0);
+                drive.setSpeed(0);
+                drive.decelerate(0);
+                drive.handbrake();
             } else{
                 notificationSystem.setStatus(0);
             }
@@ -69,13 +74,13 @@ public class Tunshu {
         this.notificationSystem = new NotificationSystem();
         this.override = new Override(this.drive, this.notificationSystem);
         this.route = new Route();
-        this.routeFollower = new RouteFollower(drive);
-        this.updatable = new ArrayList<>();
-
-        this.updatable.add(notificationSystem);
-        this.updatable.add(override);
-        this.updatable.add(route);
-        this.updatable.add(routeFollower);
+        this.routeFollower = new RouteFollower();
+        this.updatables = new ArrayList<>();
+        this.updatables.add(hitDetection);
+        this.updatables.add(notificationSystem);
+        this.updatables.add(override);
+        this.updatables.add(route);
+        this.updatables.add(routeFollower);
     }
 
 
