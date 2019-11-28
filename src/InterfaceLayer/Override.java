@@ -65,9 +65,9 @@ public class Override implements Updatable, RemoteControlCallBack {
 
             case 2192:
                 //Boebot gaat achteruit
-                System.out.println("Achteruit");
+                System.out.println("Reverse");
                 if (this.drive.isForwards()) {
-                    System.out.println("Eerst stop");
+                    System.out.println("First stop");
                     this.drive.decelerate(0);
                     this.drive.setForwards(false);
                 }
@@ -75,6 +75,7 @@ public class Override implements Updatable, RemoteControlCallBack {
                     this.drive.accelerate(50);
                 }
                 this.drive.setBackwards(true);
+                notificationSystem.setStatus("reverse");
                 break;
 
             case 3216:

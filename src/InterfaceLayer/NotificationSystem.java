@@ -12,15 +12,15 @@ import java.awt.*;
 public class NotificationSystem implements Updatable {
     /**
      * status codes:
-     * 0: running normally
-     * 1: alert
-     * 2: reverse
+     * running = while driving
+     * alert = when it almost touches an obstacle
+     * reverse = when its driving backwards
      * else: error
      */
 
     private LED[] LEDs;
     private Speaker speaker;
-    private int status;
+    private String status;
     private Timer blinkTimer;
     private boolean lightSwitch;
     private Timer reverseTimer;
@@ -47,7 +47,7 @@ public class NotificationSystem implements Updatable {
         this.speaker = new Speaker();
 
         //set status to 0
-        this.status = 0;
+        this.status = "running";
 
         //timer for how long the lights are on and off
         blinkTimer = new Timer(100);
@@ -76,13 +76,13 @@ public class NotificationSystem implements Updatable {
 
         //switch that selects which method needs to be run
         switch (status) {
-            case 0:
+            case "running":
                 running();
                 break;
-            case 1:
+            case "alert":
                 alert();
                 break;
-            case 2:
+            case "reverse":
                 reverse();
                 break;
             default:
@@ -178,9 +178,16 @@ public class NotificationSystem implements Updatable {
                 LEDs[0].on();
                 LEDs[1].on();
                 LEDs[2].on();
+                LEDs[3].on();
+                LEDs[5].on();
+
                 LEDs[0].setColor(Color.red);
                 LEDs[1].setColor(Color.red);
                 LEDs[2].setColor(Color.red);
+
+                LEDs[3].setColor(Color.white);
+                LEDs[4].off();
+                LEDs[5].setColor(Color.white);
 
                 //if isMuted speaker is turned of else it is tuned on
                 if (!isMuted){
@@ -202,15 +209,15 @@ public class NotificationSystem implements Updatable {
     }
 
     /**
-     * sets the status of the boebot
+     * sets the status of the BoeBot
      *
      * @param status status codes:
-     *               0: running normally
-     *               1: alert
-     *               2: reverse
+     *               running
+     *               alert
+     *               reverse
      *               else: error
      */
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

@@ -2,7 +2,6 @@ package HardwareLayer.Notification;
 
 import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
-import TI.BoeBot;
 import TI.PWM;
 
 public class Speaker implements Updatable, Switchable {

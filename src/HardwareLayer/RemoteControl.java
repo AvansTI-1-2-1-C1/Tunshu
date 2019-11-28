@@ -1,11 +1,8 @@
 package HardwareLayer;
 
-import HardwareLayer.Notification.Speaker;
-import InterfaceLayer.Drive;
 import TI.BoeBot;
 import HeadInterfaces.Updatable;
 import InterfaceLayer.NotificationSystem;
-import TI.Timer;
 
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
@@ -24,7 +21,6 @@ public class RemoteControl implements Updatable, Switchable {
 
         // if the puls length is longer then 2000 its the starting bit.
         if (pulseLen > 2000) {
-            System.out.println("Update2");
             int lengths[] = new int[12];
 
             // fill 12 slots of the array in reversed order.
