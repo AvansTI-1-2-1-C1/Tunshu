@@ -68,6 +68,6 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
     }
 
     public void onLineFollowerStatus(double lineFollowerData){
-        this.lineFollowerStatus = lineFollowerData;
+//        this.lineFollowerStatus = lineFollowerData;
     }
 }
