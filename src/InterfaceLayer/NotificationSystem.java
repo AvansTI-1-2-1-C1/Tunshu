@@ -152,13 +152,7 @@ public class NotificationSystem implements Updatable {
                 for (LED led : LEDs) {
                     led.setColor(Color.red);
                 }
-
-                //if isMuted speaker is turned of else it is tuned on
-//                if (!isMuted) {
-//                    speaker.on();
-//                } else {
-//                    speaker.off();
-//                }
+                //make sure the speaker is on
                 speaker.on();
 
             } else {
