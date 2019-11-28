@@ -6,13 +6,12 @@ import TI.BoeBot;
 
 public class LineFollower implements Updatable, Switchable {
 
-    private int pin;
-    private double lineStatus;
     private LineFollowerCallBack lineFollowerCallBack;
 
-    public LineFollower(int pin, LineFollowerCallBack lineFollowerCallBack) {
-        this.pin = pin;
+    public LineFollower(LineFollowerCallBack lineFollowerCallBack) {
+
         this.lineFollowerCallBack = lineFollowerCallBack;
+
     }
 
     private boolean isOn;

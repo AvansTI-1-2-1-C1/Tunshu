@@ -3,10 +3,8 @@ package InterfaceLayer;
 import HardwareLayer.RemoteControl;
 import HardwareLayer.RemoteControlCallBack;
 import HeadInterfaces.Updatable;
-import TI.BoeBot;
 import TI.Timer;
 
-import static HardwareLayer.RemoteControl.convertBinary;
 
 
 public class Override implements Updatable, RemoteControlCallBack {
@@ -49,6 +47,7 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.drive.setSpeed(0);
                 this.drive.decelerate(0);
                 this.drive.handbrake();
+                this.routeFollower.turnOff();
                 break;
 
             case 144:
@@ -115,7 +114,7 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.notificationSystem.mute();
                 break;
             case 16:
-                routeFollower.update();
+                this.routeFollower.turnOn();
                 break;
 
                 default:
