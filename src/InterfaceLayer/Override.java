@@ -22,7 +22,7 @@ public class Override implements Updatable, RemoteControlCallBack {
         this.remoteControl = new RemoteControl(this);
         this.drive = drive;
         this.notificationSystem = notificationSystem;
-        this.inputDelay = new Timer(200);
+        this.inputDelay = new Timer(500);
     }
     public void updateIn() {
 
