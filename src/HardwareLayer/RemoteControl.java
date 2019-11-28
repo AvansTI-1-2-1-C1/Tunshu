@@ -5,6 +5,7 @@ import InterfaceLayer.Drive;
 import TI.BoeBot;
 import HeadInterfaces.Updatable;
 import InterfaceLayer.NotificationSystem;
+import TI.Timer;
 
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
@@ -17,11 +18,9 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
     public void update() {
-
-        int pin = 1;
+        int pin = 0;
         int binaryInput[] = new int[12];
         int pulseLen = BoeBot.pulseIn(pin, false, 6000);
-
 
         // if the puls length is longer then 2000 its the starting bit.
         if (pulseLen > 2000) {
