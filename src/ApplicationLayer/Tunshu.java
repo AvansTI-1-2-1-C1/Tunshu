@@ -16,7 +16,7 @@ public class Tunshu {
     private InterfaceLayer.Override override;
     private Route route;
     private RouteFollower routeFollower;
-    private ArrayList<Updatable> updatable;
+    private ArrayList<Updatable> updatables;
 
 
     public void start() {
@@ -31,7 +31,7 @@ public class Tunshu {
         while (true) {
             Timer hitDetectionTimer = new Timer(50);
             //updates
-            for(Updatable updatable: this.updatable){
+            for(Updatable updatable: this.updatables){
                 updatable.update();
             }
 
@@ -74,7 +74,7 @@ public class Tunshu {
         this.notificationSystem = new NotificationSystem();
         this.override = new Override(this.drive, this.notificationSystem);
         this.route = new Route();
-        this.routeFollower = new RouteFollower();
+        this.routeFollower = new RouteFollower(drive);
         this.updatables = new ArrayList<>();
         this.updatables.add(hitDetection);
         this.updatables.add(notificationSystem);
