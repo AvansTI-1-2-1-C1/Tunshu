@@ -42,6 +42,7 @@ public class Override implements Updatable, RemoteControlCallBack {
 
             case 1:
                 System.out.println("Stop");
+                this.routeFollower.turnOff();
                 this.drive.handbrake();
                 this.drive.setOldSpeed(0);
                 this.drive.setSpeed(0);
@@ -49,7 +50,6 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.drive.handbrake();
                 this.drive.setForwards(true);
                 this.drive.setBackwards(false);
-                this.routeFollower.turnOff();
                 break;
 
             case 144:
