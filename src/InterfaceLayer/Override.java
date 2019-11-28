@@ -24,34 +24,6 @@ public class Override implements Updatable, RemoteControlCallBack {
         this.notificationSystem = notificationSystem;
         this.inputDelay = new Timer(500);
     }
-    public void updateIn() {
-
-        int pin = 0;
-        int binaryInput[] = new int[12];
-        int pulseLen = BoeBot.pulseIn(pin, false, 6000);
-
-        // if the pulse length is longer then 2000 its the starting bit.
-        if (pulseLen > 2000) {
-            int lengths[] = new int[12];
-            // fill 12 slots of the array in reversed order.
-
-            for (int i = 11; i >= 0; i--) {
-                lengths[i] = BoeBot.pulseIn(pin, false, 20000);
-            }
-
-            /**
-             * turns the digits into 1 and 0 according to the length.
-             */
-            for (int i = 0; i < 12; i++) {
-                if (lengths[i] < 900) {
-                    binaryInput[i] = 0;
-                } else {
-                    binaryInput[i] = 1;
-                }
-            }
-            this.selectedButtonCode = convertBinary(binaryInput);
-        }
-    }
 
     public void useButton() {
         //check if the selected button was pressed right before by checking it against the previous button code and the timer
@@ -149,7 +121,7 @@ public class Override implements Updatable, RemoteControlCallBack {
 
     @java.lang.Override
     public void update() {
-        updateIn();
+        remoteControl.update();
         useButton();
 
     }
