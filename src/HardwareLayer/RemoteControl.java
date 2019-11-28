@@ -15,6 +15,7 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
     public void update() {
+
         int pin = 0;
         int binaryInput[] = new int[12];
         int pulseLen = BoeBot.pulseIn(pin, false, 6000);

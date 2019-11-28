@@ -68,9 +68,9 @@ public class Tunshu {
         this.drive = new Drive();
         this.hitDetection = new HitDetection();
         this.notificationSystem = new NotificationSystem();
-        this.override = new Override(this.drive, this.notificationSystem);
+        this.override = new Override(this.drive, this.notificationSystem, this.routeFollower);
         this.route = new Route();
-        this.routeFollower = new RouteFollower(drive);
+        this.routeFollower = new RouteFollower(this.drive);
         this.updatables = new ArrayList<>();
         this.updatables.add(hitDetection);
         this.updatables.add(notificationSystem);

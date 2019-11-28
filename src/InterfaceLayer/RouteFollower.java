@@ -14,11 +14,17 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
     private double rightLineStatus;
     private double middleLineStatus;
 
+    private  int counter1;
+    private int counter2;
+    private int counter3;
+    private int counter4;
+
     private LineFollower leftLineFollower;
     private LineFollower middleLineFollower;
     private LineFollower rightLineFollower;
 
     public RouteFollower(Drive drive) {
+
         this.drive = drive;
 
         this.leftLineFollower = new LineFollower(0, this);
@@ -30,44 +36,62 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
     @java.lang.Override
     public void update() {
 
+
         Timer t4 =  new Timer(50);
         if(t4.timeout()) {
-            while (BoeBot.analogRead(1) < 1500) {
+            if (this.middleLineStatus < 1500) {
+
                 Timer t3 = new Timer(30);
+
                 if (t3.timeout()) {
-                    int counter4 = 5;
-                    int counter2 = 20;
-                    while (BoeBot.analogRead(0) > 1500) {
+
+                    if (this.rightLineStatus > 1500) {
+
                         Timer t1 = new Timer(20);
+
                         if (t1.timeout()) {
-                            drive.left.setSpeed(1550 + counter2);
-                            drive.right.setSpeed(1460 + counter4);
-                            counter2 = counter2 + 10;
-                            counter4++;
+                            this.drive.left.setSpeed(1550 + this.counter1);
+                            this.drive.right.setSpeed(1460 + this.counter2);
+                            this.counter1 += 10;
+                            this.counter2++;
                             t1.mark();
                         }
+
                     }
-                    int counter1 = 20;
-                    int counter3 = 5;
-                    while (BoeBot.analogRead(2) > 1500) {
+
+                    if (this.leftLineStatus > 1500) {
+
                         Timer t2 = new Timer(20);
+
                         if (t2.timeout()) {
-                            drive.left.setSpeed(1540 - counter3);
-                            drive.right.setSpeed(1450 - counter1);
-                            counter1 = counter1 + 10;
-                            counter3++;
+                            this.drive.left.setSpeed(1540 - this.counter3);
+                            this.drive.right.setSpeed(1450 - this.counter4);
+                            this.counter3 += 10;
+                            this.counter4++;
                             t2.mark();
                         }
+
                     }
+
                     t3.mark();
                 }
+
+            } else{
+                this.counter1 = 20;
+                this.counter2 = 5;
+
+                this.counter3 = 20;
+                this.counter4 = 5;
             }
-            this.accelerate(100);
+
+            this.drive.accelerate(100);
             t4.mark();
         }
     }
 
-    public void onLineFollowerStatus(double lineFollowerData){
-//        this.lineFollowerStatus = lineFollowerData;
+    public void onLineFollowerStatus(double leftLineFollowerCallBack, double middleLineFollowerCallBack, double rightLineFollowerCallBack){
+        this.leftLineStatus = leftLineFollowerCallBack;
+        this.middleLineStatus = middleLineFollowerCallBack;
+        this.rightLineStatus = rightLineFollowerCallBack;
     }
 }

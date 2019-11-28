@@ -17,12 +17,14 @@ public class Override implements Updatable, RemoteControlCallBack {
     private NotificationSystem notificationSystem;
     private int previousButtonCode;
     private Timer inputDelay;
+    private RouteFollower routeFollower;
 
-    public Override(Drive drive, NotificationSystem notificationSystem) {
+    public Override(Drive drive, NotificationSystem notificationSystem, RouteFollower routeFollower) {
         this.remoteControl = new RemoteControl(this);
         this.drive = drive;
         this.notificationSystem = notificationSystem;
         this.inputDelay = new Timer(500);
+        this.routeFollower = routeFollower;
     }
 
     public void useButton() {
@@ -113,8 +115,11 @@ public class Override implements Updatable, RemoteControlCallBack {
                 this.notificationSystem.mute();
                 break;
             case 16:
-                this.drive.cirkel();
+                routeFollower.update();
                 break;
+
+                default:
+                    break;
         }
         inputDelay.mark();
         this.selectedButtonCode = 0;
