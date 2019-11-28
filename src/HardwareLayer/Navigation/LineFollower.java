@@ -4,9 +4,17 @@ import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 
 public class LineFollower implements Updatable, Switchable {
+
+    private int pin;
+    private double lineStatus;
+    private LineFollowerCallBack lineFollowerCallBack;
+
+    public LineFollower(int pin, LineFollowerCallBack lineFollowerCallBack) {
+        this.pin = pin;
+        this.lineFollowerCallBack = lineFollowerCallBack;
+    }
+
     private boolean isOn;
-
-
 
     @Override
     public boolean isOn() {

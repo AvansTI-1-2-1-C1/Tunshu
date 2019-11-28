@@ -7,8 +7,8 @@ import TI.Timer;
 
 public class Drive implements Updatable {
 
-    private Motor left;
-    private Motor right;
+    protected Motor left;
+    protected Motor right;
     private int speed;
     private boolean forwards;
     private boolean backwards;
@@ -25,41 +25,7 @@ public class Drive implements Updatable {
     }
 
     public void followLine(){
-        Timer t4 =  new Timer(50);
-        if(t4.timeout()) {
-            while (BoeBot.analogRead(1) < 1500) {
-                Timer t3 = new Timer(30);
-                if (t3.timeout()) {
-                    int counter4 = 5;
-                    int counter2 = 20;
-                    while (BoeBot.analogRead(0) > 1500) {
-                        Timer t1 = new Timer(20);
-                        if (t1.timeout()) {
-                            this.left.setSpeed(1550 + counter2);
-                            this.right.setSpeed(1460 + counter4);
-                            counter2 = counter2 + 10;
-                            counter4++;
-                            t1.mark();
-                        }
-                    }
-                    int counter1 = 20;
-                    int counter3 = 5;
-                    while (BoeBot.analogRead(2) > 1500) {
-                        Timer t2 = new Timer(20);
-                        if (t2.timeout()) {
-                            this.left.setSpeed(1540 - counter3);
-                            this.right.setSpeed(1450 - counter1);
-                            counter1 = counter1 + 10;
-                            counter3++;
-                            t2.mark();
-                        }
-                    }
-                    t3.mark();
-                }
-            }
-            this.accelerate(100);
-            t4.mark();
-        }
+
     }
 
     public void accelerate(int speed) {
