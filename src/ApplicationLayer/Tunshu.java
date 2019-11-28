@@ -47,6 +47,7 @@ public class Tunshu {
             BoeBot.wait(2);
 
             if(hitDetection.getState()){
+                notificationSystem.setStatus(1);
                 drive.handbrake();
                 drive.setOldSpeed(0);
                 drive.setSpeed(0);
