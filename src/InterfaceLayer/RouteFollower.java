@@ -4,19 +4,21 @@ import HardwareLayer.Motor;
 import HardwareLayer.Navigation.LineFollower;
 import HardwareLayer.Navigation.LineFollowerCallBack;
 import HeadInterfaces.Updatable;
-import TI.BoeBot;
 import TI.Timer;
 
-public class RouteFollower extends Drive implements Updatable, LineFollowerCallBack {
+import java.util.ArrayList;
+import java.util.List;
+
+public class RouteFollower implements Updatable, LineFollowerCallBack {
 
     private Drive drive;
 
     private Motor servoLeft;
     private Motor servoRight;
 
-    private double leftLineStatus;
-    private double rightLineStatus;
-    private double middleLineStatus;
+    private String leftSensorStatus;
+    private String rightSensorStatus;
+    private String middleSensorStatus;
 
     private  int counter1;
     private int counter2;
@@ -25,7 +27,7 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
 
     private boolean lineFollowerState;
 
-    private LineFollower lineFollower;
+    private List<LineFollower> lineFollowerList;
 
 
     public RouteFollower(Drive drive) {
@@ -36,10 +38,12 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
 
         //To use some of the methods to drive forward easy we associate the drive class
         this.drive = drive;
-
+        lineFollowerList = new ArrayList<>();
         //Here the Linefollower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient
-        this.lineFollower = new LineFollower(this);
+        lineFollowerList.add(new LineFollower("leftSensor",2, this));
+        lineFollowerList.add(new LineFollower("middleSensor", 1,this));
+        lineFollowerList.add(new LineFollower("rightSensor", 0,this));
 
     }
 
@@ -51,11 +55,14 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
 
         //First there is a check if the function is turned on or not, the function can be turned off in the override
         if (this.lineFollowerState) {
-            this.lineFollower.update();
 
-            System.out.println(leftLineStatus);
-            System.out.println(middleLineStatus);
-            System.out.println(rightLineStatus);
+            for(LineFollower lineFollower: lineFollowerList){
+                lineFollower.update();
+            }
+
+            System.out.println(this.leftSensorStatus);
+            System.out.println(this.middleSensorStatus);
+            System.out.println(this.rightSensorStatus);
 
             Timer t4 = new Timer(50);
 
@@ -64,14 +71,14 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
             if (t4.timeout()) {
 
 
-                if (this.middleLineStatus < 1500) {
+                if (this.middleSensorStatus.equals("white")) {
 
                     Timer t3 = new Timer(30);
 
                     if (t3.timeout()) {
 
                         //If the right sensor detects a line it steers left
-                        if (this.rightLineStatus > 1500) {
+                        if (this.rightSensorStatus.equals("black")) {
 
                             Timer t1 = new Timer(20);
 
@@ -88,7 +95,7 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
 
                         }
                         //If the left sensor detects a line it steers right
-                        if (this.leftLineStatus > 1500) {
+                        if (this.leftSensorStatus.equals("black")) {
 
                             Timer t2 = new Timer(20);
 
@@ -130,13 +137,16 @@ public class RouteFollower extends Drive implements Updatable, LineFollowerCallB
      * If the update function is called the linefollower class wil callback to this method to update the
      * attributes
      */
-    public void onLineFollowerStatus(double leftLineFollowerCallBack, double middleLineFollowerCallBack, double rightLineFollowerCallBack){
+    public void onLineFollowerStatus(LineFollower lineFollower){
 
-        //If the update function is called the linefollower class wil callback to this method to update the
-        //attributes
-        this.leftLineStatus = leftLineFollowerCallBack;
-        this.middleLineStatus = middleLineFollowerCallBack;
-        this.rightLineStatus = rightLineFollowerCallBack;
+        if(lineFollower.getSensorName().equals("leftSensor")){
+            this.leftSensorStatus = lineFollower.getDetectedColor();
+        } else if(lineFollower.getSensorName().equals("middleSensor")){
+            this.middleSensorStatus = lineFollower.getDetectedColor();
+        } else if(lineFollower.getSensorName().equals("rightSensor")){
+            this.rightSensorStatus = lineFollower.getDetectedColor();
+        }
+
     }
 
     /**

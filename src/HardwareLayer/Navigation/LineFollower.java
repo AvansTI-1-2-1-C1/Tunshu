@@ -8,12 +8,21 @@ public class LineFollower implements Updatable, Switchable {
 
     private LineFollowerCallBack lineFollowerCallBack;
 
-    public LineFollower(LineFollowerCallBack lineFollowerCallBack) {
+    private String sensorName;
+
+    private double lineSensorOutput;
+
+    private int pin;
+    private int thresholdValue;
+
+    public LineFollower(String sensorName, int pin, LineFollowerCallBack lineFollowerCallBack) {
 
         //To make a callback possible we need to give the interface through the constructor
         // so the class wil know there is a function called lineFollowerCallBack
         this.lineFollowerCallBack = lineFollowerCallBack;
-
+        this.sensorName = sensorName;
+        this.pin = pin;
+        this.thresholdValue = 1500;
     }
 
     private boolean isOn;
@@ -28,9 +37,22 @@ public class LineFollower implements Updatable, Switchable {
      */
     @Override
     public void update() {
-        //this will callback to the RouteFollower class to update the attributes for the line following logic
+        this.lineSensorOutput = BoeBot.analogRead(this.pin);
+        lineFollowerCallBack.onLineFollowerStatus(this);
+    }
 
-        lineFollowerCallBack.onLineFollowerStatus(BoeBot.analogRead(2), BoeBot.analogRead(1), BoeBot.analogRead(0));
+    public String getSensorName() {
+        return sensorName;
+    }
+
+    public String getDetectedColor(){
+        if(this.lineSensorOutput < this.thresholdValue && this.lineSensorOutput > 0){
+            return "white";
+        } else if(this.lineSensorOutput >= thresholdValue && this.lineSensorOutput > 0){
+            return "black";
+        } else{
+            return "NA check sensor";
+        }
     }
 
     @Override
