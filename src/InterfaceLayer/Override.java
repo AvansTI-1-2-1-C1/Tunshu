@@ -1,26 +1,32 @@
 package InterfaceLayer;
 
+import HardwareLayer.Navigation.Bluetooth;
 import HardwareLayer.RemoteControl;
 import HardwareLayer.RemoteControlCallBack;
+import HardwareLayer.Navigation.BluetoothCallBack;
 import HeadInterfaces.Updatable;
 import TI.Timer;
 
 
 
-public class Override implements Updatable, RemoteControlCallBack {
+public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack{
 
     private RemoteControl remoteControl;
+    private Bluetooth bluetooth;
     private int selectedButtonCode;
     private Drive drive;
     private NotificationSystem notificationSystem;
     private int previousButtonCode;
     private Timer inputDelay;
+    private HitDetection hitDetection;
     private RouteFollower routeFollower;
 
-    public Override(Drive drive, NotificationSystem notificationSystem, RouteFollower routeFollower) {
-        this.remoteControl = new RemoteControl(this);
+    public Override(Drive drive, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower) {
+//        this.remoteControl = new RemoteControl(this);
+        this.bluetooth = new Bluetooth(this);
         this.drive = drive;
         this.notificationSystem = notificationSystem;
+        this.hitDetection = hitDetection;
         this.inputDelay = new Timer(500);
         this.routeFollower = routeFollower;
     }
@@ -126,14 +132,19 @@ public class Override implements Updatable, RemoteControlCallBack {
 
     @java.lang.Override
     public void update() {
-        remoteControl.update();
+//        remoteControl.update();
+        bluetooth.update();
         useButton();
 
     }
-
 
     @java.lang.Override
     public void onButtonPress(int buttonPress) {
         this.selectedButtonCode = buttonPress;
 }
+
+    @java.lang.Override
+    public void onInput(int button) {
+        this.selectedButtonCode = button;
+    }
 }
