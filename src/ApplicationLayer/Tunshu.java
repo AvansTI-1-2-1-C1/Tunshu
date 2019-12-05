@@ -43,10 +43,9 @@ public class Tunshu {
 
             if (hitDetection.getState()) {
                 notificationSystem.setStatus("alert");
-
-//            } else if (drive.isBackwards()) {
-//                notificationSystem.setStatus("reverse");
-            } else {
+            } else if (motorControl.isDrivingBackward()) {
+                notificationSystem.setStatus("reverse");
+            }else {
                 notificationSystem.setStatus("running");
             }
         }

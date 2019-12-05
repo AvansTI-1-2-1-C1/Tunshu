@@ -41,7 +41,7 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     public boolean getState(){
 
-        //this method returns the state of the hit detection currently
+        //this method returns the state of the hit detection currently if true there is a detect
         return hitDetectionState;
 
     }

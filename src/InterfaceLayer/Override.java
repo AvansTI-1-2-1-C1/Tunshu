@@ -23,6 +23,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     public Override(MotorControl motorControl, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower) {
 //        this.remoteControl = new RemoteControl(this);
+        this.motorControl = motorControl;
         this.bluetooth = new Bluetooth(this);
         this.notificationSystem = notificationSystem;
         this.hitDetection = hitDetection;
@@ -41,7 +42,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         } else {
             previousCommand = sellectedCommand;
         }
-
 
 
         //switch statement that selects the corresponding method

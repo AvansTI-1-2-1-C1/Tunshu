@@ -1,7 +1,5 @@
 package HardwareLayer;
 
-import HeadInterfaces.Updatable;
-
 public class Motor {
 
     private int pin;

@@ -20,11 +20,13 @@ public class MotorControl implements Updatable {
 
     //makes sure the vehicle doesn't drive if true
     private boolean handBreak;
+    private boolean isDrivingBackward;
 
     public MotorControl() {
         this.motorLeft = new Motor(12);
         this.motorRight = new Motor(13);
         handBreak = false;
+        isDrivingBackward = false;
     }
 
     /**
@@ -60,10 +62,19 @@ public class MotorControl implements Updatable {
 
                 //reset the timer
                 timer.mark();
+
+                //to make sure the notification system knows it is driving backwards
+                if (currentSpeed<0){
+                    isDrivingBackward = true;
+                }else {
+                    isDrivingBackward = false;
+                }
             }
         } else {
             setBotSpeed(0, 0);
         }
+
+
     }
 
     /**
@@ -134,6 +145,10 @@ public class MotorControl implements Updatable {
 
     public void setHandBreak(boolean handBreak) {
         this.handBreak = handBreak;
+    }
+
+    public boolean isDrivingBackward() {
+        return isDrivingBackward;
     }
 }
 
