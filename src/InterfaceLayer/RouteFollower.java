@@ -11,8 +11,6 @@ import java.util.List;
 
 public class RouteFollower implements Updatable, LineFollowerCallBack {
 
-    private Drive drive;
-
     private Timer timer1;
     private Timer t1;
     private Timer t2;
@@ -46,9 +44,6 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
         this.lineFollowerState = false;
         //Here the motor control wil be implemented
         this.motorControl = motorControl;
-
-        //To use some of the methods to drive forward easy we associate the drive class
-        this.drive = drive;
 
         lineFollowerList = new ArrayList<>();
 

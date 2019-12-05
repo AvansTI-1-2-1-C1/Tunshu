@@ -9,8 +9,6 @@ import TI.Timer;
 import java.util.ArrayList;
 
 public class Tunshu {
-    private Drive drive;
-
     private MotorControl motorControl;
     private HitDetection hitDetection;
     private NotificationSystem notificationSystem;
@@ -45,13 +43,9 @@ public class Tunshu {
 
             if (hitDetection.getState()) {
                 notificationSystem.setStatus("alert");
-                drive.handbrake();
-                drive.setOldSpeed(0);
-                drive.setSpeed(0);
-                drive.decelerate(0);
-                drive.handbrake();
-            } else if (drive.isBackwards()) {
-                notificationSystem.setStatus("reverse");
+
+//            } else if (drive.isBackwards()) {
+//                notificationSystem.setStatus("reverse");
             } else {
                 notificationSystem.setStatus("running");
             }
