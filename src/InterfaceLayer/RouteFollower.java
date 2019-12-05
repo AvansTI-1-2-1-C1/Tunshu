@@ -55,8 +55,6 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
         lineFollowerList.add(new LineFollower("middleSensor", 1,this));
         lineFollowerList.add(new LineFollower("rightSensor", 0,this));
 
-        motorControl.setMotorsTarget(0.2f,0);
-
     }
 
     /**
@@ -107,7 +105,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
 
                             if (t2.timeout()) {
-                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), -this.counter4);
+                                this.motorControl.setMotorsTarget(0.2f, -this.counter4);
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
@@ -123,6 +121,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                 } else {
 
+                    this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),0);
 
                     //When the middle line follower detects the line again the steering wil be set back to default
                     this.counter2 = 0.1f;
@@ -130,7 +129,6 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                 }
 
-                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),0);
 
                 t4.mark();
             }
