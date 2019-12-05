@@ -12,7 +12,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     private RemoteControl remoteControl;
     private Bluetooth bluetooth;
-    private Drive drive;
 
     private int selectedButtonCode;
 
@@ -24,14 +23,15 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private HitDetection hitDetection;
     private RouteFollower routeFollower;
 
-    public Override(Drive drive, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower) {
+    public Override(MotorControl motorControl, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower) {
 //        this.remoteControl = new RemoteControl(this);
         this.bluetooth = new Bluetooth(this);
-        this.drive = drive;
         this.notificationSystem = notificationSystem;
         this.hitDetection = hitDetection;
         this.inputDelay = new Timer(250);
         this.routeFollower = routeFollower;
+        this.sellectedCommand = "";
+        this.previousCommand = "";
     }
 
     public void useButton() {
