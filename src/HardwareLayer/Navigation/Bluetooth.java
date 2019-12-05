@@ -63,6 +63,10 @@ public class Bluetooth implements Updatable, Switchable {
                 case 114:
                     bluetoothCallBack.onInput("LineFollower");
                     break;
+                //Hand break(h)
+                case 104:
+                    bluetoothCallBack.onInput("handbreak");
+                    break;
                 //All other keys
                 default:
                     bluetoothCallBack.onInput("");
