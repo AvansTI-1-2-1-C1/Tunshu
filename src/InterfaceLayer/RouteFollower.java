@@ -35,7 +35,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
     private List<LineFollower> lineFollowerList;
 
 
-    public RouteFollower(Drive drive) {
+    public RouteFollower(MotorControl motorControl) {
 
         this.t1 = new Timer(20);
         this.t2 = new Timer(20);
@@ -45,7 +45,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
         this.lineFollowerState = false;
         //Here the motor control wil be implemented
-        this.motorControl = new MotorControl();
+        this.motorControl = motorControl;
 
         //To use some of the methods to drive forward easy we associate the drive class
         this.drive = drive;
@@ -58,7 +58,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
         lineFollowerList.add(new LineFollower("middleSensor", 1,this));
         lineFollowerList.add(new LineFollower("rightSensor", 0,this));
 
-
+        motorControl.setMotorsTarget(0.2f,0);
 
     }
 
@@ -78,11 +78,6 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
                 }
                 timer1.mark();
             }
-
-            System.out.println(this.leftSensorStatus);
-            System.out.println(this.middleSensorStatus);
-            System.out.println(this.rightSensorStatus);
-
 
             //To ensure the Bot does not wiggle too much when following the line
             // we added an timer to round off the edges a bit
@@ -132,7 +127,6 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                 } else {
 
-                    this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),0);
 
                     //When the middle line follower detects the line again the steering wil be set back to default
                     this.counter1 = 20;
@@ -143,6 +137,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                 }
 
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),0);
 
                 t4.mark();
             }

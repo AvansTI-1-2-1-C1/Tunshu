@@ -38,7 +38,6 @@ public class LineFollower implements Updatable, Switchable {
     @Override
     public void update() {
         this.lineSensorOutput = BoeBot.analogRead(this.pin);
-        System.out.println(BoeBot.analogRead(this.pin));
         lineFollowerCallBack.onLineFollowerStatus(this);
     }
 

@@ -8,15 +8,18 @@ import HeadInterfaces.Updatable;
 import TI.Timer;
 
 
-
-public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack{
+public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack {
 
     private RemoteControl remoteControl;
     private Bluetooth bluetooth;
-    private int selectedButtonCode;
     private Drive drive;
+
+    private int selectedButtonCode;
+
+    private String sellectedCommand;
+    private String previousCommand;
+    private MotorControl motorControl;
     private NotificationSystem notificationSystem;
-    private int previousButtonCode;
     private Timer inputDelay;
     private HitDetection hitDetection;
     private RouteFollower routeFollower;
@@ -27,111 +30,55 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         this.drive = drive;
         this.notificationSystem = notificationSystem;
         this.hitDetection = hitDetection;
-        this.inputDelay = new Timer(500);
+        this.inputDelay = new Timer(250);
         this.routeFollower = routeFollower;
     }
 
     public void useButton() {
         //check if the selected button was pressed right before by checking it against the previous button code and the timer
-        if (selectedButtonCode == previousButtonCode) {
+        if (sellectedCommand.equals(previousCommand)) {
             if (!inputDelay.timeout()) {
                 return;
             }
         } else {
-            previousButtonCode = selectedButtonCode;
+            previousCommand = sellectedCommand;
         }
+
+
 
         //switch statement that selects the corresponding method
-        switch (this.selectedButtonCode) {
-            case 0:
+        switch (sellectedCommand) {
+            case "forward":
+                motorControl.setMotorsTarget(0.2f, 0f);
                 break;
-
-            case 1:
-                System.out.println("Stop");
-                this.routeFollower.turnOff();
-                this.drive.handbrake();
-                this.drive.setOldSpeed(0);
-                this.drive.setSpeed(0);
-                this.drive.decelerate(0);
-                this.drive.handbrake();
-                this.drive.setForwards(true);
-                this.drive.setBackwards(false);
+            case "backward":
+                motorControl.setMotorsTarget(-0.2f, 0f);
                 break;
-
-            case 144:
-                // Boebot gaat vooruit
-                System.out.println("Vooruit");
-                if (this.drive.isBackwards()) {
-                    System.out.println("Eerst stop");
-                    this.drive.decelerate(0);
-                    this.drive.setBackwards(false);
-                    this.drive.setForwards(true);
-                } else if (this.drive.isForwards()) {
-                    this.drive.accelerate(50);
-                }
+            case "left":
+                motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), -1f);
                 break;
-
-            case 2192:
-                //Boebot gaat achteruit
-                System.out.println("Reverse");
-                if (this.drive.isForwards()) {
-                    System.out.println("First stop");
-                    this.drive.decelerate(0);
-                    this.drive.setForwards(false);
-                    this.drive.setBackwards(true);
-                } else if (this.drive.isBackwards()) {
-                    this.drive.accelerate(50);
-                }
-                notificationSystem.setStatus("reverse");
+            case "right":
+                motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), 1f);
                 break;
-
-            case 3216:
-                //Boebot turns left
-                System.out.println("Links");
-                this.drive.turnLeft();
+            case "brake":
+                motorControl.setMotorsTarget(0f, 0f);
                 break;
-
-            case 1168:
-                //Boebot turns right
-                System.out.println("Rechts");
-                this.drive.turnRight();
+            case "faster":
+                motorControl.setMotorsTarget(motorControl.getCurrentSpeed() + 0.2f, 0f);
                 break;
-
-            case 2704:
-                //Stop
-                System.out.println("Fullstop");
-                this.drive.setForwards(true);
-                this.drive.setBackwards(false);
-                this.drive.handbrake();
-                this.drive.setSpeed(0);
+            case "slower":
+                motorControl.setMotorsTarget(motorControl.getCurrentSpeed() - 0.2f, 0f);
                 break;
-
-            case 1936:
-                //Faster
-                System.out.println("Sneller");
-                this.drive.increaseSpeed();
+            case "mute":
+                //TODO implement mute function
                 break;
-
-            case 3984:
-                //Slower
-                System.out.println("Langzamer");
-                this.drive.decreaseSpeed();
-                break;
-            case 656:
-                //Mute speaker
-                System.out.println("mute");
-                this.notificationSystem.mute();
-                break;
-            case 16:
-                //Enable/Disable lineFollower
-                System.out.println("LineFollower");
+            case "LineFollower":
                 this.routeFollower.turnOn();
                 break;
-            default:
-                break;
         }
+
         inputDelay.mark();
-        this.selectedButtonCode = 0;
+        this.sellectedCommand = "";
     }
 
     @java.lang.Override
@@ -145,10 +92,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     @java.lang.Override
     public void onButtonPress(int buttonPress) {
         this.selectedButtonCode = buttonPress;
-}
+    }
 
     @java.lang.Override
-    public void onInput(int button) {
-        this.selectedButtonCode = button;
+    public void onInput(String command) {
+        this.sellectedCommand = command;
     }
 }

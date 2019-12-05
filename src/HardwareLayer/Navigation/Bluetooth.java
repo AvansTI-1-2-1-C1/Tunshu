@@ -21,57 +21,56 @@ public class Bluetooth implements Updatable, Switchable {
         return isOn;
     }
 
-    @Override
     public void update() {
-        if(isOn) {
-            if (serialConnection.available() > 0) {
-                int data = serialConnection.readByte();
-                serialConnection.writeByte(data);
-                System.out.println("Received Data: " + (char) data);
-                switch (data) {
-                    //Forward(w)
-                    case 119:
-                        bluetoothCallBack.onInput(144);
-                        break;
-                    //Backwards(s)
-                    case 115:
-                        bluetoothCallBack.onInput(2192);
-                        break;
-                    //Left(a)
-                    case 97:
-                        bluetoothCallBack.onInput(3216);
-                        break;
-                    //Right(d)
-                    case 100:
-                        bluetoothCallBack.onInput(1168);
-                        break;
-                    //Handbreak(space)
-                    case 32:
-                        bluetoothCallBack.onInput(1);
-                        break;
-                    //Faster(e)
-                    case 101:
-                        bluetoothCallBack.onInput(1936);
-                        break;
-                    //Slower(q)
-                    case 113:
-                        bluetoothCallBack.onInput(3984);
-                        break;
-                    //Mute(m)
-                    case 109:
-                        bluetoothCallBack.onInput(656);
-                        break;
-                    //LineFollower(r)
-                    case 114:
-                        bluetoothCallBack.onInput(16);
-                        break;
-                    //All other keys
-                    default:
-                        bluetoothCallBack.onInput(0);
-                        break;
-                }
+        if (serialConnection.available()>0){
+            int data = serialConnection.readByte();
+            serialConnection.writeByte(data);
+            System.out.println("Received Data: " + (char)data);
+            switch (data){
+                //Forward(w)
+                case 119:
+                    bluetoothCallBack.onInput("forward");
+                    break;
+                //Backwards(s)
+                case 115:
+                    bluetoothCallBack.onInput("backward");
+                    break;
+                //Left(a)
+                case 97:
+                    bluetoothCallBack.onInput("left");
+                    break;
+                //Right(d)
+                case 100:
+                    bluetoothCallBack.onInput("right");
+                    break;
+                //Handbreak(space)
+                case 32:
+                    bluetoothCallBack.onInput("brake");
+                    break;
+                //Faster(e)
+                case 101:
+                    bluetoothCallBack.onInput("faster");
+                    break;
+                //Slower(q)
+                case 113:
+                    bluetoothCallBack.onInput("slower");
+                    break;
+                //Mute(m)
+                case 109:
+                    bluetoothCallBack.onInput("mute");
+                    break;
+                //LineFollower(r)
+                case 114:
+                    bluetoothCallBack.onInput("LineFollower");
+                    break;
+                //All other keys
+                default:
+                    bluetoothCallBack.onInput("");
+                    break;
             }
         }
+
+
     }
 
     @Override
