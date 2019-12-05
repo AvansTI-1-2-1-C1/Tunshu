@@ -23,10 +23,8 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
     private String rightSensorStatus;
     private String middleSensorStatus;
 
-    private  int counter1;
-    private int counter2;
-    private int counter3;
-    private int counter4;
+    private float counter2;
+    private float counter4;
 
     private boolean lineFollowerState;
 
@@ -44,6 +42,10 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
         this.lineFollowerState = false;
         //Here the motor control wil be implemented
         this.motorControl = motorControl;
+
+        //To use some of the methods to drive forward easy we associate the drive class
+        this.counter2 = 0.1f;
+        this.counter4 = 0.1f;
 
         lineFollowerList = new ArrayList<>();
 
@@ -89,12 +91,12 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                             if (t1.timeout()) {
 
-                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), 10+this.counter2);
+                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), this.counter2);
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
-                                this.counter1 += 10;
-                                this.counter2++;
+
+                                this.counter2 += 0.1f;
                                 t1.mark();
                             }
 
@@ -105,12 +107,11 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
 
                             if (t2.timeout()) {
-                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), -10-this.counter4);
+                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), -this.counter4);
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
-                                this.counter3 += 10;
-                                this.counter4++;
+                                this.counter4 += 0.1f;
                                 t2.mark();
                             }
 
@@ -124,11 +125,8 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
 
                     //When the middle line follower detects the line again the steering wil be set back to default
-                    this.counter1 = 20;
-                    this.counter2 = 5;
-
-                    this.counter3 = 20;
-                    this.counter4 = 5;
+                    this.counter2 = 0.1f;
+                    this.counter4 = 0.1f;
 
                 }
 
