@@ -10,7 +10,7 @@ public class MotorControl implements Updatable {
     private Motor motorRight;
 
     private final float speedStep = 0.025F; // the amount that is added to the speed when speeding up
-    private final float turnRateStep = 0.10F; // the amount that is added each step to the turn
+    private final float turnRateStep = 0.1F; // the amount that is added each step to the turn
     private Timer timer = new Timer(50); // the time until the next change in milli seconds
 
     private float currentSpeed;
@@ -21,12 +21,14 @@ public class MotorControl implements Updatable {
     //makes sure the vehicle doesn't drive if true
     private boolean handBreak;
     private boolean isDrivingBackward;
+    private boolean slowAccelerate;
 
     public MotorControl() {
         this.motorLeft = new Motor(12);
         this.motorRight = new Motor(13);
         handBreak = false;
         isDrivingBackward = false;
+        slowAccelerate = true;
     }
 
     /**
@@ -48,34 +50,38 @@ public class MotorControl implements Updatable {
      */
     public void update() {
         if (!handBreak) {
-            //timer so the bot accelerates slowly
-            if (timer.timeout()) {
 
-                //set the current speed speed step closer to target speed
-                currentSpeed = currentToTargeted(currentSpeed, targetSpeed, speedStep);
+            if (slowAccelerate) {
+                //timer so the bot accelerates slowly
+                if (timer.timeout()) {
 
-                //set the current turn rate closer to targeted turn rate with turn rate amount
-                currentTurnRate = currentToTargeted(currentTurnRate, targetTurnRate, turnRateStep);
+                    //set the current speed speed step closer to target speed
+                    currentSpeed = currentToTargeted(currentSpeed, targetSpeed, speedStep);
 
-                //set the motors to the recently calculated amounts
-                setBotSpeed(currentSpeed, currentTurnRate);
+                    //set the current turn rate closer to targeted turn rate with turn rate amount
+                    currentTurnRate = currentToTargeted(currentTurnRate, targetTurnRate, turnRateStep);
 
-                //reset the timer
-                timer.mark();
+                    //set the motors to the recently calculated amounts
+                    setBotSpeed(currentSpeed, currentTurnRate);
 
-                //to make sure the notification system knows it is driving backwards
-                if (currentSpeed<0){
-                    isDrivingBackward = true;
-                }else {
-                    isDrivingBackward = false;
+                    //reset the timer
+                    timer.mark();
+
+                    //to make sure the notification system knows it is driving backwards
+                    if (currentSpeed < 0) {
+                        isDrivingBackward = true;
+                    } else {
+                        isDrivingBackward = false;
+                    }
                 }
+            }else {
+                setBotSpeed(targetSpeed,targetTurnRate);
             }
         } else {
             setBotSpeed(0, 0);
         }
-
-
     }
+
 
     /**
      * method to set the current closer to the target with step amount
@@ -144,11 +150,16 @@ public class MotorControl implements Updatable {
     }
 
     public void setHandBreak(boolean handBreak) {
+        setMotorsTarget(0, 0);
         this.handBreak = handBreak;
     }
 
     public boolean isDrivingBackward() {
         return isDrivingBackward;
+    }
+
+    public void setSlowAccelerate(boolean slowAccelerate) {
+        this.slowAccelerate = slowAccelerate;
     }
 }
 
