@@ -13,8 +13,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private RemoteControl remoteControl;
     private Bluetooth bluetooth;
 
-    private int selectedButtonCode;
-
     private String sellectedCommand;
     private String previousCommand;
     private MotorControl motorControl;
@@ -70,7 +68,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 motorControl.setMotorsTarget(motorControl.getCurrentSpeed() - 0.2f, 0f);
                 break;
             case "mute":
-                //TODO implement mute function
+                notificationSystem.mute();
                 break;
             case "LineFollower":
                 this.routeFollower.turnOn();
@@ -91,7 +89,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     @java.lang.Override
     public void onButtonPress(int buttonPress) {
-        this.selectedButtonCode = buttonPress;
+        //TODO make something covert to sellectedCommand
     }
 
     @java.lang.Override
