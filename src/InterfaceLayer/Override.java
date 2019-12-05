@@ -35,57 +35,67 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     public void useButton() {
         //check if the selected button was pressed right before by checking it against the previous button code and the timer
-        if (sellectedCommand.equals(previousCommand)) {
-            if (!inputDelay.timeout()) {
+        if (this.sellectedCommand.equals(this.previousCommand)) {
+            if (!this.inputDelay.timeout()) {
                 return;
             }
         } else {
-            previousCommand = sellectedCommand;
+            this.previousCommand = this.sellectedCommand;
         }
 
 
         //switch statement that selects the corresponding method
         switch (sellectedCommand) {
             case "forward":
-                motorControl.setMotorsTarget(0.2f, 0f);
+                this.motorControl.setMotorsTarget(0.2f, 0f);
                 break;
             case "backward":
-                motorControl.setMotorsTarget(-0.2f, 0f);
+                this.motorControl.setMotorsTarget(-0.2f, 0f);
                 break;
             case "left":
-                motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), -1f);
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), motorControl.getCurrentTurnRate() - 0.2f);
                 break;
             case "right":
-                motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), 1f);
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), motorControl.getCurrentTurnRate() + 0.2f);
                 break;
             case "brake":
-                motorControl.setMotorsTarget(0f, 0f);
+                this.motorControl.setMotorsTarget(0f, 0f);
                 break;
             case "faster":
-                motorControl.setMotorsTarget(motorControl.getCurrentSpeed() + 0.2f, 0f);
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed() + 0.2f, 0f);
                 break;
             case "slower":
-                motorControl.setMotorsTarget(motorControl.getCurrentSpeed() - 0.2f, 0f);
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed() - 0.2f, 0f);
                 break;
             case "mute":
-                notificationSystem.mute();
+                this.notificationSystem.mute();
                 break;
             case "LineFollower":
-                this.routeFollower.turnOn();
+                if (this.routeFollower.isOn()){
+                    this.routeFollower.off();
+                }else {
+                    this.routeFollower.on();
+                }
                 break;
-            case  "handbreak":
-                motorControl.setHandBreak(false);
+            case "handbreak":
+                //make sure there is nothing detected
+                if (!this.hitDetection.getState()){
+                    this.motorControl.setHandBreak(false);
+                }
+                break;
+            default:
+
                 break;
         }
 
-        inputDelay.mark();
+        this.inputDelay.mark();
         this.sellectedCommand = "";
     }
 
     @java.lang.Override
     public void update() {
 //        remoteControl.update();
-        bluetooth.update();
+        this.bluetooth.update();
         useButton();
 
     }

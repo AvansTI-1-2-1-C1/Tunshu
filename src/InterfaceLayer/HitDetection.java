@@ -5,6 +5,7 @@ import HardwareLayer.Sensor.AntennaCallBack;
 import HardwareLayer.Sensor.Ultrasonic;
 import HardwareLayer.Sensor.UltrasonicCallBack;
 import HeadInterfaces.Updatable;
+import TI.Timer;
 
 public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallBack {
 
@@ -14,6 +15,8 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     private double ultraSonicDistance;
     private boolean antennaState;
+    private Timer detectTimer;
+    private Timer hitDetectStateTimer;
 
     private boolean hitDetectionState;
 
@@ -22,20 +25,30 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
         //the ultrasonic and the antenna are initialized with the callback as parameter
         this.ultrasonic = new Ultrasonic(this);
         this.antenna = new Antenna(this);
-
+        this.detectTimer = new Timer(10);
+        this.hitDetectStateTimer = new Timer(250);
     }
 
     @java.lang.Override
     //this is the default update function this will iterate every loop
     public void update() {
+        if (detectTimer.timeout()){
+            //the sensors are updated here, doing this will change the attributes in this class to use them afterwards
+            // for more detail, read the comments in both these classes
+            ultrasonic.update();
+            antenna.update();
+            detectTimer.mark();
 
-        //the sensors are updated here, doing this will change the attributes in this class to use them afterwards
-        // for more detail, read the comments in both these classes
-        ultrasonic.update();
-        antenna.update();
+            if ((this.ultraSonicDistance < 20 && this.ultraSonicDistance > 0) || this.antennaState){
+                hitDetectionState = true;
+                hitDetectStateTimer.mark();
+            }else {
+                if (hitDetectStateTimer.timeout()){
+                    hitDetectionState = false;
+                }
+            }
+        }
 
-        //Depending on our given attributes the hit detection will change its state
-        hitDetectionState = (this.ultraSonicDistance < 20 && this.ultraSonicDistance > 0) || this.antennaState;
 
     }
 

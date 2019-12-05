@@ -3,13 +3,14 @@ package InterfaceLayer;
 import HardwareLayer.Motor;
 import HardwareLayer.Navigation.LineFollower;
 import HardwareLayer.Navigation.LineFollowerCallBack;
+import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RouteFollower implements Updatable, LineFollowerCallBack {
+public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack {
 
     private Timer timer1;
     private Timer t1;
@@ -152,19 +153,18 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
     }
 
-    /**
-     * If this function is called the attribute will trigger on
-     */
-    public void turnOn(){
+    @java.lang.Override
+    public boolean isOn() {
+        return this.lineFollowerState;
+    }
 
+    @java.lang.Override
+    public void on() {
         this.lineFollowerState = true;
     }
 
-    /**
-     * If this function is called the attribute will trigger off
-     */
-    public void turnOff(){
-
+    @java.lang.Override
+    public void off() {
         this.lineFollowerState = false;
     }
 }
