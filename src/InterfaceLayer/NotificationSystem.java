@@ -62,7 +62,7 @@ public class NotificationSystem implements Updatable {
         lightSwitch = true;
 
         //boolean to know if the speaker has to be muted
-        isMuted = false;
+        isMuted = true;
 
     }
 

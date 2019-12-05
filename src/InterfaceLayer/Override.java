@@ -107,22 +107,26 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
 
             case 1936:
+                //Faster
                 System.out.println("Sneller");
                 this.drive.increaseSpeed();
                 break;
 
             case 3984:
+                //Slower
                 System.out.println("Langzamer");
                 this.drive.decreaseSpeed();
                 break;
             case 656:
+                //Mute speaker
                 System.out.println("mute");
                 this.notificationSystem.mute();
                 break;
             case 16:
+                //Enable/Disable lineFollower
+                System.out.println("LineFollower");
                 this.routeFollower.turnOn();
                 break;
-
             default:
                 break;
         }

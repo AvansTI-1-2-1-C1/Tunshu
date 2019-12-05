@@ -13,6 +13,12 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
     private Drive drive;
 
+    private Timer timer1;
+    private Timer t1;
+    private Timer t2;
+    private Timer t3;
+    private Timer t4;
+
     private Motor servoLeft;
     private Motor servoRight;
 
@@ -32,12 +38,20 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
     public RouteFollower(Drive drive) {
 
+        this.t1 = new Timer(20);
+        this.t2 = new Timer(20);
+        this.t3 = new Timer(30);
+        this.t4 = new Timer(50);
+        this.timer1 = new Timer(10);
+
+        this.lineFollowerState = false;
         //Here the servo's are declared because the line follower actions depend on single servo control
         this.servoLeft = new Motor(12);
         this.servoRight = new Motor(13);
 
         //To use some of the methods to drive forward easy we associate the drive class
         this.drive = drive;
+
         lineFollowerList = new ArrayList<>();
         //Here the Linefollower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient
@@ -56,15 +70,13 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
         //First there is a check if the function is turned on or not, the function can be turned off in the override
         if (this.lineFollowerState) {
 
-            for(LineFollower lineFollower: lineFollowerList){
-                lineFollower.update();
+            if(timer1.timeout()) {
+                for (LineFollower lineFollower : lineFollowerList) {
+                    lineFollower.update();
+
+                }
+                timer1.mark();
             }
-
-            System.out.println(this.leftSensorStatus);
-            System.out.println(this.middleSensorStatus);
-            System.out.println(this.rightSensorStatus);
-
-            Timer t4 = new Timer(50);
 
             //To ensure the Bot does not wiggle too much when following the line
             // we added an timer to round off the edges a bit
@@ -73,14 +85,11 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                 if (this.middleSensorStatus.equals("white")) {
 
-                    Timer t3 = new Timer(30);
-
                     if (t3.timeout()) {
 
                         //If the right sensor detects a line it steers left
                         if (this.rightSensorStatus.equals("black")) {
 
-                            Timer t1 = new Timer(20);
 
                             if (t1.timeout()) {
                                 this.servoLeft.setSpeed(1550 + this.counter1);
@@ -88,7 +97,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
-                                this.counter1 += 10;
+                                this.counter1 += 20;
                                 this.counter2++;
                                 t1.mark();
                             }
@@ -97,7 +106,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
                         //If the left sensor detects a line it steers right
                         if (this.leftSensorStatus.equals("black")) {
 
-                            Timer t2 = new Timer(20);
+
 
                             if (t2.timeout()) {
                                 this.servoLeft.setSpeed(1540 - this.counter3);
@@ -105,7 +114,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
-                                this.counter3 += 10;
+                                this.counter3 += 20;
                                 this.counter4++;
                                 t2.mark();
                             }
@@ -126,7 +135,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
                     this.counter4 = 5;
 
                 }
-
+                this.drive.setForwards(true);
                 this.drive.accelerate(100);
 
                 t4.mark();

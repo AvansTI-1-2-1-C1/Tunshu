@@ -87,12 +87,12 @@ public class Drive implements Updatable {
             if (this.forwards) {
                 this.right.setSpeed(1450 - this.speed);
                 //@todo
-                BoeBot.wait(1700);
+                BoeBot.wait(850);
                 this.right.setSpeed(1500 - this.speed);
             } else if (this.backwards) {
                 this.right.setSpeed(1550 + this.speed);
                 //@todo
-                BoeBot.wait(1700);
+                BoeBot.wait(850);
                 this.right.setSpeed(1500 + this.speed);
             }
         }
