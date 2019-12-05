@@ -43,6 +43,7 @@ public class Tunshu {
 
             if (hitDetection.getState()) {
                 notificationSystem.setStatus("alert");
+                motorControl.setHandBreak(true);
             } else if (motorControl.isDrivingBackward()) {
                 notificationSystem.setStatus("reverse");
             }else {

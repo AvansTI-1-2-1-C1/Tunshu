@@ -73,6 +73,9 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
             case "LineFollower":
                 this.routeFollower.turnOn();
                 break;
+            case  "handbreak":
+                motorControl.setHandBreak(false);
+                break;
         }
 
         inputDelay.mark();
