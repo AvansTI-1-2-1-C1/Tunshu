@@ -29,9 +29,7 @@ public class RemoteControl implements Updatable, Switchable {
                 lengths[i] = BoeBot.pulseIn(pin, false, 20000);
             }
 
-            /**
-             * turns the digits into 1 and 0 according to the length.
-             */
+            // turns the digits into 1 and 0 according to the length.
             for (int i = 0; i < 12; i++) {
                 if (lengths[i] < 900) {
                     binaryInput[i] = 0;
