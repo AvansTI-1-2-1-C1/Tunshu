@@ -5,6 +5,7 @@ import HardwareLayer.Navigation.LineFollower;
 import HardwareLayer.Navigation.LineFollowerCallBack;
 import HeadInterfaces.Updatable;
 import TI.Timer;
+import Utils.IntervalTimer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,10 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
     private Timer t2;
     private Timer t3;
     private Timer t4;
+
+    private int adjustment;
+
+    private IntervalTimer intervalTimer;
 
     private MotorControl motorControl;
 
@@ -42,6 +47,8 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
         this.lineFollowerState = false;
         //Here the motor control wil be implemented
         this.motorControl = motorControl;
+
+        this.intervalTimer = new IntervalTimer();
 
         //To use some of the methods to drive forward easy we associate the drive class
         this.counter2 = 0.1f;
@@ -87,14 +94,15 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
                         if (this.rightSensorStatus.equals("black")) {
 
 
+
                             if (t1.timeout()) {
 
-                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), this.counter2);
+                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), this.counter2*(intervalTimer.timePassed())/this.adjustment);
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
 
-                                this.counter2 += 0.1f;
+
                                 t1.mark();
                             }
 
@@ -105,11 +113,11 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
 
 
                             if (t2.timeout()) {
-                                this.motorControl.setMotorsTarget(0.2f, -this.counter4);
+                                this.motorControl.setMotorsTarget(0.2f, -this.counter4*(intervalTimer.timePassed())/this.adjustment);
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
-                                this.counter4 += 0.1f;
+
                                 t2.mark();
                             }
 
@@ -120,6 +128,8 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
                     }
 
                 } else {
+
+                    this.intervalTimer.restart();
 
                     this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),0);
 
@@ -150,6 +160,7 @@ public class RouteFollower implements Updatable, LineFollowerCallBack {
         }
 
     }
+
 
     /**
      * If this function is called the attribute will trigger on
