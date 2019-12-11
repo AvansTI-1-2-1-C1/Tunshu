@@ -239,8 +239,14 @@ public class NotificationSystem implements Updatable {
      *               linefollower
      *               else: error
      */
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String status,boolean emergency) {
+        Timer timer = new Timer(500);
+        if (emergency){
+            this.status = status;
+        }else if (timer.timeout()){
+            this.status = status;
+            timer.mark();
+        }
     }
 
 
