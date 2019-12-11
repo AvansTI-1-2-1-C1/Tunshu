@@ -6,6 +6,11 @@ import java.util.ArrayList;
 
 public class MapSolver {
 
+    /**
+     * this method gets the quickest way to the exit when given a map of intersections
+     * @param intersections
+     * @return insctructions on what to do by an intersection, this can be right, left, forward and back
+     */
     public static ArrayList<String> mapSolver(Intersection[][] intersections) {
         ArrayList<Character> directionsNESW = new ArrayList<>();
         int x = 20;
@@ -21,22 +26,22 @@ public class MapSolver {
             int west = 9;
 
             if (intersections[x][y + 1] != null) {
-                if (intersections[x][y + 1].isNorth()) {
+                if (intersections[x][y].isNorth()) {
                     north = intersections[x][y + 1].getCounter();
                 }
             }
             if (intersections[x + 1][y] != null) {
-                if (intersections[x + 1][y].isEast()) {
+                if (intersections[x][y].isEast()) {
                     east = intersections[x + 1][y].getCounter();
                 }
             }
             if (intersections[x][y - 1] != null) {
-                if (intersections[x][y - 1].isSouth()) {
+                if (intersections[x][y].isSouth()) {
                     south = intersections[x][y - 1].getCounter();
                 }
             }
             if (intersections[x - 1][y] != null) {
-                if (intersections[x - 1][y].isWest()) {
+                if (intersections[x][y].isWest()) {
                     west = intersections[x - 1][y].getCounter();
                 }
             }
@@ -67,17 +72,17 @@ public class MapSolver {
             if (facingDirection == 'N') {
                 if (direction == 'W') {
                     //turn left
-                    directions.add("Left");
+                    directions.add("left");
                     facingDirection = 'W';
                     //wait for next intersection
                 } else if (direction == 'N') {
                     //drive forward
-                    directions.add("Forward");
+                    directions.add("forward");
                     //wait for next intersection
 
                 } else if (direction == 'E') {
                     //turn right
-                    directions.add("Right");
+                    directions.add("right");
                     facingDirection = 'E';
                     //wait for next intersection
 
@@ -85,18 +90,18 @@ public class MapSolver {
             } else if (facingDirection == 'E') {
                 if (direction == 'E') {
                     //drive forward
-                    directions.add("Forward");
+                    directions.add("forward");
                     //wait for next intersection
 
                 } else if (direction == 'S') {
                     //turn right
-                    directions.add("Right");
+                    directions.add("right");
                     facingDirection = 'S';
                     //wait for next intersection
 
                 } else if (direction == 'N') {
                     //turn left
-                    directions.add("Left");
+                    directions.add("left");
                     facingDirection = 'N';
                     //wait for next intersection
 
@@ -104,18 +109,18 @@ public class MapSolver {
             } else if (facingDirection == 'S') {
                 if (direction == 'S') {
                     //drive forward
-                    directions.add("Forward");
+                    directions.add("forward");
                     //wait for next intersection
 
                 } else if (direction == 'W') {
                     //turn right
-                    directions.add("Right");
+                    directions.add("right");
                     facingDirection = 'W';
                     //wait for next intersection
 
                 } else if (direction == 'E') {
                     //turn left
-                    directions.add("Left");
+                    directions.add("left");
                     facingDirection = 'E';
                     //wait for next intersection
 
@@ -123,18 +128,18 @@ public class MapSolver {
             } else if (facingDirection == 'W') {
                 if (direction == 'W') {
                     //drive forward
-                    directions.add("Forward");
+                    directions.add("forward");
                     //wait for next intersection
 
                 } else if (direction == 'N') {
                     //turn right
-                    directions.add("Right");
+                    directions.add("right");
                     facingDirection = 'N';
                     //wait for next intersection
 
                 } else if (direction == 'S') {
                     //turn left
-                    directions.add("Left");
+                    directions.add("left");
                     facingDirection = 'S';
                     //wait for next intersection
 

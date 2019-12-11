@@ -2,7 +2,9 @@ package InterfaceLayer;
 
 import HardwareLayer.Navigation.Intersection;
 
-
+/**
+ * this class is purely designed to map out an maze with intersections
+ */
 public class MakeMap {
     private Intersection[][] intersections;
     private int x = 20;
@@ -211,6 +213,7 @@ public class MakeMap {
     }
 
 
-    
-
+    public Intersection[][] getIntersections() {
+        return intersections;
+    }
 }

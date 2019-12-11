@@ -1,10 +1,8 @@
 package InterfaceLayer;
 
-import HeadInterfaces.Updatable;
-
 import java.util.ArrayList;
 
-public class Route implements Updatable {
+public class Route {
 
     private ArrayList<String> directions;
     private int instructionCounter;
@@ -22,13 +20,15 @@ public class Route implements Updatable {
     }
 
     public String getDirection(){
-        String direction = directions.get(instructionCounter);
+        String direction = "";
+        try {
+            direction = directions.get(instructionCounter);
+        }catch (Exception e){
+            System.out.println(e);
+            direction = "none";
+        }
         this.instructionCounter = this.instructionCounter+1;
         return direction;
     }
 
-    @java.lang.Override
-    public void update() {
-
-    }
 }
