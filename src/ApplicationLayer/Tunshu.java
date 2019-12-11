@@ -42,14 +42,18 @@ public class Tunshu {
             BoeBot.wait(2);
 
             if (hitDetection.getState()) {
-                notificationSystem.setStatus("alert");
+                notificationSystem.setStatus("alert",true);
                 motorControl.setHandBreak(true);
+                notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
-                notificationSystem.setStatus("reverse");
+                notificationSystem.setStatus("reverse",false);
+                notificationSystem.update();
             } else if (routeFollower.isLineFollowerState()) {
-                notificationSystem.setStatus("linefollower");
+                notificationSystem.setStatus("linefollower",false);
+                notificationSystem.update();
             } else {
-                notificationSystem.setStatus("running");
+                notificationSystem.setStatus("running",false);
+                notificationSystem.update();
             }
         }
     }
@@ -58,11 +62,6 @@ public class Tunshu {
      * initialising every object we need
      */
     public void init() {
-        /**
-         * @todo
-         * route
-         * routeFollower
-         */
         this.motorControl = new MotorControl();
         this.hitDetection = new HitDetection();
         this.routeFollower = new RouteFollower(this.motorControl);
@@ -71,7 +70,6 @@ public class Tunshu {
         this.route = new Route();
         this.updatables = new ArrayList<>();
         this.updatables.add(this.hitDetection);
-        this.updatables.add(this.notificationSystem);
         this.updatables.add(this.override);
         this.updatables.add(this.route);
         this.updatables.add(this.routeFollower);
