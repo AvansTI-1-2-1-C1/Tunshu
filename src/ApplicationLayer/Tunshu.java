@@ -62,11 +62,6 @@ public class Tunshu {
      * initialising every object we need
      */
     public void init() {
-        /**
-         * @todo
-         * route
-         * routeFollower
-         */
         this.motorControl = new MotorControl();
         this.hitDetection = new HitDetection();
         this.routeFollower = new RouteFollower(this.motorControl);

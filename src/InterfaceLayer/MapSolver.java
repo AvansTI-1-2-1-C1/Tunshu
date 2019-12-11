@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class MapSolver {
 
     public static ArrayList<Character> mapSolver(Intersection[][] intersections) {
-        ArrayList<Character> directions = new ArrayList<>();
+        ArrayList<Character> directionsNESW = new ArrayList<>();
         int x = 20;
         int y = 20;
         boolean exitFound = false;
@@ -42,22 +42,105 @@ public class MapSolver {
             }
 
             if (north < east && north < south && north < west) {
-                directions.add('N');
+                directionsNESW.add('N');
                 y++;
             } else if (east < north && east < south && east < west) {
-                directions.add('E');
+                directionsNESW.add('E');
                 x++;
             } else if (south < north && south < east && south < west) {
-                directions.add('S');
+                directionsNESW.add('S');
                 y--;
             } else if (west < north && west < east && west < south) {
-                directions.add('W');
+                directionsNESW.add('W');
                 x--;
             } else {
                 exitFound = true;
             }
         }
+        return driveMap(directionsNESW);
+    }
 
+    public static ArrayList<Character> driveMap(ArrayList<Character> directionsNESW) {
+        ArrayList<Character> directions = new ArrayList<>();
+        char facingDirection = 'N';
+        for (char direction : directionsNESW) {
+            if (facingDirection == 'N') {
+                if (direction == 'W') {
+                    //turn left
+                    directions.add('L');
+                    facingDirection = 'W';
+                    //wait for next intersection
+                } else if (direction == 'N') {
+                    //drive forward
+                    directions.add('F');
+                    //wait for next intersection
+
+                } else if (direction == 'E') {
+                    //turn right
+                    directions.add('R');
+                    facingDirection = 'E';
+                    //wait for next intersection
+
+                }
+            } else if (facingDirection == 'E') {
+                if (direction == 'E') {
+                    //drive forward
+                    directions.add('F');
+                    //wait for next intersection
+
+                } else if (direction == 'S') {
+                    //turn right
+                    directions.add('R');
+                    facingDirection = 'S';
+                    //wait for next intersection
+
+                } else if (direction == 'N') {
+                    //turn left
+                    directions.add('L');
+                    facingDirection = 'N';
+                    //wait for next intersection
+
+                }
+            } else if (facingDirection == 'S') {
+                if (direction == 'S') {
+                    //drive forward
+                    directions.add('F');
+                    //wait for next intersection
+
+                } else if (direction == 'W') {
+                    //turn right
+                    directions.add('R');
+                    facingDirection = 'W';
+                    //wait for next intersection
+
+                } else if (direction == 'E') {
+                    //turn left
+                    directions.add('L');
+                    facingDirection = 'E';
+                    //wait for next intersection
+
+                }
+            } else if (facingDirection == 'W') {
+                if (direction == 'W') {
+                    //drive forward
+                    directions.add('F');
+                    //wait for next intersection
+
+                } else if (direction == 'N') {
+                    //turn right
+                    directions.add('R');
+                    facingDirection = 'N';
+                    //wait for next intersection
+
+                } else if (direction == 'S') {
+                    //turn left
+                    directions.add('L');
+                    facingDirection = 'S';
+                    //wait for next intersection
+
+                }
+            }
+        }
         return directions;
     }
 
