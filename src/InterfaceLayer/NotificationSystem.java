@@ -4,7 +4,6 @@ import HardwareLayer.Notification.LED;
 import HardwareLayer.Notification.Speaker;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
-import TI.PWM;
 import TI.Timer;
 
 import java.awt.*;
@@ -85,8 +84,8 @@ public class NotificationSystem implements Updatable {
             case "reverse":
                 reverse();
                 break;
-            case "linefollower":
-                linefollower();
+            case "lineFollower":
+                lineFollower();
                 break;
             default:
                 error();
@@ -118,7 +117,7 @@ public class NotificationSystem implements Updatable {
         }
     }
 
-    private void linefollower() {
+    private void lineFollower() {
         LEDs[5].setColor(Color.white);
         LEDs[3].setColor(Color.white);
 
@@ -236,7 +235,7 @@ public class NotificationSystem implements Updatable {
      *               running
      *               alert
      *               reverse
-     *               linefollower
+     *               lineFollower
      *               else: error
      */
     public void setStatus(String status,boolean emergency) {

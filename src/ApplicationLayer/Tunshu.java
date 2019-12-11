@@ -51,7 +51,7 @@ public class Tunshu {
                 notificationSystem.setStatus("reverse",false);
                 notificationSystem.update();
             } else if (routeFollower.isLineFollowerState()) {
-                notificationSystem.setStatus("linefollower",false);
+                notificationSystem.setStatus("lineFollower",false);
                 notificationSystem.update();
             } else {
                 notificationSystem.setStatus("running",false);

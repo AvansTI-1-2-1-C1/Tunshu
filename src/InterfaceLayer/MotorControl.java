@@ -160,6 +160,9 @@ public class MotorControl implements Updatable {
                 motorLeft.update(0.3f, false);
                 motorRight.update(0.3f, true);
                 break;
+                default:
+                    System.out.println(direction + " is unknown");
+                    break;
         }
     }
 
