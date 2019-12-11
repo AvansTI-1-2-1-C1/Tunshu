@@ -9,6 +9,7 @@ public class Route {
 
     public Route() {
         this.instructionCounter = 0;
+        this.directions = new ArrayList<>();
     }
 
     public ArrayList<String> getDirections() {
@@ -16,17 +17,21 @@ public class Route {
     }
 
     public void setDirections(ArrayList<String> directions) {
-        this.directions = directions;
+        this.directions.addAll(directions);
+        System.out.println(this.directions);
+
     }
 
     public String getDirection(){
         String direction = "";
-        try {
-            direction = directions.get(instructionCounter);
-        }catch (Exception e){
-            System.out.println(e);
+        System.out.println(directions);//TODO
+        if (this.directions.isEmpty()){
             direction = "none";
+        }else {
+            direction = this.directions.get(0);
+            directions.remove(0);
         }
+
         this.instructionCounter = this.instructionCounter+1;
         return direction;
     }

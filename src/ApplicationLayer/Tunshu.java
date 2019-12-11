@@ -22,6 +22,8 @@ public class Tunshu {
         //initialise every object
         init();
 
+        setRoute();
+
         /**
          * detection loop
          */
@@ -64,16 +66,22 @@ public class Tunshu {
     public void init() {
         this.motorControl = new MotorControl();
         this.hitDetection = new HitDetection();
-        this.routeFollower = new RouteFollower(this.motorControl);
+        this.route = new Route();
+        this.routeFollower = new RouteFollower(this.motorControl, this.route);
         this.notificationSystem = new NotificationSystem();
         this.override = new Override(this.motorControl, this.notificationSystem, this.hitDetection, this.routeFollower);
-        this.route = new Route();
         this.updatables = new ArrayList<>();
         this.updatables.add(this.hitDetection);
         this.updatables.add(this.override);
-        this.updatables.add(this.route);
         this.updatables.add(this.routeFollower);
         this.updatables.add(this.motorControl);
+    }
+
+    public void setRoute(){
+        ArrayList<String> dir = new ArrayList<>();
+        dir.add("right");
+        dir.add("left");
+        this.route.setDirections(dir);
     }
 
 }

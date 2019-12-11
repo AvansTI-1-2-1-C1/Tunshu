@@ -19,11 +19,15 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
     private Timer t4;
 
     private Timer turningTimer;
+    private Timer intersectionTimer;
 
     private String currentlyTurningDirection;
     private boolean isTurning;
 
     private int adjustment;
+
+    private boolean fellOffRight;
+    private boolean fellOffLeft;
 
     private IntervalTimer intervalTimer;
 
@@ -40,6 +44,8 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
     private float followingSpeed;
 
+    private boolean hasSeenWhite;
+
     private boolean lineFollowerState;
 
     private List<LineFollower> lineFollowerList;
@@ -55,11 +61,19 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
         this.turningTimer = new Timer(500);
 
-        this.route = new Route();
+        this.intersectionTimer = new Timer(200);
 
-        this.lineFollowerState = false;
+        this.route = route;
+
+        this.lineFollowerState = true;
 
         this.isTurning = false;
+
+        this.hasSeenWhite = false;
+
+        this.fellOffLeft = false;
+        this.fellOffRight = false;
+
         //Here the motor control wil be implemented
         this.motorControl = motorControl;
 
@@ -93,15 +107,17 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
     public void update() {
 
         //First there is a check if the function is turned on or not, the function can be turned off in the override
+        if (timer1.timeout()) {
+            for (LineFollower lineFollower : lineFollowerList) {
+                lineFollower.update();
+
+            }
+            timer1.mark();
+        }
+
         if (this.lineFollowerState) {
             motorControl.setSlowAccelerate(false);
-            if (timer1.timeout()) {
-                for (LineFollower lineFollower : lineFollowerList) {
-                    lineFollower.update();
 
-                }
-                timer1.mark();
-            }
 
             //To ensure the Bot does not wiggle too much when following the line
             // we added an timer to round off the edges a bit
@@ -110,115 +126,101 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
                 if (this.middleSensorStatus.equals("white")) {
 
-                    if (t3.timeout()) {
-
-                        //If the right sensor detects a line it steers left
-                        if (this.rightSensorStatus.equals("black")) {
-
-
-                            if (t1.timeout()) {
-
-                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), this.counter2 * (intervalTimer.timePassed()) / this.adjustment);
-
-                                this.motorControl.setMotorsTarget(this.followingSpeed, this.counter2);
-
-                                //The longer the middle sensor does not detect a line the more it will steer
-                                //again to ensure the Bot does not wiggle too much
-
-
-                                t1.mark();
-                            }
-
-
-                        }
-                        //If the left sensor detects a line it steers right
-                        if (this.leftSensorStatus.equals("black")) {
-
-                            this.motorControl.setMotorsTarget(this.followingSpeed, -this.counter4);
-
-
-                            if (t2.timeout()) {
-                                this.motorControl.setMotorsTarget(0.2f, -this.counter4 * (intervalTimer.timePassed()) / this.adjustment);
-
-                                //The longer the middle sensor does not detect a line the more it will steer
-                                //again to ensure the Bot does not wiggle too much
-
-                                t2.mark();
-                            }
-
-                        }
-
-                        t3.mark();
-
+                    //If the right sensor detects a line it steers left
+                    if (this.rightSensorStatus.equals("black") || this.fellOffRight) {
+                        this.motorControl.setMotorsTarget(0.2f, 0.5f);
+                        this.fellOffRight = true;
+                        //The longer the middle sensor does not detect a line the more it will steer
+                        //again to ensure the Bot does not wiggle too much
+                    }
+                    //If the left sensor detects a line it steers right
+                    if (this.leftSensorStatus.equals("black") || this.fellOffLeft) {
+                        this.motorControl.setMotorsTarget(0.2f, -0.5f);
+                        this.fellOffLeft = true;
+                        //The longer the middle sensor does not detect a line the more it will steer
+                        //again to ensure the Bot does not wiggle too much
                     }
 
-                } else {
+                }else if(this.middleSensorStatus.equals("black")) {
+
+                    this.fellOffLeft = false;
+                    this.fellOffRight = false;
 
                     this.intervalTimer.restart();
 
-                    this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), 0);
+                    this.motorControl.setMotorsTarget(0.2f,0);
 
                     //When the middle line follower detects the line again the steering wil be set back to default
-                    this.counter2 = 1f;
-                    this.counter4 = 1f;
+                    this.counter2 = 0.2f;
+                    this.counter4 = 0.2f;
 
                 }
+                if(this.rightSensorStatus.equals("black") && this.middleSensorStatus.equals("black") && this.leftSensorStatus.equals("black"))
 
 
-                t4.mark();
+                    t4.mark();
             }
-        } else {
+        }else {
             motorControl.setSlowAccelerate(true);
         }
 
-        if(this.hasHitIntersection()){
+        if(this.hasHitIntersection() && !this.isTurning){
             this.currentlyTurningDirection = this.route.getDirection();
+            this.isTurning = true;
+            this.intersectionTimer.mark();
         }
+
 
         //if the bot is currently turning to another direction on a line grid, you only have to update
         //the routefollower to update the timers and checking for the turning part
-        switch (this.currentlyTurningDirection){
-            case "left":
-                this.turnLeft();
-                break;
-            case "right":
-                this.turnRight();
-                break;
-            case "back":
-                this.turnBack();
-                break;
-            case "forward":
-                this.goForward();
-            default:
-                break;
+        if(intersectionTimer.timeout()) {
+            switch (this.currentlyTurningDirection) {
+                case "left":
+                    this.turnLeft();
+                    break;
+                case "right":
+                    this.turnRight();
+                    break;
+                case "back":
+                    this.turnBack();
+                    break;
+                case "forward":
+                    this.goForward();
+                default:
+                    break;
+            }
         }
 
     }
 
     private void turnRight(){
 
-        while (true){
             if(!this.isTurning){
-                this.turningTimer.setInterval(500);
-                this.turningTimer.mark();
+                this.turningTimer.setInterval(200);
                 this.isTurning = true;
                 this.lineFollowerState = false;
+                this.currentlyTurningDirection = "Right";
             }
 
-            this.currentlyTurningDirection = "Right";
+        this.motorControl.rotate("right");
 
-            this.motorControl.rotate("right");
-            for (LineFollower lineFollower : lineFollowerList) {
-                lineFollower.update();
-            }
-            if (this.turningTimer.timeout()&&this.middleSensorStatus.equals("black")){
-                motorControl.setMotorsTarget(0,0);
-                this.currentlyTurningDirection = "none";
-                this.lineFollowerState = true;
-                this.isTurning = false;
-                break;
-            }
+        for (LineFollower lineFollower : lineFollowerList) {
+            lineFollower.update();
         }
+
+        if(this.middleSensorStatus.equals("white")){
+            this.hasSeenWhite = true;
+            this.turningTimer.mark();
+        }
+
+        if (this.hasSeenWhite&&this.middleSensorStatus.equals("black")&&this.turningTimer.timeout()){
+            motorControl.setMotorsTarget(0,0);
+            this.currentlyTurningDirection = "none";
+            this.lineFollowerState = true;
+            this.isTurning = false;
+            this.hasSeenWhite = false;
+            }
+
 
     }
 
@@ -226,7 +228,7 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
         while (true){
             if(!this.isTurning){
-                this.turningTimer.setInterval(500);
+                this.turningTimer.setInterval(250);
                 this.turningTimer.mark();
                 this.isTurning = true;
                 this.lineFollowerState = false;
