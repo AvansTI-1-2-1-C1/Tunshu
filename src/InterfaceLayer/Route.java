@@ -6,8 +6,23 @@ import java.util.ArrayList;
 
 public class Route implements Updatable {
 
-    public void driveMap(ArrayList<Character> directions) {
-        facingDirection = 'N';
+    private ArrayList<Character> directions;
+    private int instructionCounter;
+
+    public Route() {
+        this.instructionCounter = 0;
+    }
+
+    public ArrayList<Character> getDirections() {
+        return directions;
+    }
+
+    public void setDirections(ArrayList<Character> directions) {
+        this.directions = directions;
+    }
+
+    /*public void driveMap() {
+        char facingDirection = 'N';
         for (char direction : directions) {
             if (facingDirection == 'N') {
                 if (direction == 'W') {
@@ -86,6 +101,14 @@ public class Route implements Updatable {
                 }
             }
         }
+    }*/
+
+    public Character getDirection(){
+        char direction = directions.get(instructionCounter);
+        this.instructionCounter = this.instructionCounter+1;
+        return direction;
+    }
+
     @java.lang.Override
     public void update() {
 
