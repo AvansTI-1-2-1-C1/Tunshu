@@ -176,7 +176,7 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
         }
 
         //if the bot is currently turning to another direction on a line grid, you only have to update
-        //the routefollower to update the timers and checking for the turning part
+        //the route follower to update the timers and checking for the turning part
         switch (this.currentlyTurningDirection){
             case "left":
                 this.turnLeft();
@@ -190,6 +190,7 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
             case "forward":
                 this.goForward();
             default:
+                this.motorControl.setHandBreak(true);
                 break;
         }
 
