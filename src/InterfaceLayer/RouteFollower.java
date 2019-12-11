@@ -1,6 +1,5 @@
 package InterfaceLayer;
 
-import HardwareLayer.Motor;
 import HardwareLayer.Navigation.LineFollower;
 import HardwareLayer.Navigation.LineFollowerCallBack;
 import HardwareLayer.Switchable;
@@ -18,6 +17,11 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
     private Timer t2;
     private Timer t3;
     private Timer t4;
+
+    private Timer turningTimer;
+    private Timer oneSecondTimer;
+
+    private String currentlyTurningDirection;
 
     private int adjustment;
 
@@ -47,6 +51,9 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
         this.t4 = new Timer(30);
         this.timer1 = new Timer(10);
 
+        this.turningTimer = new Timer(500);
+
+
         this.lineFollowerState = false;
         //Here the motor control wil be implemented
         this.motorControl = motorControl;
@@ -59,7 +66,11 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
         this.followingSpeed = 0.3f;
 
+        this.adjustment = 800;
+
         lineFollowerList = new ArrayList<>();
+
+        this.currentlyTurningDirection = "none";
 
         //Here the Line follower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient
@@ -152,6 +163,122 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
             }
         } else {
             motorControl.setSlowAccelerate(true);
+        }
+
+        //if the bot is currently turning to another direction on a line grid, you only have to update
+        //the routefollower to update the timers and checking for the turning part
+        switch (this.currentlyTurningDirection){
+            case "left":
+                this.turnLeft();
+                break;
+            case "right":
+                this.turnRight();
+                break;
+            case "back":
+                this.turnBack();
+                break;
+            case "forward":
+                this.goForward();
+            case "none":
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    public void turnRight(){
+
+        while (true){
+            if(currentlyTurningDirection.equals("none")){
+                this.turningTimer.setInterval(500);
+                this.turningTimer.mark();
+                this.lineFollowerState = false;
+            }
+
+            this.currentlyTurningDirection = "Right";
+
+            this.motorControl.rotate("right");
+            for (LineFollower lineFollower : lineFollowerList) {
+                lineFollower.update();
+            }
+            if (this.turningTimer.timeout()&&this.middleSensorStatus.equals("black")){
+                motorControl.setMotorsTarget(0,0);
+                this.currentlyTurningDirection = "none";
+                this.lineFollowerState = true;
+                break;
+            }
+        }
+
+    }
+
+    public void turnLeft(){
+
+        while (true){
+            if(currentlyTurningDirection.equals("none")){
+                this.turningTimer.setInterval(500);
+                this.turningTimer.mark();
+                this.lineFollowerState = false;
+            }
+
+            this.motorControl.rotate("left");
+
+            for (LineFollower lineFollower : lineFollowerList) {
+                lineFollower.update();
+            }
+            if (this.turningTimer.timeout()&&this.middleSensorStatus.equals("black")){
+                motorControl.setMotorsTarget(0,0);
+                this.currentlyTurningDirection = "none";
+                this.lineFollowerState = true;
+                break;
+            }
+        }
+    }
+
+    public void turnBack(){
+
+        while (true){
+            if(currentlyTurningDirection.equals("none")){
+                this.turningTimer.setInterval(1500);
+                this.turningTimer.mark();
+                this.lineFollowerState = false;
+            }
+
+            this.currentlyTurningDirection = "back";
+
+            this.motorControl.rotate("right");
+            for (LineFollower lineFollower : lineFollowerList) {
+                lineFollower.update();
+            }
+            if (this.turningTimer.timeout()&&this.middleSensorStatus.equals("black")){
+                motorControl.setMotorsTarget(0,0);
+                this.currentlyTurningDirection = "none";
+                this.lineFollowerState = true;
+                break;
+            }
+        }
+    }
+
+    public void goForward() {
+        if(currentlyTurningDirection.equals("none")){
+            this.turningTimer.setInterval(500);
+            this.turningTimer.mark();
+            this.lineFollowerState = false;
+        }
+
+        this.currentlyTurningDirection = "forward";
+
+        while (true) {
+            this.motorControl.rotate("forward");
+            for (LineFollower lineFollower : lineFollowerList) {
+                lineFollower.update();
+            }
+            if (this.turningTimer.timeout() && this.middleSensorStatus.equals("black")) {
+                motorControl.setMotorsTarget(0, 0);
+                this.currentlyTurningDirection = "none";
+                this.lineFollowerState = true;
+                break;
+            }
         }
     }
 

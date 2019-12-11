@@ -141,6 +141,28 @@ public class MotorControl implements Updatable {
         motorRight.update(motorRightSpeed, true);
     }
 
+    public void rotate(String direction){
+        switch (direction){
+            case "right":
+                //turn 90 degrees right
+                motorLeft.update(.1f, false);
+                motorRight.update(.1f, false);
+
+                break;
+            case "left":
+                //turn 90 degrees left
+                motorLeft.update(.1f, true);
+                motorRight.update(.1f, true);
+
+                break;
+            case "forward":
+                // drive straight
+                motorLeft.update(0.2f, false);
+                motorRight.update(0.2f, true);
+                break;
+        }
+    }
+
     public float getCurrentSpeed() {
         return currentSpeed;
     }
