@@ -46,7 +46,9 @@ public class Tunshu {
                 motorControl.setHandBreak(true);
             } else if (motorControl.isDrivingBackward()) {
                 notificationSystem.setStatus("reverse");
-            }else {
+            } else if (routeFollower.isLineFollowerState()) {
+                notificationSystem.setStatus("linefollower");
+            } else {
                 notificationSystem.setStatus("running");
             }
         }

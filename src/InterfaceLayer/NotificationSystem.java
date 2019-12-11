@@ -85,6 +85,9 @@ public class NotificationSystem implements Updatable {
             case "reverse":
                 reverse();
                 break;
+            case "linefollower":
+                linefollower();
+                break;
             default:
                 error();
                 break;
@@ -108,7 +111,24 @@ public class NotificationSystem implements Updatable {
         LEDs[1].off();
         LEDs[4].off();
 
-        if (!isMuted){
+        if (!isMuted) {
+            speaker.on();
+        } else {
+            speaker.off();
+        }
+    }
+
+    private void linefollower() {
+        LEDs[5].setColor(Color.white);
+        LEDs[3].setColor(Color.white);
+
+        LEDs[0].setColor(155, 0, 0);
+        LEDs[2].setColor(155, 0, 0);
+
+        LEDs[1].setColor(Color.BLUE);
+        LEDs[4].setColor(Color.BLUE);
+
+        if (!isMuted) {
             speaker.on();
         } else {
             speaker.off();
@@ -128,7 +148,7 @@ public class NotificationSystem implements Updatable {
         }
 
         //if isMuted speaker is turned of else it is tuned on
-        if (!isMuted){
+        if (!isMuted) {
             speaker.on();
         } else {
             speaker.off();
@@ -216,6 +236,7 @@ public class NotificationSystem implements Updatable {
      *               running
      *               alert
      *               reverse
+     *               linefollower
      *               else: error
      */
     public void setStatus(String status) {
@@ -248,7 +269,7 @@ public class NotificationSystem implements Updatable {
     public void mute() {
 
         isMuted = !isMuted;
-        if ( !isMuted ){
+        if (!isMuted) {
             speaker.off();
         } else {
             speaker.on();

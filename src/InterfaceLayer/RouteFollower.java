@@ -63,9 +63,9 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
         //Here the Line follower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient
-        lineFollowerList.add(new LineFollower("leftSensor",2, this));
-        lineFollowerList.add(new LineFollower("middleSensor", 1,this));
-        lineFollowerList.add(new LineFollower("rightSensor", 0,this));
+        lineFollowerList.add(new LineFollower("leftSensor", 2, this));
+        lineFollowerList.add(new LineFollower("middleSensor", 1, this));
+        lineFollowerList.add(new LineFollower("rightSensor", 0, this));
 
     }
 
@@ -78,7 +78,7 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
         //First there is a check if the function is turned on or not, the function can be turned off in the override
         if (this.lineFollowerState) {
             motorControl.setSlowAccelerate(false);
-            if(timer1.timeout()) {
+            if (timer1.timeout()) {
                 for (LineFollower lineFollower : lineFollowerList) {
                     lineFollower.update();
 
@@ -99,10 +99,9 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
                         if (this.rightSensorStatus.equals("black")) {
 
 
-
                             if (t1.timeout()) {
 
-                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), this.counter2*(intervalTimer.timePassed())/this.adjustment);
+                                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), this.counter2 * (intervalTimer.timePassed()) / this.adjustment);
 
                                 this.motorControl.setMotorsTarget(this.followingSpeed, this.counter2);
 
@@ -114,16 +113,15 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
                             }
 
 
-
                         }
                         //If the left sensor detects a line it steers right
                         if (this.leftSensorStatus.equals("black")) {
 
-                                this.motorControl.setMotorsTarget(this.followingSpeed, -this.counter4);
+                            this.motorControl.setMotorsTarget(this.followingSpeed, -this.counter4);
 
 
                             if (t2.timeout()) {
-                                this.motorControl.setMotorsTarget(0.2f, -this.counter4*(intervalTimer.timePassed())/this.adjustment);
+                                this.motorControl.setMotorsTarget(0.2f, -this.counter4 * (intervalTimer.timePassed()) / this.adjustment);
 
                                 //The longer the middle sensor does not detect a line the more it will steer
                                 //again to ensure the Bot does not wiggle too much
@@ -141,7 +139,7 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
                     this.intervalTimer.restart();
 
-                    this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),0);
+                    this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), 0);
 
                     //When the middle line follower detects the line again the steering wil be set back to default
                     this.counter2 = 1f;
@@ -152,7 +150,7 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
 
                 t4.mark();
             }
-        }else {
+        } else {
             motorControl.setSlowAccelerate(true);
         }
     }
@@ -161,31 +159,43 @@ public class RouteFollower implements Updatable, Switchable,LineFollowerCallBack
      * If the update function is called the linefollower class wil callback to this method to update the
      * attributes
      */
-    public void onLineFollowerStatus(LineFollower lineFollower){
+    public void onLineFollowerStatus(LineFollower lineFollower) {
 
-        if(lineFollower.getSensorName().equals("leftSensor")){
+        if (lineFollower.getSensorName().equals("leftSensor")) {
             this.leftSensorStatus = lineFollower.getDetectedColor();
-        } else if(lineFollower.getSensorName().equals("middleSensor")){
+        } else if (lineFollower.getSensorName().equals("middleSensor")) {
             this.middleSensorStatus = lineFollower.getDetectedColor();
-        } else if(lineFollower.getSensorName().equals("rightSensor")){
+        } else if (lineFollower.getSensorName().equals("rightSensor")) {
             this.rightSensorStatus = lineFollower.getDetectedColor();
         }
 
     }
 
 
+    public boolean isLineFollowerState() {
+        return lineFollowerState;
+    }
+
+
+
     /**
      * If this function is called the attribute will trigger on
      */
-    public void turnOn(){
-
     @java.lang.Override
-    public void on() {
-        this.lineFollowerState = true;
+    public boolean isOn() {
+        return false;
     }
 
-    @java.lang.Override
-    public void off() {
-        this.lineFollowerState = false;
+        @java.lang.Override
+        public void on () {
+            this.lineFollowerState = true;
+        }
+
+        @java.lang.Override
+        public void off () {
+            this.lineFollowerState = false;
+        }
     }
-}
+
+
+
