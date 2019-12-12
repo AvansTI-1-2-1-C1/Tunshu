@@ -1,10 +1,12 @@
 package InterfaceLayer;
 
+import Utils.Enums.Directions;
+
 import java.util.ArrayList;
 
 public class Route {
 
-    private ArrayList<String> directions;
+    private ArrayList<Directions> directions;
     private int instructionCounter;
 
     public Route() {
@@ -12,21 +14,21 @@ public class Route {
         this.directions = new ArrayList<>();
     }
 
-    public ArrayList<String> getDirections() {
+    public ArrayList<Directions> getDirections() {
         return directions;
     }
 
-    public void setDirections(ArrayList<String> directions) {
+    public void setDirections(ArrayList<Directions> directions) {
         this.directions.addAll(directions);
         System.out.println(this.directions);//TODO
 
     }
 
-    public String getDirection(){
-        String direction = "";
+    public Directions getDirection(){
+        Directions direction;
         System.out.println(directions);//TODO
         if (this.directions.isEmpty()){
-            direction = "none";
+            direction = Directions.None;
         }else {
             direction = this.directions.get(0);
             directions.remove(0);

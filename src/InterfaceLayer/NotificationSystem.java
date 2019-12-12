@@ -101,7 +101,7 @@ public class NotificationSystem implements Updatable {
                 case Locked:
                     locked();
                     break;
-                default:
+                case Error:
                     error();
                     break;
             }
@@ -131,6 +131,7 @@ public class NotificationSystem implements Updatable {
             speaker.off();
         }
     }
+
 
     private void lineFollower() {
         LEDs[5].setColor(Color.white);

@@ -5,5 +5,6 @@ public enum Statuses {
     Alert,
     Reverse,
     Locked,
-    LineFollower
+    LineFollower,
+    Error
 }

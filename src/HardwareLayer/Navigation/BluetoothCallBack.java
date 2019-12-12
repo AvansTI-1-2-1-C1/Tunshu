@@ -1,5 +1,7 @@
 package HardwareLayer.Navigation;
 
+import Utils.Enums.DriveCommands;
+
 public interface BluetoothCallBack {
-    void onInput(String command);
+    void onInput(DriveCommands command);
 }
