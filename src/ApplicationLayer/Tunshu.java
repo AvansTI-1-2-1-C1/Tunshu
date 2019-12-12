@@ -4,6 +4,7 @@ import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
 import TI.Timer;
+import Utils.Enums.Directions;
 import Utils.Enums.Statuses;
 
 import java.util.ArrayList;
@@ -80,9 +81,10 @@ public class Tunshu {
     }
 
     public void setRoute() {
-        ArrayList<String> dir = new ArrayList<>();
-        dir.add("right");
-        dir.add("left");
+        ArrayList<Directions> dir = new ArrayList<>();
+        dir.add(Directions.Right);
+        dir.add(Directions.Forward);
+        dir.add(Directions.Left);
         this.route.setDirections(dir);
     }
 

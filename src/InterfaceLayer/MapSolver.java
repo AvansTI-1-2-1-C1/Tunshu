@@ -2,6 +2,8 @@ package InterfaceLayer;
 
 import HardwareLayer.Navigation.Intersection;
 import Utils.Enums.Directions;
+import Utils.Enums.WindDirections;
+import javafx.geometry.NodeOrientation;
 
 import java.util.ArrayList;
 
@@ -13,7 +15,7 @@ public class MapSolver {
      * @return insctructions on what to do by an intersection, this can be right, left, forward and back
      */
     public static ArrayList<Directions> mapSolver(Intersection[][] intersections) {
-        ArrayList<Character> directionsNESW = new ArrayList<>();
+        ArrayList<WindDirections> directionsNESW = new ArrayList<>();
         int x = 20;
         int y = 20;
         boolean exitFound = false;
@@ -48,16 +50,16 @@ public class MapSolver {
             }
 
             if (north < east && north < south && north < west) {
-                directionsNESW.add('N');
+                directionsNESW.add(WindDirections.North);
                 y++;
             } else if (east < north && east < south && east < west) {
-                directionsNESW.add('E');
+                directionsNESW.add(WindDirections.East);
                 x++;
             } else if (south < north && south < east && south < west) {
-                directionsNESW.add('S');
+                directionsNESW.add(WindDirections.South);
                 y--;
             } else if (west < north && west < east && west < south) {
-                directionsNESW.add('W');
+                directionsNESW.add(WindDirections.West);
                 x--;
             } else {
                 exitFound = true;
@@ -66,82 +68,82 @@ public class MapSolver {
         return driveMap(directionsNESW);
     }
 
-    public static ArrayList<Directions> driveMap(ArrayList<Character> directionsNESW) {
+    public static ArrayList<Directions> driveMap(ArrayList<WindDirections> directionsNESW) {
         ArrayList<Directions> directions = new ArrayList<>();
-        char facingDirection = 'N';
-        for (char direction : directionsNESW) {
-            if (facingDirection == 'N') {
-                if (direction == 'W') {
+        WindDirections facingDirection = WindDirections.North;
+        for (WindDirections direction : directionsNESW) {
+            if (facingDirection == WindDirections.North) {
+                if (direction == WindDirections.West) {
                     //turn left
                     directions.add(Directions.Left);
-                    facingDirection = 'W';
+                    facingDirection = WindDirections.West;
                     //wait for next intersection
-                } else if (direction == 'N') {
+                } else if (direction == WindDirections.North) {
                     //drive forward
                     directions.add(Directions.Forward);
                     //wait for next intersection
 
-                } else if (direction == 'E') {
+                } else if (direction == WindDirections.East) {
                     //turn right
                     directions.add(Directions.Right);
-                    facingDirection = 'E';
+                    facingDirection = WindDirections.East;
                     //wait for next intersection
 
                 }
-            } else if (facingDirection == 'E') {
-                if (direction == 'E') {
+            } else if (facingDirection == WindDirections.East) {
+                if (direction == WindDirections.East) {
                     //drive forward
                     directions.add(Directions.Forward);
                     //wait for next intersection
 
-                } else if (direction == 'S') {
+                } else if (direction == WindDirections.South) {
                     //turn right
                     directions.add(Directions.Right);
-                    facingDirection = 'S';
+                    facingDirection = WindDirections.South;
                     //wait for next intersection
 
-                } else if (direction == 'N') {
+                } else if (direction == WindDirections.North) {
                     //turn left
                     directions.add(Directions.Left);
-                    facingDirection = 'N';
+                    facingDirection = WindDirections.North;
                     //wait for next intersection
 
                 }
-            } else if (facingDirection == 'S') {
-                if (direction == 'S') {
+            } else if (facingDirection == WindDirections.South) {
+                if (direction == WindDirections.South) {
                     //drive forward
-                    directions.add("forward");
+                    directions.add(Directions.Forward);
                     //wait for next intersection
 
-                } else if (direction == 'W') {
+                } else if (direction == WindDirections.West) {
                     //turn right
-                    directions.add("right");
-                    facingDirection = 'W';
+                    directions.add(Directions.Right);
+                    facingDirection = WindDirections.West;
                     //wait for next intersection
 
-                } else if (direction == 'E') {
+                } else if (direction == WindDirections.East) {
                     //turn left
-                    directions.add("left");
-                    facingDirection = 'E';
+                    directions.add(Directions.Left);
+                    facingDirection = WindDirections.East;
                     //wait for next intersection
 
                 }
-            } else if (facingDirection == 'W') {
-                if (direction == 'W') {
+            } else if (facingDirection == WindDirections.West) {
+                if (direction == WindDirections.West) {
                     //drive forward
-                    directions.add("forward");
+                    directions.add(Directions.Forward);
                     //wait for next intersection
 
-                } else if (direction == 'N') {
+                } else if (direction == WindDirections.North) {
                     //turn right
-                    directions.add("right");
-                    facingDirection = 'N';
+                    directions.add(Directions.Right);
+                    facingDirection = WindDirections.North;
                     //wait for next intersection
 
-                } else if (direction == 'S') {
+                } else if (direction == WindDirections.South) {
                     //turn left
-                    directions.add("left");
-                    facingDirection = 'S';
+                    directions.add(Directions.Left);
+                    facingDirection = WindDirections.South;
                     //wait for next intersection
 
                 }
