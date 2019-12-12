@@ -23,7 +23,7 @@ public class Tunshu {
         //initialise every object
         init();
 
-        setRoute();
+//        setRoute();
 
         /**
          * detection loop
@@ -40,7 +40,6 @@ public class Tunshu {
                 hitDetectionTimer.mark();
             }
 
-            //wait so it is less CPU heavy
             if(notificationTimer.timeout()) {
                 if (hitDetection.getState()) {
                     notificationSystem.setStatus("alert", true);
@@ -82,7 +81,7 @@ public class Tunshu {
         this.updatables.add(this.motorControl);
     }
 
-    public void setRoute(){
+    public void setRoute() {
         ArrayList<String> dir = new ArrayList<>();
         dir.add("right");
         dir.add("left");

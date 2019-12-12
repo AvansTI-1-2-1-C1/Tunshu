@@ -186,5 +186,9 @@ public class MotorControl implements Updatable {
     public void setSlowAccelerate(boolean slowAccelerate) {
         this.slowAccelerate = slowAccelerate;
     }
+
+    public boolean isHandBreak() {
+        return handBreak;
+    }
 }
 

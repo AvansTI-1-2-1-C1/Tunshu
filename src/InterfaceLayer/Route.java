@@ -18,7 +18,7 @@ public class Route {
 
     public void setDirections(ArrayList<String> directions) {
         this.directions.addAll(directions);
-        System.out.println(this.directions);
+        System.out.println(this.directions);//TODO
 
     }
 
