@@ -5,9 +5,10 @@ import HardwareLayer.Notification.Speaker;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
-import Utils.OnOffTimer;
+import Utils.Enums.Statuses;
 
 import java.awt.*;
+
 
 public class NotificationSystem implements Updatable {
     /**
@@ -20,7 +21,7 @@ public class NotificationSystem implements Updatable {
 
     private LED[] LEDs;
     private Speaker speaker;
-    private String status;
+    private Statuses status;
     private Timer blinkTimer;
     private boolean lightSwitch;
     private Timer reverseTimer;
@@ -49,7 +50,7 @@ public class NotificationSystem implements Updatable {
         this.speaker = new Speaker();
 
         //set status to 0
-        this.status = "running";
+        this.status = Statuses.Running;
 
         //reSetStatusTimer for how long the lights are on and off
         blinkTimer = new Timer(100);
@@ -81,24 +82,23 @@ public class NotificationSystem implements Updatable {
         //update the speaker
         speaker.update();
 
-
         //switch that selects which method needs to be run
         if (statusSwitchTimer.timeout()){
 
             switch (status) {
-                case "running":
+                case Running:
                     running();
                     break;
-                case "alert":
+                case Alert:
                     alert();
                     break;
-                case "reverse":
+                case Reverse:
                     reverse();
                     break;
-                case "lineFollower":
+                case LineFollower:
                     lineFollower();
                     break;
-                case "locked":
+                case Locked:
                     locked();
                     break;
                 default:
@@ -266,7 +266,7 @@ public class NotificationSystem implements Updatable {
      */
     private Timer reSetStatusTimer = new Timer(200);
 
-    public void setStatus(String status,boolean emergency) {
+    public void setStatus(Statuses status, boolean emergency) {
         if (emergency){
             this.status = status;
         }else if (reSetStatusTimer.timeout()){
@@ -308,7 +308,7 @@ public class NotificationSystem implements Updatable {
         }
     }
 
-    public String getStatus() {
+    public Statuses getStatus() {
         return status;
     }
 }

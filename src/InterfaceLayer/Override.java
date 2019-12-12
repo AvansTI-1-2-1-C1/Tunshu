@@ -6,6 +6,7 @@ import HardwareLayer.RemoteControlCallBack;
 import HardwareLayer.Navigation.BluetoothCallBack;
 import HeadInterfaces.Updatable;
 import TI.Timer;
+import Utils.Enums.Statuses;
 
 
 public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack {
@@ -128,7 +129,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 //Boebot gaat achteruit
                 System.out.println("backward");
                 this.selectedCommand = "backward";
-                notificationSystem.setStatus("reverse", false);
+                notificationSystem.setStatus(Statuses.Reverse, false);
                 break;
 
             case 3216:
