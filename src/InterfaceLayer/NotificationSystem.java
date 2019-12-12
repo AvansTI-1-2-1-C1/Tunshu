@@ -83,25 +83,22 @@ public class NotificationSystem implements Updatable {
 
 
         //switch that selects which method needs to be run
-        if (statusSwitchTimer.timeout()){
-
-            switch (status) {
-                case "running":
-                    running();
-                    break;
-                case "alert":
-                    alert();
-                    break;
-                case "reverse":
-                    reverse();
-                    break;
-                case "lineFollower":
-                    lineFollower();
-                    break;
-                default:
-                    error();
-                    break;
-            }
+        switch (status) {
+            case "running":
+                this.running();
+                break;
+            case "alert":
+                this.alert();
+                break;
+            case "reverse":
+                this.reverse();
+                break;
+            case "lineFollower":
+                this.lineFollower();
+                break;
+            default:
+                this.error();
+                break;
         }
 
     }

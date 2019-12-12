@@ -11,14 +11,20 @@ import TI.Timer;
 public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack {
 
     private RemoteControl remoteControl;
+
     private Bluetooth bluetooth;
 
     private String selectedCommand;
     private String previousCommand;
+
     private MotorControl motorControl;
+
     private NotificationSystem notificationSystem;
+
     private Timer inputDelay;
+
     private HitDetection hitDetection;
+
     private RouteFollower routeFollower;
 
     public Override(MotorControl motorControl, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower) {

@@ -16,6 +16,7 @@ public class Tunshu {
     private RouteFollower routeFollower;
     private ArrayList<Updatable> updatables;
     private Timer hitDetectionTimer;
+    private Timer notificationTimer;
 
 
     public void start() {
@@ -39,19 +40,24 @@ public class Tunshu {
                 hitDetectionTimer.mark();
             }
 
-            if (hitDetection.getState()) {
-                notificationSystem.setStatus("alert",true);
-                motorControl.setHandBreak(true);
-                notificationSystem.update();
-            } else if (motorControl.isDrivingBackward()) {
-                notificationSystem.setStatus("reverse",false);
-                notificationSystem.update();
-            } else if (routeFollower.isLineFollowerState()) {
-                notificationSystem.setStatus("lineFollower",false);
-                notificationSystem.update();
-            } else {
-                notificationSystem.setStatus("running",false);
-                notificationSystem.update();
+            //wait so it is less CPU heavy
+            if(notificationTimer.timeout()) {
+                if (hitDetection.getState()) {
+                    notificationSystem.setStatus("alert", true);
+                    motorControl.setHandBreak(true);
+                    notificationSystem.update();
+                } else if (motorControl.isDrivingBackward()) {
+                    notificationSystem.setStatus("reverse", false);
+                    notificationSystem.update();
+                } else if (routeFollower.isLineFollowerState()) {
+                    notificationSystem.setStatus("lineFollower", false);
+                    notificationSystem.update();
+                } else {
+
+                    notificationSystem.setStatus("running", false);
+                    notificationSystem.update();
+                }
+                notificationTimer.mark();
             }
         }
     }
@@ -67,6 +73,7 @@ public class Tunshu {
         this.notificationSystem = new NotificationSystem();
         this.override = new Override(this.motorControl, this.notificationSystem, this.hitDetection, this.routeFollower);
         this.hitDetectionTimer = new Timer(50);
+        this.notificationTimer = new Timer(100);
 
         this.updatables = new ArrayList<>();
         this.updatables.add(this.override);
