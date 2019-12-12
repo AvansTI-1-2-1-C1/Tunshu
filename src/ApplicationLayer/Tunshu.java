@@ -22,7 +22,7 @@ public class Tunshu {
         //initialise every object
         init();
 
-        setRoute();
+//        setRoute();
 
         /**
          * detection loop

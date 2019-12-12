@@ -47,7 +47,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         //switch statement that selects the corresponding method
         switch (selectedCommand) {
             case "forward":
-                System.out.println("forward");
                 this.motorControl.setMotorsTarget(0.2f, 0f);
                 break;
             case "backward":
@@ -89,6 +88,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
         }
 
+        if (!selectedCommand.isEmpty()){
+            routeFollower.off();
+        }
+        
         this.inputDelay.mark();
         this.selectedCommand = "";
     }
