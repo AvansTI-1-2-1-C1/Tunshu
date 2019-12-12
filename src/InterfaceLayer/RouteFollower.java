@@ -4,6 +4,7 @@ import HardwareLayer.Navigation.LineFollower;
 import HardwareLayer.Navigation.LineFollowerCallBack;
 import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
+import TI.BoeBot;
 import TI.Timer;
 import Utils.IntervalTimer;
 import Utils.OnOffTimer;
@@ -169,6 +170,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         } else if (isTurning) {
             //if the bot is currently turning to another direction on a line grid, you only have to update
             //the routefollower to update the timers and checking for the turning part
+            motorControl.setSlowAccelerate(false);
             if (intersectionTimer.timeout()) {
                 switch (this.currentlyTurningDirection) {
                     case "left":

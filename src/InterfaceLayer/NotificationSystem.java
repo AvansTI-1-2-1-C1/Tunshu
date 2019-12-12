@@ -118,6 +118,9 @@ public class NotificationSystem implements Updatable {
     }
 
     private void lineFollower() {
+        for (LED led : LEDs){
+            led.on();
+        }
         LEDs[5].setColor(Color.white);
         LEDs[3].setColor(Color.white);
 
