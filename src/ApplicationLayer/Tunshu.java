@@ -16,6 +16,7 @@ public class Tunshu {
     private Route route;
     private RouteFollower routeFollower;
     private ArrayList<Updatable> updatables;
+    private Timer hitDetectionTimer;
 
 
     public void start() {
@@ -28,7 +29,6 @@ public class Tunshu {
          * detection loop
          */
         while (true) {
-            Timer hitDetectionTimer = new Timer(50);
             //updates
             for (Updatable updatable : this.updatables) {
                 updatable.update();
@@ -70,9 +70,11 @@ public class Tunshu {
         this.routeFollower = new RouteFollower(this.motorControl, this.route);
         this.notificationSystem = new NotificationSystem();
         this.override = new Override(this.motorControl, this.notificationSystem, this.hitDetection, this.routeFollower);
+        this.hitDetectionTimer = new Timer(50);
+
         this.updatables = new ArrayList<>();
-        this.updatables.add(this.hitDetection);
         this.updatables.add(this.override);
+        this.updatables.add(this.hitDetection);
         this.updatables.add(this.routeFollower);
         this.updatables.add(this.motorControl);
     }

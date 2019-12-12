@@ -47,6 +47,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         //switch statement that selects the corresponding method
         switch (selectedCommand) {
             case "forward":
+                System.out.println("forward");
                 this.motorControl.setMotorsTarget(0.2f, 0f);
                 break;
             case "backward":
@@ -101,14 +102,14 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     @java.lang.Override
     public void onButtonPress(int buttonPress) {
-        //TODO make something covert to selectedCommand
+        System.out.println(buttonPress);
         switch (buttonPress) {
             case 0:
                 break;
 
             case 1:
                 System.out.println("Stop");
-                this.selectedCommand = "stop";
+                this.selectedCommand = "brake";
                 break;
 
             case 144:
@@ -139,7 +140,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
             case 2704:
                 //Stop
                 System.out.println("Fullstop");
-                this.selectedCommand = "stop";
+                this.selectedCommand = "handbreak";
                 break;
 
             case 1936:

@@ -67,7 +67,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
         this.route = route;
 
-        this.lineFollowerState = true;
+        this.lineFollowerState = false;
 
         this.isTurning = false;
 
@@ -162,7 +162,6 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
                     this.counter4 = 0.2f;
 
                 }
-                //TODO wrm doe je dit
                 if (this.rightSensorStatus.equals("black") && this.middleSensorStatus.equals("black") && this.leftSensorStatus.equals("black")) {
                     correctingDelayTimer.mark();
                 }

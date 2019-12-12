@@ -24,6 +24,7 @@ public class NotificationSystem implements Updatable {
     private boolean lightSwitch;
     private Timer reverseTimer;
     private boolean isMuted;
+    private Timer ledUpdateTimer;
 
     /**
      * we call initialise notification system so all the objects and variables are set right
@@ -63,13 +64,17 @@ public class NotificationSystem implements Updatable {
         //boolean to know if the speaker has to be muted
         isMuted = true;
 
+        ledUpdateTimer = new Timer(100);
     }
 
 
     @java.lang.Override
     public void update() {
         //update all the leds
-        BoeBot.rgbShow();
+        if (ledUpdateTimer.timeout()){
+            BoeBot.rgbShow();
+//            System.out.println(status);
+        }
         //update the speaker
         speaker.update();
 
@@ -121,6 +126,7 @@ public class NotificationSystem implements Updatable {
         for (LED led : LEDs){
             led.on();
         }
+
         LEDs[5].setColor(Color.white);
         LEDs[3].setColor(Color.white);
 
@@ -242,7 +248,7 @@ public class NotificationSystem implements Updatable {
      *               else: error
      */
     public void setStatus(String status,boolean emergency) {
-        Timer timer = new Timer(500);
+        Timer timer = new Timer(200);
         if (emergency){
             this.status = status;
         }else if (timer.timeout()){
