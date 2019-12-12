@@ -10,7 +10,8 @@ import TI.Timer;
 
 public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack {
 
-    private RemoteControl remoteControl;
+    private RemoteControl remoteControlFront;
+    private RemoteControl remoteControlBack;
     private Bluetooth bluetooth;
 
     private String selectedCommand;
@@ -22,7 +23,8 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private RouteFollower routeFollower;
 
     public Override(MotorControl motorControl, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower) {
-        this.remoteControl = new RemoteControl(this);
+        this.remoteControlFront = new RemoteControl(this, 0);
+        this.remoteControlBack = new RemoteControl(this, 4);
         this.motorControl = motorControl;
         this.bluetooth = new Bluetooth(this);
         this.notificationSystem = notificationSystem;
@@ -45,7 +47,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
 
         //switch statement that selects the corresponding method
-        switch (selectedCommand) {
+        switch (this.selectedCommand) {
             case "forward":
                 this.motorControl.setMotorsTarget(0.2f, 0f);
                 break;
@@ -95,7 +97,8 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     @java.lang.Override
     public void update() {
-        this.remoteControl.update();
+        this.remoteControlFront.update();
+        this.remoteControlBack.update();
         this.bluetooth.update();
         useButton();
     }
