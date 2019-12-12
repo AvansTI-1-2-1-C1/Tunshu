@@ -98,6 +98,9 @@ public class NotificationSystem implements Updatable {
                 case "lineFollower":
                     lineFollower();
                     break;
+                case "locked":
+                    locked();
+                    break;
                 default:
                     error();
                     break;
@@ -130,10 +133,6 @@ public class NotificationSystem implements Updatable {
     }
 
     private void lineFollower() {
-        for (LED led : LEDs){
-            led.on();
-        }
-
         LEDs[5].setColor(Color.white);
         LEDs[3].setColor(Color.white);
 
@@ -242,6 +241,17 @@ public class NotificationSystem implements Updatable {
         }
 
 
+    }
+
+    private void locked(){
+        LEDs[5].setColor(Color.white);
+        LEDs[3].setColor(Color.white);
+
+        LEDs[0].setColor(155, 0, 0);
+        LEDs[2].setColor(155, 0, 0);
+
+        LEDs[1].setColor(Color.yellow);
+        LEDs[4].setColor(Color.yellow);
     }
 
     /**

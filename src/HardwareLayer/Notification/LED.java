@@ -45,6 +45,7 @@ public class LED implements Updatable, Switchable {
      * @param color
      */
     public void setColor(Color color) {
+        on();
         BoeBot.rgbSet(number, color);
     }
 
@@ -55,6 +56,7 @@ public class LED implements Updatable, Switchable {
      * @param blue
      */
     public void setColor(int red, int green, int blue) {
+        on();
         BoeBot.rgbSet(number, red,green,blue);
     }
 }

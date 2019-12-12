@@ -40,17 +40,20 @@ public class Tunshu {
             }
 
             if (hitDetection.getState()) {
-                notificationSystem.setStatus("alert",true);
+                notificationSystem.setStatus("alert", true);
                 motorControl.setHandBreak(true);
                 notificationSystem.update();
+            } else if (motorControl.isHandBreak()) {
+                notificationSystem.setStatus("locked", false);
+                notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
-                notificationSystem.setStatus("reverse",false);
+                notificationSystem.setStatus("reverse", false);
                 notificationSystem.update();
             } else if (routeFollower.isLineFollowerState()) {
-                notificationSystem.setStatus("lineFollower",false);
+                notificationSystem.setStatus("lineFollower", false);
                 notificationSystem.update();
             } else {
-                notificationSystem.setStatus("running",false);
+                notificationSystem.setStatus("running", false);
                 notificationSystem.update();
             }
         }
@@ -75,7 +78,7 @@ public class Tunshu {
         this.updatables.add(this.motorControl);
     }
 
-    public void setRoute(){
+    public void setRoute() {
         ArrayList<String> dir = new ArrayList<>();
         dir.add("right");
         dir.add("left");
