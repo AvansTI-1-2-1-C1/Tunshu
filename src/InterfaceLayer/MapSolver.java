@@ -1,6 +1,7 @@
 package InterfaceLayer;
 
 import HardwareLayer.Navigation.Intersection;
+import Utils.Enums.Directions;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class MapSolver {
      * @param intersections
      * @return insctructions on what to do by an intersection, this can be right, left, forward and back
      */
-    public static ArrayList<String> mapSolver(Intersection[][] intersections) {
+    public static ArrayList<Directions> mapSolver(Intersection[][] intersections) {
         ArrayList<Character> directionsNESW = new ArrayList<>();
         int x = 20;
         int y = 20;
@@ -65,24 +66,24 @@ public class MapSolver {
         return driveMap(directionsNESW);
     }
 
-    public static ArrayList<String> driveMap(ArrayList<Character> directionsNESW) {
-        ArrayList<String> directions = new ArrayList<>();
+    public static ArrayList<Directions> driveMap(ArrayList<Character> directionsNESW) {
+        ArrayList<Directions> directions = new ArrayList<>();
         char facingDirection = 'N';
         for (char direction : directionsNESW) {
             if (facingDirection == 'N') {
                 if (direction == 'W') {
                     //turn left
-                    directions.add("left");
+                    directions.add(Directions.Left);
                     facingDirection = 'W';
                     //wait for next intersection
                 } else if (direction == 'N') {
                     //drive forward
-                    directions.add("forward");
+                    directions.add(Directions.Forward);
                     //wait for next intersection
 
                 } else if (direction == 'E') {
                     //turn right
-                    directions.add("right");
+                    directions.add(Directions.Right);
                     facingDirection = 'E';
                     //wait for next intersection
 
@@ -90,18 +91,18 @@ public class MapSolver {
             } else if (facingDirection == 'E') {
                 if (direction == 'E') {
                     //drive forward
-                    directions.add("forward");
+                    directions.add(Directions.Forward);
                     //wait for next intersection
 
                 } else if (direction == 'S') {
                     //turn right
-                    directions.add("right");
+                    directions.add(Directions.Right);
                     facingDirection = 'S';
                     //wait for next intersection
 
                 } else if (direction == 'N') {
                     //turn left
-                    directions.add("left");
+                    directions.add(Directions.Left);
                     facingDirection = 'N';
                     //wait for next intersection
 

@@ -4,6 +4,7 @@ import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
 import TI.Timer;
+import Utils.Enums.Statuses;
 
 import java.util.ArrayList;
 
@@ -40,20 +41,20 @@ public class Tunshu {
             }
 
             if (hitDetection.getState()) {
-                notificationSystem.setStatus("alert", true);
+                notificationSystem.setStatus(Statuses.Alert, true);
                 motorControl.setHandBreak(true);
                 notificationSystem.update();
             } else if (motorControl.isHandBreak()) {
-                notificationSystem.setStatus("locked", false);
+                notificationSystem.setStatus(Statuses.Reverse, false);
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
-                notificationSystem.setStatus("reverse", false);
+                notificationSystem.setStatus(Statuses.Reverse, false);
                 notificationSystem.update();
             } else if (routeFollower.isLineFollowerState()) {
-                notificationSystem.setStatus("lineFollower", false);
+                notificationSystem.setStatus(Statuses.LineFollower, false);
                 notificationSystem.update();
             } else {
-                notificationSystem.setStatus("running", false);
+                notificationSystem.setStatus(Statuses.Running, false);
                 notificationSystem.update();
             }
         }
