@@ -3,7 +3,6 @@ package ApplicationLayer;
 import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
-import TI.BoeBot;
 import TI.Timer;
 
 import java.util.ArrayList;
@@ -40,9 +39,6 @@ public class Tunshu {
                 hitDetectionTimer.mark();
             }
 
-            //wait so it is less CPU heavy
-            BoeBot.wait(2);
-
             if (hitDetection.getState()) {
                 notificationSystem.setStatus("alert",true);
                 motorControl.setHandBreak(true);
@@ -56,7 +52,9 @@ public class Tunshu {
             } else {
                 notificationSystem.setStatus("running",false);
                 notificationSystem.update();
+                System.out.println("going to running");
             }
+            System.out.println(notificationSystem.getStatus());
         }
     }
 

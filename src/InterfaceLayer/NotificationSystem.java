@@ -5,6 +5,7 @@ import HardwareLayer.Notification.Speaker;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
+import Utils.OnOffTimer;
 
 import java.awt.*;
 
@@ -25,6 +26,7 @@ public class NotificationSystem implements Updatable {
     private Timer reverseTimer;
     private boolean isMuted;
     private Timer ledUpdateTimer;
+    private Timer statusSwitchTimer;
 
     /**
      * we call initialise notification system so all the objects and variables are set right
@@ -49,9 +51,9 @@ public class NotificationSystem implements Updatable {
         //set status to 0
         this.status = "running";
 
-        //timer for how long the lights are on and off
+        //reSetStatusTimer for how long the lights are on and off
         blinkTimer = new Timer(100);
-        //timer for the length of the beeps and lights when reversing
+        //reSetStatusTimer for the length of the beeps and lights when reversing
         reverseTimer = new Timer(500);
 
         //starts the timers
@@ -65,6 +67,7 @@ public class NotificationSystem implements Updatable {
         isMuted = true;
 
         ledUpdateTimer = new Timer(100);
+        statusSwitchTimer = new Timer(200);
     }
 
 
@@ -73,28 +76,32 @@ public class NotificationSystem implements Updatable {
         //update all the leds
         if (ledUpdateTimer.timeout()){
             BoeBot.rgbShow();
-//            System.out.println(status);
+            ledUpdateTimer.mark();
         }
         //update the speaker
         speaker.update();
 
+
         //switch that selects which method needs to be run
-        switch (status) {
-            case "running":
-                running();
-                break;
-            case "alert":
-                alert();
-                break;
-            case "reverse":
-                reverse();
-                break;
-            case "lineFollower":
-                lineFollower();
-                break;
-            default:
-                error();
-                break;
+        if (statusSwitchTimer.timeout()){
+
+            switch (status) {
+                case "running":
+                    running();
+                    break;
+                case "alert":
+                    alert();
+                    break;
+                case "reverse":
+                    reverse();
+                    break;
+                case "lineFollower":
+                    lineFollower();
+                    break;
+                default:
+                    error();
+                    break;
+            }
         }
 
     }
@@ -188,7 +195,7 @@ public class NotificationSystem implements Updatable {
                 speaker.off();
             }
 
-            //start the timer again
+            //start the reSetStatusTimer again
             blinkTimer.mark();
         }
     }
@@ -247,13 +254,14 @@ public class NotificationSystem implements Updatable {
      *               lineFollower
      *               else: error
      */
+    private Timer reSetStatusTimer = new Timer(200);
+
     public void setStatus(String status,boolean emergency) {
-        Timer timer = new Timer(200);
         if (emergency){
             this.status = status;
-        }else if (timer.timeout()){
+        }else if (reSetStatusTimer.timeout()){
             this.status = status;
-            timer.mark();
+            reSetStatusTimer.mark();
         }
     }
 
@@ -288,5 +296,9 @@ public class NotificationSystem implements Updatable {
         } else {
             speaker.on();
         }
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

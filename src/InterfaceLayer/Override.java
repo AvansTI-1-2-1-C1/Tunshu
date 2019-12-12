@@ -108,50 +108,50 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
 
             case 1:
-                System.out.println("Stop");
+                System.out.println("brake");
                 this.selectedCommand = "brake";
                 break;
 
             case 144:
                 // Boebot gaat vooruit
-                System.out.println("Vooruit");
+                System.out.println("forward");
                 this.selectedCommand = "forward";
                 break;
 
             case 2192:
                 //Boebot gaat achteruit
-                System.out.println("Reverse");
+                System.out.println("backward");
                 this.selectedCommand = "backward";
                 notificationSystem.setStatus("reverse", false);
                 break;
 
             case 3216:
                 //Boebot turns left
-                System.out.println("Links");
+                System.out.println("left");
                 this.selectedCommand = "left";
                 break;
 
             case 1168:
                 //Boebot turns right
-                System.out.println("Rechts");
+                System.out.println("right");
                 this.selectedCommand = "right";
                 break;
 
             case 2704:
                 //Stop
-                System.out.println("Fullstop");
+                System.out.println("handbreak");
                 this.selectedCommand = "handbreak";
                 break;
 
             case 1936:
                 //Faster
-                System.out.println("Sneller");
+                System.out.println("faster");
                 this.selectedCommand = "faster";
                 break;
 
             case 3984:
                 //Slower
-                System.out.println("Langzamer");
+                System.out.println("slower");
                 this.selectedCommand = "slower";
                 break;
 

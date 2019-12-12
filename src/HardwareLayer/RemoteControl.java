@@ -7,7 +7,6 @@ import InterfaceLayer.NotificationSystem;
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;
     private RemoteControlCallBack remoteControlCallBack;
-    private NotificationSystem notificationSystem;
 
 
     public RemoteControl(RemoteControlCallBack remoteControlCallBack) {
@@ -17,12 +16,12 @@ public class RemoteControl implements Updatable, Switchable {
     public void update() {
 
         int pin = 0;
-        int binaryInput[] = new int[12];
+        int[] binaryInput = new int[12];
         int pulseLen = BoeBot.pulseIn(pin, false, 6000);
 
         // if the puls length is longer then 2000 its the starting bit.
         if (pulseLen > 2000) {
-            int lengths[] = new int[12];
+            int[] lengths = new int[12];
 
             // fill 12 slots of the array in reversed order.
             for (int i = 11; i >= 0; i--) {
