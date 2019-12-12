@@ -110,11 +110,9 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     @java.lang.Override
     public void onButtonPress(int buttonPress) {
-        System.out.println(buttonPress);
         switch (buttonPress) {
             case 0:
                 break;
-
             case 1:
                 System.out.println("brake");
                 this.selectedCommand = "brake";
@@ -174,7 +172,26 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 System.out.println("LineFollower");
                 this.selectedCommand = "LineFollower";
                 break;
-
+            case 2640:
+                //A-B button
+                System.out.println("AB");
+                break;
+            case 2064:
+                //button 2
+                System.out.println("Button 2");
+                break;
+            case 1040:
+                //button 3
+                System.out.println("Button 3");
+            case 3088:
+                //button 4
+                break;
+            case 7480:
+                //enter
+                break;
+            case 464:
+                //vierkantje
+                break;
             default:
                 break;
         }
