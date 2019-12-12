@@ -3,6 +3,7 @@ package HardwareLayer.Navigation;
 import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.SerialConnection;
+import Utils.Enums.DriveCommands;
 
 public class Bluetooth implements Updatable, Switchable {
     private boolean isOn;
@@ -29,47 +30,47 @@ public class Bluetooth implements Updatable, Switchable {
             switch (data){
                 //Forward(w)
                 case 119:
-                    bluetoothCallBack.onInput("forward");
+                    bluetoothCallBack.onInput(DriveCommands.Forward);
                     break;
                 //Backwards(s)
                 case 115:
-                    bluetoothCallBack.onInput("backward");
+                    bluetoothCallBack.onInput(DriveCommands.Backward);
                     break;
                 //Left(a)
                 case 97:
-                    bluetoothCallBack.onInput("left");
+                    bluetoothCallBack.onInput(DriveCommands.Left);
                     break;
                 //Right(d)
                 case 100:
-                    bluetoothCallBack.onInput("right");
+                    bluetoothCallBack.onInput(DriveCommands.Right);
                     break;
-                //Handbreak(space)
+                //Handbrake(space)
                 case 32:
-                    bluetoothCallBack.onInput("brake");
+                    bluetoothCallBack.onInput(DriveCommands.Brake);
                     break;
                 //Faster(e)
                 case 101:
-                    bluetoothCallBack.onInput("faster");
+                    bluetoothCallBack.onInput(DriveCommands.Faster);
                     break;
                 //Slower(q)
                 case 113:
-                    bluetoothCallBack.onInput("slower");
+                    bluetoothCallBack.onInput(DriveCommands.Slower);
                     break;
                 //Mute(m)
                 case 109:
-                    bluetoothCallBack.onInput("mute");
+                    bluetoothCallBack.onInput(DriveCommands.Mute);
                     break;
                 //LineFollower(r)
                 case 114:
-                    bluetoothCallBack.onInput("LineFollower");
+                    bluetoothCallBack.onInput(DriveCommands.LineFollower);
                     break;
                 //Hand break(h)
                 case 104:
-                    bluetoothCallBack.onInput("handbreak");
+                    bluetoothCallBack.onInput(DriveCommands.Handbrake);
                     break;
                 //All other keys
                 default:
-                    bluetoothCallBack.onInput("");
+                    bluetoothCallBack.onInput(DriveCommands.None);
                     break;
             }
         }
