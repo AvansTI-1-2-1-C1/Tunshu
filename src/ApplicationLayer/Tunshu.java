@@ -52,9 +52,7 @@ public class Tunshu {
             } else {
                 notificationSystem.setStatus("running",false);
                 notificationSystem.update();
-                System.out.println("going to running");
             }
-            System.out.println(notificationSystem.getStatus());
         }
     }
 
