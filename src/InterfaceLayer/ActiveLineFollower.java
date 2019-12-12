@@ -83,6 +83,14 @@ public class ActiveLineFollower implements Updatable, LineFollowerCallBack {
         }
     }
 
+    public boolean isLineFollowerState() {
+        return lineFollowerState;
+    }
+
+    public void setLineFollowerState(boolean lineFollowerState) {
+        this.lineFollowerState = lineFollowerState;
+    }
+
     /**
      *callback from the line followers to update the line position
      * @param lineFollower

@@ -3,6 +3,7 @@ package InterfaceLayer;
 import HardwareLayer.Motor;
 import HeadInterfaces.Updatable;
 import TI.Timer;
+import Utils.Enums.DriveCommands;
 
 public class MotorControl implements Updatable {
 
@@ -141,21 +142,21 @@ public class MotorControl implements Updatable {
         motorRight.update(motorRightSpeed, true);
     }
 
-    public void rotate(String direction){
+    public void rotate(DriveCommands direction){
         switch (direction){
-            case "right":
+            case Right:
                 //turn 90 degrees right
                 motorLeft.update(.3f, false);
                 motorRight.update(.3f, false);
 
                 break;
-            case "left":
+            case Left:
                 //turn 90 degrees left
                 motorLeft.update(.3f, true);
                 motorRight.update(.3f, true);
 
                 break;
-            case "forward":
+            case Forward:
                 // drive straight
                 motorLeft.update(0.3f, false);
                 motorRight.update(0.3f, true);

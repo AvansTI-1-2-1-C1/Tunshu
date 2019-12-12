@@ -16,8 +16,8 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private RemoteControl remoteControlBack;
     private Bluetooth bluetooth;
 
-    private String selectedCommand;
-    private String previousCommand;
+    private DriveCommands selectedCommand;
+    private DriveCommands previousCommand;
 
     private MotorControl motorControl;
 

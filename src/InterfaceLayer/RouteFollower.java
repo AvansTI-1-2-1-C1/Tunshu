@@ -6,7 +6,9 @@ import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
+import Utils.Enums.DriveCommands;
 import Utils.Enums.LineFollowerValue;
+import Utils.Enums.WindDirections;
 import Utils.IntervalTimer;
 import Utils.OnOffTimer;
 
@@ -24,7 +26,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
     private Timer turningTimer;
     private Timer intersectionTimer;
 
-    private String currentlyTurningDirection;
+    private DriveCommands currentlyTurningDirection;
 
 
     private boolean isTurning;
@@ -56,17 +58,6 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
 
     public RouteFollower(MotorControl motorControl, Route route) {
-
-//        this.t1 = new Timer(20);
-//        this.t2 = new Timer(20);
-//        this.t3 = new Timer(30);
-        this.correctingDelayTimer = new Timer(30);
-        this.updateDelayTimer = new Timer(10);
-
-        this.turningTimer = new Timer(500);
-
-        this.intersectionTimer = new Timer(200);
-
         this.route = route;
 
         this.lineFollowerState = false;
@@ -80,23 +71,12 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         this.fellOffLeft = false;
         this.fellOffRight = false;
 
-        //Here the motor control wil be implemented
         this.motorControl = motorControl;
 
         this.intervalTimer = new IntervalTimer();
 
-        //To use some of the methods to drive forward easy we associate the drive class
-        this.counter2 = 0.1f;
-        this.counter4 = 0.1f;
-
-//        this.followingSpeed = 0.3f;
-
-//        this.adjustment = 800;
 
         lineFollowerList = new ArrayList<>();
-
-        this.currentlyTurningDirection = "none";
-
 
         //Here the Line follower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient
@@ -120,12 +100,13 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         }
 
         if (this.hasHitIntersection() && !this.isTurning && this.isFollowingRoute) {
-            this.currentlyTurningDirection = this.route.getDirection();
+            //this.currentlyTurningDirection = this.route.getDirection();
             this.isTurning = true;
             this.lineFollowerState = false;
             this.intersectionTimer.mark();
         }
-        if (this.rightSensorStatus.equals("black") && this.middleSensorStatus.equals("black") && this.leftSensorStatus.equals("black")) {
+
+        if (this.hasHitIntersection()) {
             correctingDelayTimer.mark();
         }
 
@@ -133,8 +114,8 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
 
     private void turn() {
-        this.motorControl.rotate(this.currentlyTurningDirection);
 
+       this.motorControl.rotate(this.currentlyTurningDirection);
 
         if (this.leftSensorStatus.equals("white") && this.middleSensorStatus.equals("white") && this.rightSensorStatus.equals("white")) {
             this.hasSeenWhite = true;
@@ -142,7 +123,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
         if (this.hasSeenWhite && this.middleSensorStatus.equals("black")) {
             motorControl.setMotorsTarget(0, 0);
-            this.currentlyTurningDirection = "none";
+            this.currentlyTurningDirection = DriveCommands.None;
             this.lineFollowerState = true;
             this.isTurning = false;
             this.hasSeenWhite = false;
@@ -166,24 +147,11 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
     }
 
     public boolean hasHitIntersection() {
-        return (this.rightSensorStatus.equals("black") && this.middleSensorStatus.equals("black") && this.leftSensorStatus.equals("black"));
+        return (this.middleSensorStatus == LineFollowerValue.Black &&
+                this.leftSensorStatus == LineFollowerValue.Black &&
+                this.rightSensorStatus == LineFollowerValue.Black);
     }
 
-    public boolean isLineFollowerState() {
-        return lineFollowerState;
-    }
-
-    public boolean isFollowingRoute() {
-        return isFollowingRoute;
-    }
-
-    public void setFollowingRoute(boolean followingRoute) {
-        isFollowingRoute = followingRoute;
-    }
-
-    /**
-     * If this function is called the attribute will trigger on
-     */
     @java.lang.Override
     public boolean isOn() {
         return lineFollowerState;

@@ -4,5 +4,6 @@ public enum WindDirections {
     North,
     East,
     South,
-    West
+    West,
+    NA
 }

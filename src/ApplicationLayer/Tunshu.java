@@ -36,34 +36,35 @@ public class Tunshu {
          */
         while (true) {
             //updates
-            for (Updatable updatable : this.updatables) {
-                updatable.update();
-            }
+//            for (Updatable updatable : this.updatables) {
+//                updatable.update();
+//            }
+                activeLineFollower.update();
+                motorControl.update();
 
-
-            if (hitDetectionTimer.timeout()) {
-                hitDetection.update();
-                hitDetectionTimer.mark();
-            }
-
-            if(notificationTimer.timeout()) {
-                if (hitDetection.getState()) {
-                    notificationSystem.setStatus("alert", true);
-                    motorControl.setHandBreak(true);
-                    notificationSystem.update();
-                } else if (motorControl.isDrivingBackward()) {
-                    notificationSystem.setStatus("reverse", false);
-                    notificationSystem.update();
-                } else if (routeFollower.isLineFollowerState()) {
-                    notificationSystem.setStatus("lineFollower", false);
-                    notificationSystem.update();
-                } else {
-
-                    notificationSystem.setStatus("running", false);
-                    notificationSystem.update();
-                }
-                notificationTimer.mark();
-            }
+//            if (hitDetectionTimer.timeout()) {
+//                hitDetection.update();
+//                hitDetectionTimer.mark();
+//            }
+//
+//            if(notificationTimer.timeout()) {
+//                if (hitDetection.getState()) {
+//                    notificationSystem.setStatus(Statuses.Alert, true);
+//                    motorControl.setHandBreak(true);
+//                    notificationSystem.update();
+//                } else if (motorControl.isDrivingBackward()) {
+//                    notificationSystem.setStatus(Statuses.Reverse, false);
+//                    notificationSystem.update();
+//                } else if (routeFollower.isLineFollowerState()) {
+//                    notificationSystem.setStatus(Statuses.LineFollower, false);
+//                    notificationSystem.update();
+//                } else {
+//
+//                    notificationSystem.setStatus(Statuses.Running, false);
+//                    notificationSystem.update();
+//                }
+//                notificationTimer.mark();
+//            }
         }
     }
 
@@ -83,13 +84,13 @@ public class Tunshu {
         this.notificationTimer = new Timer(100);
 
         this.updatables = new ArrayList<>();
-        this.updatables.add(this.override);
-        this.updatables.add(this.hitDetection);
-        this.updatables.add(this.routeFollower);
+        //this.updatables.add(this.override);
+        //this.updatables.add(this.hitDetection);
+        //this.updatables.add(this.routeFollower);
         this.updatables.add(activeLineFollower);
-        this.updatables.add(this.motorControl);
+        //this.updatables.add(this.motorControl);
 
-
+        this.activeLineFollower.setLineFollowerState(true);
     }
 
     public void setRoute() {
