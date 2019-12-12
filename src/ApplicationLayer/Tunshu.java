@@ -1,5 +1,6 @@
 package ApplicationLayer;
 
+import HardwareLayer.Navigation.LineFollower;
 import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
@@ -9,16 +10,19 @@ import Utils.Enums.Statuses;
 import java.util.ArrayList;
 
 public class Tunshu {
+
     private MotorControl motorControl;
     private HitDetection hitDetection;
     private NotificationSystem notificationSystem;
     private InterfaceLayer.Override override;
     private Route route;
+    private ActiveLineFollower activeLineFollower;
     private RouteFollower routeFollower;
+
     private ArrayList<Updatable> updatables;
+
     private Timer hitDetectionTimer;
     private Timer notificationTimer;
-
 
     public void start() {
         //initialise every object
@@ -67,7 +71,9 @@ public class Tunshu {
      */
     public void init() {
         this.motorControl = new MotorControl();
+
         this.hitDetection = new HitDetection();
+        this.activeLineFollower = new ActiveLineFollower(this.motorControl);
         this.route = new Route();
         this.routeFollower = new RouteFollower(this.motorControl, this.route);
         this.notificationSystem = new NotificationSystem();
@@ -79,7 +85,10 @@ public class Tunshu {
         this.updatables.add(this.override);
         this.updatables.add(this.hitDetection);
         this.updatables.add(this.routeFollower);
+        this.updatables.add(activeLineFollower);
         this.updatables.add(this.motorControl);
+
+
     }
 
     public void setRoute() {

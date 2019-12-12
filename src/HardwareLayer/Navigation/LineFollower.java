@@ -3,6 +3,7 @@ package HardwareLayer.Navigation;
 import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
+import Utils.Enums.LineFollowerValue;
 
 public class LineFollower implements Updatable, Switchable {
 
@@ -46,13 +47,13 @@ public class LineFollower implements Updatable, Switchable {
         return sensorName;
     }
 
-    public String getDetectedColor(){
+    public LineFollowerValue getDetectedColor(){
         if(this.lineSensorOutput < this.thresholdValue && this.lineSensorOutput > 0){
-            return "white";
+            return LineFollowerValue.White;
         } else if(this.lineSensorOutput >= thresholdValue && this.lineSensorOutput > 0){
-            return "black";
+            return LineFollowerValue.Black;
         } else{
-            return "NA check sensor";
+            return LineFollowerValue.NA;
         }
     }
 

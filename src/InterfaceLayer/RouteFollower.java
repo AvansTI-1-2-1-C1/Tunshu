@@ -6,6 +6,7 @@ import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
+import Utils.Enums.LineFollowerValue;
 import Utils.IntervalTimer;
 import Utils.OnOffTimer;
 
@@ -36,9 +37,9 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
     private Route route;
 
-    private String leftSensorStatus;
-    private String rightSensorStatus;
-    private String middleSensorStatus;
+    private LineFollowerValue leftSensorStatus;
+    private LineFollowerValue rightSensorStatus;
+    private LineFollowerValue middleSensorStatus;
 
     private float counter2;
     private float counter4;
@@ -124,66 +125,12 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             this.lineFollowerState = false;
             this.intersectionTimer.mark();
         }
-
-        if (this.lineFollowerState) {
-
-            motorControl.setSlowAccelerate(false);
-
-            //To ensure the Bot does not wiggle too much when following the line
-            // we added an timer to round off the edges a bit
-            if (correctingDelayTimer.timeout()) {
-
-                if (this.middleSensorStatus.equals("white")) {
-
-                    //If the right sensor detects a line it steers left
-                    if (this.rightSensorStatus.equals("black") || this.fellOffRight) {
-                        this.motorControl.setMotorsTarget(0.2f, 1f);
-                        this.fellOffRight = true;
-                        //The longer the middle sensor does not detect a line the more it will steer
-                        //again to ensure the Bot does not wiggle too much
-                    }
-                    //If the left sensor detects a line it steers right
-                    if (this.leftSensorStatus.equals("black") || this.fellOffLeft) {
-                        this.motorControl.setMotorsTarget(0.2f, -1f);
-                        this.fellOffLeft = true;
-                        //The longer the middle sensor does not detect a line the more it will steer
-                        //again to ensure the Bot does not wiggle too much
-                    }
-
-                } else if (this.middleSensorStatus.equals("black")) {
-
-                    this.fellOffLeft = false;
-                    this.fellOffRight = false;
-
-                    this.intervalTimer.restart();
-
-                    this.motorControl.setMotorsTarget(0.4f, 0);
-
-                    //When the middle line follower detects the line again the steering wil be set back to default
-                    this.counter2 = 0.2f;
-                    this.counter4 = 0.2f;
-
-                }
-
-                if (this.rightSensorStatus.equals("black") && this.middleSensorStatus.equals("black") && this.leftSensorStatus.equals("black")) {
-                    correctingDelayTimer.mark();
-                }
-            }
-        } else if (this.isTurning) {
-            //if the bot is currently turning to another direction on a line grid, you only have to update
-            //the route follower to update the timers and checking for the turning part
-            motorControl.setSlowAccelerate(false);
-
-            if (!this.currentlyTurningDirection.equals("none")) {
-
-                turn();
-
-            }
-
-        } else {
-            motorControl.setSlowAccelerate(true);
+        if (this.rightSensorStatus.equals("black") && this.middleSensorStatus.equals("black") && this.leftSensorStatus.equals("black")) {
+            correctingDelayTimer.mark();
         }
+
     }
+
 
     private void turn() {
         this.motorControl.rotate(this.currentlyTurningDirection);
@@ -203,20 +150,19 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
     }
 
-    /**
-     * If the update function is called the linefollower class wil callback to this method to update the
-     * attributes
-     */
     public void onLineFollowerStatus(LineFollower lineFollower) {
+        switch (lineFollower.getSensorName()){
 
-        if (lineFollower.getSensorName().equals("leftSensor")) {
-            this.leftSensorStatus = lineFollower.getDetectedColor();
-        } else if (lineFollower.getSensorName().equals("middleSensor")) {
-            this.middleSensorStatus = lineFollower.getDetectedColor();
-        } else if (lineFollower.getSensorName().equals("rightSensor")) {
-            this.rightSensorStatus = lineFollower.getDetectedColor();
+            case "leftSensor":
+                this.leftSensorStatus = lineFollower.getDetectedColor();
+                break;
+            case "middleSensor":
+                this.middleSensorStatus = lineFollower.getDetectedColor();
+                break;
+            case "rightSensor":
+                this.rightSensorStatus = lineFollower.getDetectedColor();
+                break;
         }
-
     }
 
     public boolean hasHitIntersection() {
@@ -265,7 +211,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
         this.fellOffLeft = false;
         this.fellOffRight = false;
-        this.motorControl.setMotorsTarget(0,0);
+        this.motorControl.setMotorsTarget(0, 0);
     }
 }
 
