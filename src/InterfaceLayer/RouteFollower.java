@@ -107,7 +107,6 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      */
     @java.lang.Override
     public void update() {
-
         //makes sure the line sensors get updated
         if (updateDelayTimer.timeout()) {
             for (LineFollower lineFollower : lineFollowerList) {
@@ -135,14 +134,14 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
                     //If the right sensor detects a line it steers left
                     if (this.rightSensorStatus.equals("black") || this.fellOffRight) {
-                        this.motorControl.setMotorsTarget(0.2f, 0.5f);
+                        this.motorControl.setMotorsTarget(0.2f, 1f);
                         this.fellOffRight = true;
                         //The longer the middle sensor does not detect a line the more it will steer
                         //again to ensure the Bot does not wiggle too much
                     }
                     //If the left sensor detects a line it steers right
                     if (this.leftSensorStatus.equals("black") || this.fellOffLeft) {
-                        this.motorControl.setMotorsTarget(0.2f, -0.5f);
+                        this.motorControl.setMotorsTarget(0.2f, -1f);
                         this.fellOffLeft = true;
                         //The longer the middle sensor does not detect a line the more it will steer
                         //again to ensure the Bot does not wiggle too much
@@ -155,7 +154,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
                     this.intervalTimer.restart();
 
-                    this.motorControl.setMotorsTarget(0.2f, 0);
+                    this.motorControl.setMotorsTarget(0.4f, 0);
 
                     //When the middle line follower detects the line again the steering wil be set back to default
                     this.counter2 = 0.2f;
@@ -345,17 +344,32 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      */
     @java.lang.Override
     public boolean isOn() {
-        return false;
+        return lineFollowerState;
     }
 
     @java.lang.Override
     public void on() {
         this.lineFollowerState = true;
+
+        this.isTurning = false;
+
+        this.hasSeenWhite = false;
+
+        this.fellOffLeft = false;
+        this.fellOffRight = false;
     }
 
     @java.lang.Override
     public void off() {
         this.lineFollowerState = false;
+
+        this.isTurning = false;
+
+        this.hasSeenWhite = false;
+
+        this.fellOffLeft = false;
+        this.fellOffRight = false;
+        this.motorControl.setMotorsTarget(0,0);
     }
 }
 

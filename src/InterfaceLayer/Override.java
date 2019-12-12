@@ -53,10 +53,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 this.motorControl.setMotorsTarget(-0.2f, 0f);
                 break;
             case "left":
-                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), motorControl.getCurrentTurnRate() - 0.2f);
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), 0.8f);
                 break;
             case "right":
-                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), motorControl.getCurrentTurnRate() + 0.2f);
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),  -0.8f);
                 break;
             case "brake":
                 this.motorControl.setMotorsTarget(0f, 0f);
@@ -82,16 +82,13 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 if (!this.hitDetection.getState()) {
                     this.motorControl.setHandBreak(false);
                 }
+                routeFollower.off();
                 break;
             default:
 
                 break;
         }
 
-        if (!selectedCommand.isEmpty()){
-            routeFollower.off();
-        }
-        
         this.inputDelay.mark();
         this.selectedCommand = "";
     }
