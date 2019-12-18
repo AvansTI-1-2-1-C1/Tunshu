@@ -11,13 +11,6 @@ import java.awt.*;
 
 
 public class NotificationSystem implements Updatable {
-    /**
-     * status codes:
-     * running = while driving
-     * alert = when it almost touches an obstacle
-     * reverse = when its driving backwards
-     * else: error
-     */
 
     private LED[] LEDs;
     private Speaker speaker;
@@ -33,10 +26,6 @@ public class NotificationSystem implements Updatable {
      * we call initialise notification system so all the objects and variables are set right
      */
     public NotificationSystem() {
-        initNotificationSystem();
-    }
-
-    private void initNotificationSystem() {
         //led initialise
         this.LEDs = new LED[6];
         LEDs[0] = new LED(0);
