@@ -17,6 +17,8 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private RemoteControl remoteControlBack;
     private Bluetooth bluetooth;
 
+    private ActiveLineFollower activeLineFollower;
+
     private DriveCommands selectedCommand;
     private DriveCommands previousCommand;
 
@@ -30,7 +32,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     private RouteFollower routeFollower;
 
-    public Override(MotorControl motorControl, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower) {
+    public Override(MotorControl motorControl, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower, ActiveLineFollower activeLineFollower) {
         this.remoteControlFront = new RemoteControl(this, 0);
         this.remoteControlBack = new RemoteControl(this, 4);
         this.motorControl = motorControl;
@@ -39,6 +41,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         this.hitDetection = hitDetection;
         this.inputDelay = new Timer(250);
         this.routeFollower = routeFollower;
+        this.activeLineFollower = activeLineFollower;
         this.selectedCommand = DriveCommands.None;
         this.previousCommand = DriveCommands.None;
     }
@@ -81,18 +84,12 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 this.notificationSystem.mute();
                 break;
             case LineFollower:
-                if (this.routeFollower.isOn()) {
-                    this.routeFollower.off();
-                } else {
-                    this.routeFollower.on();
-                }
                 break;
             case Handbrake:
                 //make sure there is nothing detected
                 if (!this.hitDetection.getState()) {
                     this.motorControl.setHandBreak(false);
                 }
-                routeFollower.off();
                 break;
             default:
 
@@ -171,12 +168,20 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
 
             case 16:
-                //Enable/Disable lineFollower
-                System.out.println("LineFollower");
+                if(this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()){
+                    this.activeLineFollower.setLineFollowerState(false);
+                } else if(!this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()){
+                    this.activeLineFollower.setLineFollowerState(true);
+                }
                 this.selectedCommand = DriveCommands.LineFollower;
+                System.out.println("LineFollower");
                 break;
             case 2640:
-                //A-B button
+                if(this.routeFollower.isOn()){
+                    this.routeFollower.off();
+                } else{
+                    this.routeFollower.on();
+                }
                 System.out.println("AB");
                 break;
             case 2064:

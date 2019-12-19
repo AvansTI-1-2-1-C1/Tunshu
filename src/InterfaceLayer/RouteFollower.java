@@ -49,7 +49,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         this.motorControl = motorControl;
         this.activeLineFollower = activeLineFollower;
 
-        this.isFollowingRoute = true;
+        this.isFollowingRoute = false;
         this.isTurning = false;
         this.hasSeenWhite = false;
 
