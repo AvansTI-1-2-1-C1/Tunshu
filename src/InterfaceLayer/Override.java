@@ -2,9 +2,9 @@ package InterfaceLayer;
 
 import HardwareLayer.Navigation.Bluetooth;
 import HardwareLayer.RemoteControl;
-import HardwareLayer.RemoteControlCallBack;
-import HardwareLayer.Navigation.BluetoothCallBack;
-import HeadInterfaces.Updatable;
+import Utils.CallBacks.RemoteControlCallBack;
+import Utils.CallBacks.BluetoothCallBack;
+import Utils.CallBacks.Updatable;
 import TI.Timer;
 import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;

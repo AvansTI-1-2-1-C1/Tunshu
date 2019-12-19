@@ -1,10 +1,10 @@
 package InterfaceLayer;
 
 import HardwareLayer.Sensor.Antenna;
-import HardwareLayer.Sensor.AntennaCallBack;
+import Utils.CallBacks.AntennaCallBack;
 import HardwareLayer.Sensor.Ultrasonic;
-import HardwareLayer.Sensor.UltrasonicCallBack;
-import HeadInterfaces.Updatable;
+import Utils.CallBacks.UltrasonicCallBack;
+import Utils.CallBacks.Updatable;
 import TI.Timer;
 
 public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallBack {

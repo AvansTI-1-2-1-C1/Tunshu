@@ -1,7 +1,8 @@
 package HardwareLayer.Sensor;
 
-import HardwareLayer.Switchable;
-import HeadInterfaces.Updatable;
+import Utils.CallBacks.AntennaCallBack;
+import Utils.CallBacks.Switchable;
+import Utils.CallBacks.Updatable;
 import TI.BoeBot;
 
 public class Antenna implements Updatable, Switchable {

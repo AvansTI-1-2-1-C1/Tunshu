@@ -1,12 +1,11 @@
 package HardwareLayer.Navigation;
 
-import HardwareLayer.Switchable;
-import HeadInterfaces.Updatable;
+import Utils.CallBacks.BluetoothCallBack;
+import Utils.CallBacks.Switchable;
+import Utils.CallBacks.Updatable;
 import TI.SerialConnection;
 import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;
-
-import java.util.ArrayList;
 
 public class Bluetooth implements Updatable, Switchable {
     private boolean isOn;
@@ -99,7 +98,7 @@ public class Bluetooth implements Updatable, Switchable {
                 //Get Light state(L)
                 case 76:
                     char[] answerLight = bluetoothCallBack.getState(BluetoothStateCommands.Lights).toCharArray();
-                    serialConnection.writeByte(answerLight[0]);
+                    serialConnection.writeByte((int)answerLight[0]);
                     break;
                 //Set Speaker state(p)
                 case 112:
@@ -108,7 +107,7 @@ public class Bluetooth implements Updatable, Switchable {
                 //Get Speaker state(P)
                 case 80:
                     char[] answerSound = bluetoothCallBack.getState(BluetoothStateCommands.Sound).toCharArray();
-                    serialConnection.writeByte(answerSound[0]);
+                    serialConnection.writeByte((int)answerSound[0]);
                     break;
                 //All other keys
                 default:

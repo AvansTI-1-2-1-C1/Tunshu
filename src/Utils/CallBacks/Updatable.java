@@ -1,4 +1,4 @@
-package HeadInterfaces;
+package Utils.CallBacks;
 
 public interface Updatable {
 

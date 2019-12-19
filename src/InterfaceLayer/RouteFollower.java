@@ -1,16 +1,12 @@
 package InterfaceLayer;
 
 import HardwareLayer.Navigation.LineFollower;
-import HardwareLayer.Navigation.LineFollowerCallBack;
-import HardwareLayer.Switchable;
-import HeadInterfaces.Updatable;
-import TI.BoeBot;
+import Utils.CallBacks.LineFollowerCallBack;
+import Utils.CallBacks.Switchable;
+import Utils.CallBacks.Updatable;
 import TI.Timer;
 import Utils.Enums.Directions;
-import Utils.Enums.DriveCommands;
 import Utils.Enums.LineFollowerValue;
-import Utils.Enums.WindDirections;
-import Utils.IntervalTimer;
 import Utils.OnOffTimer;
 
 import java.util.ArrayList;

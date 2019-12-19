@@ -1,7 +1,8 @@
-package HardwareLayer;
+package Utils.CallBacks;
 
-public interface RemoteControlCallBack {
+public interface AntennaCallBack {
+
     //creates a contract that states, if implemented the methods here WILL be part of the class
     //we use this to create callbacks
-    void onButtonPress(int buttonPress);
+    void antennaState(boolean state);
 }

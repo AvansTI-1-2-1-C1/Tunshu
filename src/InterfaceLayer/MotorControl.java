@@ -1,10 +1,9 @@
 package InterfaceLayer;
 
 import HardwareLayer.Motor;
-import HeadInterfaces.Updatable;
+import Utils.CallBacks.Updatable;
 import TI.Timer;
 import Utils.Enums.Directions;
-import Utils.Enums.DriveCommands;
 
 public class MotorControl implements Updatable {
 

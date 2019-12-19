@@ -1,7 +1,7 @@
 package HardwareLayer.Notification;
 
-import HardwareLayer.Switchable;
-import HeadInterfaces.Updatable;
+import Utils.CallBacks.Switchable;
+import Utils.CallBacks.Updatable;
 import TI.PWM;
 
 public class Speaker implements Updatable, Switchable {
