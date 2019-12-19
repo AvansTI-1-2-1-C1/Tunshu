@@ -48,39 +48,38 @@ public class ActiveLineFollower implements Updatable, LineFollowerCallBack {
     public void update() {
 
         //this will be used to turn the line follower on and off
-        if (this.lineFollowerState) {
+        if (!this.lineFollowerState)
+            return;
 
-            //for each updatable line follower to update all of the line followers
-            for (LineFollower lineFollower : lineFollowerList) {
-                lineFollower.update();
-            }
-
-            motorControl.setSlowAccelerate(false);
-
-            if (performanceDelayTimer.timeout()) {
-
-                //if the middle sensor is misplaced the correcting will start
-                if (this.middleSensorStatus == LineFollowerValue.White) {
-
-                    //If the right sensor detects a line it steers left
-                    if (this.rightSensorStatus == LineFollowerValue.Black) {
-                        this.motorControl.setMotorsTarget(0.2f, 1f);
-                    }
-
-                    //If the left sensor detects a line it steers right
-                    if (this.leftSensorStatus == LineFollowerValue.Black) {
-                        this.motorControl.setMotorsTarget(0.2f, -1f);
-                    }
-
-                }
-                else if (this.middleSensorStatus == LineFollowerValue.Black) {
-                    this.motorControl.setMotorsTarget(0.4f, 0);
-                }
-
-                this.performanceDelayTimer.mark();
-            }
-
+        //for each updatable line follower to update all of the line followers
+        for (LineFollower lineFollower : lineFollowerList) {
+            lineFollower.update();
         }
+
+        motorControl.setSlowAccelerate(false);
+
+        if (performanceDelayTimer.timeout()) {
+
+            //if the middle sensor is misplaced the correcting will start
+            if (this.middleSensorStatus == LineFollowerValue.White) {
+
+                //If the right sensor detects a line it steers left
+                if (this.rightSensorStatus == LineFollowerValue.Black) {
+                    this.motorControl.setMotorsTarget(0.2f, 1f);
+                }
+
+                //If the left sensor detects a line it steers right
+                if (this.leftSensorStatus == LineFollowerValue.Black) {
+                    this.motorControl.setMotorsTarget(0.2f, -1f);
+                }
+
+            } else if (this.middleSensorStatus == LineFollowerValue.Black) {
+                this.motorControl.setMotorsTarget(0.4f, 0);
+            }
+
+            this.performanceDelayTimer.mark();
+        }
+
     }
 
     public boolean isLineFollowerState() {
@@ -92,11 +91,12 @@ public class ActiveLineFollower implements Updatable, LineFollowerCallBack {
     }
 
     /**
-     *callback from the line followers to update the line position
+     * callback from the line followers to update the line position
+     *
      * @param lineFollower
      */
     public void onLineFollowerStatus(LineFollower lineFollower) {
-        switch (lineFollower.getSensorName()){
+        switch (lineFollower.getSensorName()) {
 
             case "leftSensor":
                 this.leftSensorStatus = lineFollower.getDetectedColor();

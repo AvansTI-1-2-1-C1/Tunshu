@@ -6,7 +6,7 @@ import InterfaceLayer.Override;
 import TI.BoeBot;
 import TI.Timer;
 import Utils.Enums.Directions;
-import Utils.Enums.Statuses;
+import Utils.Enums.States;
 
 import java.util.ArrayList;
 
@@ -49,18 +49,18 @@ public class Tunshu {
 
             if(notificationTimer.timeout()) {
                 if (hitDetection.getState()) {
-                    notificationSystem.setStatus(Statuses.Alert, true);
+                    notificationSystem.setStatus(States.Alert, true);
                     motorControl.setHandBreak(true);
                     notificationSystem.update();
                 } else if (motorControl.isDrivingBackward()) {
-                    notificationSystem.setStatus(Statuses.Reverse, false);
+                    notificationSystem.setStatus(States.Reverse, false);
                     notificationSystem.update();
                 } else if (activeLineFollower.isLineFollowerState()) {
-                    notificationSystem.setStatus(Statuses.LineFollower, false);
+                    notificationSystem.setStatus(States.LineFollower, false);
                     notificationSystem.update();
                 } else {
 
-                    notificationSystem.setStatus(Statuses.Running, false);
+                    notificationSystem.setStatus(States.Running, false);
                     notificationSystem.update();
                 }
                 notificationTimer.mark();
@@ -80,18 +80,17 @@ public class Tunshu {
         this.route = new Route();
         this.routeFollower = new RouteFollower(this.motorControl, this.route, this.activeLineFollower);
         this.notificationSystem = new NotificationSystem();
-        this.override = new Override(this.motorControl, this.notificationSystem, this.hitDetection, this.routeFollower);
+        this.override = new Override(this.motorControl, this.notificationSystem, this.hitDetection, this.routeFollower, this.activeLineFollower);
+
         this.hitDetectionTimer = new Timer(20);
         this.notificationTimer = new Timer(100);
 
         this.activeLineFollower.setLineFollowerState(true);
 
         this.updatables = new ArrayList<>();
-        //this.updatables.add(this.override);
-        //this.updatables.add(this.hitDetection);
-        //this.updatables.add(this.routeFollower);
-        this.updatables.add(activeLineFollower);
-        //this.updatables.add(this.motorControl);
+        this.updatables.add(this.override);
+        this.updatables.add(this.routeFollower);
+        this.updatables.add(this.activeLineFollower);
 
     }
 

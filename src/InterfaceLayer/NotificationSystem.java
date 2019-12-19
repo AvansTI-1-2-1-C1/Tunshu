@@ -5,7 +5,7 @@ import HardwareLayer.Notification.Speaker;
 import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
-import Utils.Enums.Statuses;
+import Utils.Enums.States;
 
 import java.awt.*;
 
@@ -14,7 +14,7 @@ public class NotificationSystem implements Updatable {
 
     private LED[] LEDs;
     private Speaker speaker;
-    private Statuses status;
+    private States status;
     private Timer blinkTimer;
     private boolean lightSwitch;
     private Timer reverseTimer;
@@ -39,7 +39,7 @@ public class NotificationSystem implements Updatable {
         this.speaker = new Speaker();
 
         //set status to 0
-        this.status = Statuses.Running;
+        this.status = States.Running;
 
         //reSetStatusTimer for how long the lights are on and off
         blinkTimer = new Timer(100);
@@ -256,7 +256,7 @@ public class NotificationSystem implements Updatable {
      */
     private Timer reSetStatusTimer = new Timer(200);
 
-    public void setStatus(Statuses status, boolean emergency) {
+    public void setStatus(States status, boolean emergency) {
         if (emergency){
             this.status = status;
         }else if (reSetStatusTimer.timeout()){
@@ -322,7 +322,7 @@ public class NotificationSystem implements Updatable {
         return this.lightSwitch;
     }
 
-    public Statuses getStatus() {
+    public States getStatus() {
         return status;
     }
 }

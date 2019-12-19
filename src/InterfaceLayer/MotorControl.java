@@ -55,39 +55,39 @@ public class MotorControl implements Updatable {
      * this is the method that need to be called every update loop so the motors get adjusted properly
      */
     public void update() {
-        if(!isTurning) {
+        if (isTurning)
+            return;
 
-            if (!handBreak) {
+        if (!handBreak) {
 
-                if (slowAccelerate) {
-                    //timer so the bot accelerates slowly
-                    if (timer.timeout()) {
+            if (slowAccelerate) {
+                //timer so the bot accelerates slowly
+                if (timer.timeout()) {
 
-                        //set the current speed speed step closer to target speed
-                        currentSpeed = currentToTargeted(currentSpeed, targetSpeed, speedStep);
+                    //set the current speed speed step closer to target speed
+                    currentSpeed = currentToTargeted(currentSpeed, targetSpeed, speedStep);
 
-                        //set the current turn rate closer to targeted turn rate with turn rate amount
-                        currentTurnRate = currentToTargeted(currentTurnRate, targetTurnRate, turnRateStep);
+                    //set the current turn rate closer to targeted turn rate with turn rate amount
+                    currentTurnRate = currentToTargeted(currentTurnRate, targetTurnRate, turnRateStep);
 
-                        //set the motors to the recently calculated amounts
-                        setBotSpeed(currentSpeed, currentTurnRate);
+                    //set the motors to the recently calculated amounts
+                    setBotSpeed(currentSpeed, currentTurnRate);
 
-                        //reset the timer
-                        timer.mark();
+                    //reset the timer
+                    timer.mark();
 
-                        //to make sure the notification system knows it is driving backwards
-                        if (currentSpeed < 0) {
-                            isDrivingBackward = true;
-                        } else {
-                            isDrivingBackward = false;
-                        }
+                    //to make sure the notification system knows it is driving backwards
+                    if (currentSpeed < 0) {
+                        isDrivingBackward = true;
+                    } else {
+                        isDrivingBackward = false;
                     }
-                } else {
-                    setBotSpeed(targetSpeed, targetTurnRate);
                 }
             } else {
-                setBotSpeed(0, 0);
+                setBotSpeed(targetSpeed, targetTurnRate);
             }
+        } else {
+            setBotSpeed(0, 0);
         }
     }
 
@@ -150,12 +150,11 @@ public class MotorControl implements Updatable {
         motorRight.update(motorRightSpeed, true);
     }
 
-    public void rotate(Directions direction){
+    public void rotate(Directions direction) {
         this.isTurning = true;
-        switch (direction){
+        switch (direction) {
             case Right:
                 //turn 90 degrees right
-                System.out.println("prrrr");
                 motorLeft.update(.3f, false);
                 motorRight.update(.3f, false);
 
@@ -172,8 +171,8 @@ public class MotorControl implements Updatable {
                 motorRight.update(0.3f, true);
                 break;
             case None:
-                motorLeft.update(0,false);
-                motorRight.update(0,false);
+                motorLeft.update(0, false);
+                motorRight.update(0, false);
                 break;
             default:
                 System.out.println(direction + " is unknown");
