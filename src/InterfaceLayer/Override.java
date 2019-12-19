@@ -6,6 +6,7 @@ import HardwareLayer.RemoteControlCallBack;
 import HardwareLayer.Navigation.BluetoothCallBack;
 import HeadInterfaces.Updatable;
 import TI.Timer;
+import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;
 import Utils.Enums.Statuses;
 
@@ -202,5 +203,53 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     @java.lang.Override
     public void onInput(DriveCommands command) {
         this.selectedCommand = command;
+    }
+
+    @java.lang.Override
+    public String getState(BluetoothStateCommands command) {
+        switch (command){
+            case Lights:
+                if(this.notificationSystem.getLight()){
+                    return "t";
+                }else {
+                    return "f";
+                }
+            case Sound:
+                if(this.notificationSystem.getSound()){
+                    return "t";
+                }else {
+                    return "f";
+                }
+            case Speed:
+                return Float.toString(this.motorControl.getCurrentSpeed());
+            default:
+                break;
+        }
+        return null;
+    }
+
+    @java.lang.Override
+    public void setState(BluetoothStateCommands command, String value) {
+        switch (command){
+            case Lights:
+                if(value.equals("t")){
+                    this.notificationSystem.LEDOn();
+                }else if(value.equals("f")){
+                    this.notificationSystem.ledOff();
+                }
+                break;
+            case Sound:
+                if(value.equals("t")){
+                    this.notificationSystem.speakerOn();
+                }else if(value.equals("f")){
+                    this.notificationSystem.speakerOff();
+                }
+                break;
+            case Speed:
+                this.motorControl.setMotorsTarget(Float.parseFloat(value), 0f);
+                break;
+            default:
+                break;
+        }
     }
 }

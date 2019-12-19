@@ -285,6 +285,14 @@ public class NotificationSystem implements Updatable {
         }
     }
 
+    public void toggleLED(){
+        if(lightSwitch){
+            ledOff();
+        }else {
+            LEDOn();
+        }
+    }
+
     /**
      * mutes the speaker when the boolean is true
      */
@@ -296,6 +304,22 @@ public class NotificationSystem implements Updatable {
         } else {
             speaker.on();
         }
+    }
+
+    public void speakerOn(){
+        speaker.on();
+    }
+
+    public void speakerOff(){
+        speaker.off();
+    }
+
+    public boolean getSound(){
+        return !this.isMuted;
+    }
+
+    public boolean getLight(){
+        return this.lightSwitch;
     }
 
     public Statuses getStatus() {

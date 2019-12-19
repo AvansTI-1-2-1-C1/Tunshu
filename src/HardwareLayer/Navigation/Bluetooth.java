@@ -3,7 +3,10 @@ package HardwareLayer.Navigation;
 import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.SerialConnection;
+import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;
+
+import java.util.ArrayList;
 
 public class Bluetooth implements Updatable, Switchable {
     private boolean isOn;
@@ -23,11 +26,17 @@ public class Bluetooth implements Updatable, Switchable {
     }
 
     public void update() {
-        if (serialConnection.available()>0){
-            int data = serialConnection.readByte();
-            serialConnection.writeByte(data);
-            System.out.println("Received Data: " + (char)data);
-            switch (data){
+        if (serialConnection.available() > 0) {
+            int[] data;
+            data = new int[3];
+            int i = 0;
+            while (serialConnection.available() > 0) {
+                data[i] = serialConnection.readByte();
+                i++;
+            }
+//            serialConnection.writeByte(data);
+//            System.out.println("Received Data: " + (char)data);
+            switch (data[0]) {
                 //Forward(w)
                 case 119:
                     bluetoothCallBack.onInput(DriveCommands.Forward);
@@ -67,6 +76,39 @@ public class Bluetooth implements Updatable, Switchable {
                 //Hand break(h)
                 case 104:
                     bluetoothCallBack.onInput(DriveCommands.Handbrake);
+                    break;
+                //Set speed(o)
+                case 111:
+                    String speed = "";
+                    for (int j = 1; j < 2; j++) {
+                        speed += data[j];
+                    }
+                    bluetoothCallBack.setState(BluetoothStateCommands.Speed, speed);
+                    break;
+                //Get speed(O)
+                case 79:
+                    char[] answerSpeed = bluetoothCallBack.getState(BluetoothStateCommands.Speed).toCharArray();
+                    for (char ret : answerSpeed) {
+                        serialConnection.writeByte(ret);
+                    }
+                    break;
+                //Set Light state(l)
+                case 108:
+                    bluetoothCallBack.setState(BluetoothStateCommands.Lights, (char)data[1] + "");
+                    break;
+                //Get Light state(L)
+                case 76:
+                    char[] answerLight = bluetoothCallBack.getState(BluetoothStateCommands.Lights).toCharArray();
+                    serialConnection.writeByte(answerLight[0]);
+                    break;
+                //Set Speaker state(p)
+                case 112:
+                    bluetoothCallBack.setState(BluetoothStateCommands.Sound, (char)data[1] + "");
+                    break;
+                //Get Speaker state(P)
+                case 80:
+                    char[] answerSound = bluetoothCallBack.getState(BluetoothStateCommands.Sound).toCharArray();
+                    serialConnection.writeByte(answerSound[0]);
                     break;
                 //All other keys
                 default:
