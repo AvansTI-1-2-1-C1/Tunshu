@@ -1,9 +1,9 @@
 package ApplicationLayer;
 
-import HardwareLayer.Navigation.LineFollower;
 import HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
+import TI.BoeBot;
 import TI.Timer;
 import Utils.Enums.Directions;
 import Utils.Enums.Statuses;
@@ -29,42 +29,43 @@ public class Tunshu {
         //initialise every object
         init();
 
-//        setRoute();
+        setRoute();
 
         /**
          * detection loop
          */
         while (true) {
-            //updates
-//            for (Updatable updatable : this.updatables) {
-//                updatable.update();
-//            }
+
+            for (Updatable updatable : this.updatables) {
+                updatable.update();
+            }
+            if (hitDetectionTimer.timeout()) {
+                hitDetection.update();
                 activeLineFollower.update();
                 motorControl.update();
+                routeFollower.update();
+                hitDetectionTimer.mark();
+            }
 
-//            if (hitDetectionTimer.timeout()) {
-//                hitDetection.update();
-//                hitDetectionTimer.mark();
-//            }
-//
-//            if(notificationTimer.timeout()) {
-//                if (hitDetection.getState()) {
-//                    notificationSystem.setStatus(Statuses.Alert, true);
-//                    motorControl.setHandBreak(true);
-//                    notificationSystem.update();
-//                } else if (motorControl.isDrivingBackward()) {
-//                    notificationSystem.setStatus(Statuses.Reverse, false);
-//                    notificationSystem.update();
-//                } else if (routeFollower.isLineFollowerState()) {
-//                    notificationSystem.setStatus(Statuses.LineFollower, false);
-//                    notificationSystem.update();
-//                } else {
-//
-//                    notificationSystem.setStatus(Statuses.Running, false);
-//                    notificationSystem.update();
-//                }
-//                notificationTimer.mark();
-//            }
+            if(notificationTimer.timeout()) {
+                if (hitDetection.getState()) {
+                    notificationSystem.setStatus(Statuses.Alert, true);
+                    motorControl.setHandBreak(true);
+                    notificationSystem.update();
+                } else if (motorControl.isDrivingBackward()) {
+                    notificationSystem.setStatus(Statuses.Reverse, false);
+                    notificationSystem.update();
+                } else if (activeLineFollower.isLineFollowerState()) {
+                    notificationSystem.setStatus(Statuses.LineFollower, false);
+                    notificationSystem.update();
+                } else {
+
+                    notificationSystem.setStatus(Statuses.Running, false);
+                    notificationSystem.update();
+                }
+                notificationTimer.mark();
+            }
+            BoeBot.wait(10);
         }
     }
 
@@ -77,11 +78,13 @@ public class Tunshu {
         this.hitDetection = new HitDetection();
         this.activeLineFollower = new ActiveLineFollower(this.motorControl);
         this.route = new Route();
-        this.routeFollower = new RouteFollower(this.motorControl, this.route);
+        this.routeFollower = new RouteFollower(this.motorControl, this.route, this.activeLineFollower);
         this.notificationSystem = new NotificationSystem();
         this.override = new Override(this.motorControl, this.notificationSystem, this.hitDetection, this.routeFollower);
-        this.hitDetectionTimer = new Timer(50);
+        this.hitDetectionTimer = new Timer(20);
         this.notificationTimer = new Timer(100);
+
+        this.activeLineFollower.setLineFollowerState(true);
 
         this.updatables = new ArrayList<>();
         //this.updatables.add(this.override);
@@ -90,7 +93,6 @@ public class Tunshu {
         this.updatables.add(activeLineFollower);
         //this.updatables.add(this.motorControl);
 
-        this.activeLineFollower.setLineFollowerState(true);
     }
 
     public void setRoute() {
@@ -98,6 +100,13 @@ public class Tunshu {
         dir.add(Directions.Right);
         dir.add(Directions.Forward);
         dir.add(Directions.Left);
+        dir.add(Directions.Forward);
+        dir.add(Directions.Left);
+        dir.add(Directions.Left);
+        dir.add(Directions.Right);
+        dir.add(Directions.Left);
+        dir.add(Directions.Forward);
+        dir.add(Directions.Forward);
         this.route.setDirections(dir);
     }
 

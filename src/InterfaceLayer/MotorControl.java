@@ -3,6 +3,7 @@ package InterfaceLayer;
 import HardwareLayer.Motor;
 import HeadInterfaces.Updatable;
 import TI.Timer;
+import Utils.Enums.Directions;
 import Utils.Enums.DriveCommands;
 
 public class MotorControl implements Updatable {
@@ -24,12 +25,15 @@ public class MotorControl implements Updatable {
     private boolean isDrivingBackward;
     private boolean slowAccelerate;
 
+    private boolean isTurning;
+
     public MotorControl() {
         this.motorLeft = new Motor(12);
         this.motorRight = new Motor(13);
         handBreak = false;
         isDrivingBackward = false;
         slowAccelerate = true;
+        isTurning = false;
     }
 
     /**
@@ -50,36 +54,39 @@ public class MotorControl implements Updatable {
      * this is the method that need to be called every update loop so the motors get adjusted properly
      */
     public void update() {
-        if (!handBreak) {
+        if(!isTurning) {
 
-            if (slowAccelerate) {
-                //timer so the bot accelerates slowly
-                if (timer.timeout()) {
+            if (!handBreak) {
 
-                    //set the current speed speed step closer to target speed
-                    currentSpeed = currentToTargeted(currentSpeed, targetSpeed, speedStep);
+                if (slowAccelerate) {
+                    //timer so the bot accelerates slowly
+                    if (timer.timeout()) {
 
-                    //set the current turn rate closer to targeted turn rate with turn rate amount
-                    currentTurnRate = currentToTargeted(currentTurnRate, targetTurnRate, turnRateStep);
+                        //set the current speed speed step closer to target speed
+                        currentSpeed = currentToTargeted(currentSpeed, targetSpeed, speedStep);
 
-                    //set the motors to the recently calculated amounts
-                    setBotSpeed(currentSpeed, currentTurnRate);
+                        //set the current turn rate closer to targeted turn rate with turn rate amount
+                        currentTurnRate = currentToTargeted(currentTurnRate, targetTurnRate, turnRateStep);
 
-                    //reset the timer
-                    timer.mark();
+                        //set the motors to the recently calculated amounts
+                        setBotSpeed(currentSpeed, currentTurnRate);
 
-                    //to make sure the notification system knows it is driving backwards
-                    if (currentSpeed < 0) {
-                        isDrivingBackward = true;
-                    } else {
-                        isDrivingBackward = false;
+                        //reset the timer
+                        timer.mark();
+
+                        //to make sure the notification system knows it is driving backwards
+                        if (currentSpeed < 0) {
+                            isDrivingBackward = true;
+                        } else {
+                            isDrivingBackward = false;
+                        }
                     }
+                } else {
+                    setBotSpeed(targetSpeed, targetTurnRate);
                 }
-            }else {
-                setBotSpeed(targetSpeed,targetTurnRate);
+            } else {
+                setBotSpeed(0, 0);
             }
-        } else {
-            setBotSpeed(0, 0);
         }
     }
 
@@ -142,10 +149,12 @@ public class MotorControl implements Updatable {
         motorRight.update(motorRightSpeed, true);
     }
 
-    public void rotate(DriveCommands direction){
+    public void rotate(Directions direction){
+        this.isTurning = true;
         switch (direction){
             case Right:
                 //turn 90 degrees right
+                System.out.println("prrrr");
                 motorLeft.update(.3f, false);
                 motorRight.update(.3f, false);
 
@@ -161,9 +170,13 @@ public class MotorControl implements Updatable {
                 motorLeft.update(0.3f, false);
                 motorRight.update(0.3f, true);
                 break;
-                default:
-                    System.out.println(direction + " is unknown");
-                    break;
+            case None:
+                motorLeft.update(0,false);
+                motorRight.update(0,false);
+                break;
+            default:
+                System.out.println(direction + " is unknown");
+                break;
         }
     }
 
@@ -178,6 +191,10 @@ public class MotorControl implements Updatable {
     public void setHandBreak(boolean handBreak) {
         setMotorsTarget(0, 0);
         this.handBreak = handBreak;
+    }
+
+    public void setTurning(boolean turning) {
+        isTurning = turning;
     }
 
     public boolean isDrivingBackward() {

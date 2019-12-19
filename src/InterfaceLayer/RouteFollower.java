@@ -6,6 +6,7 @@ import HardwareLayer.Switchable;
 import HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
+import Utils.Enums.Directions;
 import Utils.Enums.DriveCommands;
 import Utils.Enums.LineFollowerValue;
 import Utils.Enums.WindDirections;
@@ -18,22 +19,15 @@ import java.util.List;
 public class RouteFollower implements Updatable, Switchable, LineFollowerCallBack {
 
     private Timer updateDelayTimer;
-    //    private Timer t1;
-//    private Timer t2;
-//    private Timer t3;
-    private Timer correctingDelayTimer;
-
+    private OnOffTimer correctingDelayTimer;
     private Timer turningTimer;
     private Timer intersectionTimer;
 
-    private DriveCommands currentlyTurningDirection;
+    private Directions currentlyTurningDirection;
 
+    private ActiveLineFollower activeLineFollower;
 
     private boolean isTurning;
-    private boolean fellOffRight;
-    private boolean fellOffLeft;
-
-    private IntervalTimer intervalTimer;
 
     private MotorControl motorControl;
 
@@ -43,40 +37,27 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
     private LineFollowerValue rightSensorStatus;
     private LineFollowerValue middleSensorStatus;
 
-    private float counter2;
-    private float counter4;
-
-//    private float followingSpeed;
-
     private boolean hasSeenWhite;
-
-    private boolean lineFollowerState;
-
     private boolean isFollowingRoute;
 
     private List<LineFollower> lineFollowerList;
 
 
-    public RouteFollower(MotorControl motorControl, Route route) {
+    public RouteFollower(MotorControl motorControl, Route route, ActiveLineFollower activeLineFollower) {
+
         this.route = route;
+        this.motorControl = motorControl;
+        this.activeLineFollower = activeLineFollower;
 
-        this.lineFollowerState = false;
-
-        this.isFollowingRoute = false;
-
+        this.isFollowingRoute = true;
         this.isTurning = false;
-
         this.hasSeenWhite = false;
 
-        this.fellOffLeft = false;
-        this.fellOffRight = false;
-
-        this.motorControl = motorControl;
-
-        this.intervalTimer = new IntervalTimer();
-
-
         lineFollowerList = new ArrayList<>();
+
+        this.updateDelayTimer = new Timer(50);
+        this.correctingDelayTimer = new OnOffTimer(100);
+        this.turningTimer = new Timer(250);
 
         //Here the Line follower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient
@@ -91,6 +72,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      */
     @java.lang.Override
     public void update() {
+
         //makes sure the line sensors get updated
         if (updateDelayTimer.timeout()) {
             for (LineFollower lineFollower : lineFollowerList) {
@@ -99,38 +81,92 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             updateDelayTimer.mark();
         }
 
+        /*
+        if the bot sees a intersection, and is not allready turning and the routefollowing is turned on
+        then the bot wil start rotating into the right direction
+         */
         if (this.hasHitIntersection() && !this.isTurning && this.isFollowingRoute) {
-            //this.currentlyTurningDirection = this.route.getDirection();
+            this.currentlyTurningDirection = this.route.getDirection();
+            System.out.println(this.currentlyTurningDirection);
             this.isTurning = true;
-            this.lineFollowerState = false;
-            this.intersectionTimer.mark();
+            this.activeLineFollower.setLineFollowerState(false);
+            System.out.println("linefollower uit");
+            correctingDelayTimer.setEnabled(true);
         }
 
-        if (this.hasHitIntersection()) {
-            correctingDelayTimer.mark();
+        /*
+        if the turning sequence has been set true, then the turn method will be constantly updated
+         */
+        if(this.isTurning) {
+            this.turn();
         }
-
     }
 
-
+    /**
+     * this is the method that manages the turning
+     */
     private void turn() {
+        if(currentlyTurningDirection != Directions.Forward) {
+            if (correctingDelayTimer.timeout()) {
+                this.motorControl.rotate(this.currentlyTurningDirection);
+                this.correctingDelayTimer.setEnabled(false);
+                this.turningTimer.mark();
+            }
 
-       this.motorControl.rotate(this.currentlyTurningDirection);
+            if (this.leftSensorStatus == LineFollowerValue.White &&
+                    this.middleSensorStatus == LineFollowerValue.White &&
+                    this.rightSensorStatus == LineFollowerValue.White && this.turningTimer.timeout()) {
+                System.out.println("white");
+                this.hasSeenWhite = true;
+            }
 
-        if (this.leftSensorStatus.equals("white") && this.middleSensorStatus.equals("white") && this.rightSensorStatus.equals("white")) {
-            this.hasSeenWhite = true;
-        }
-
-        if (this.hasSeenWhite && this.middleSensorStatus.equals("black")) {
-            motorControl.setMotorsTarget(0, 0);
-            this.currentlyTurningDirection = DriveCommands.None;
-            this.lineFollowerState = true;
+            if (this.hasSeenWhite && this.middleSensorStatus == LineFollowerValue.Black) {
+                this.currentlyTurningDirection = Directions.None;
+                this.isTurning = false;
+                this.hasSeenWhite = false;
+                this.activeLineFollower.setLineFollowerState(true);
+                this.motorControl.setTurning(false);
+                System.out.println("done turning");
+            }
+        } else {
             this.isTurning = false;
-            this.hasSeenWhite = false;
         }
 
     }
 
+    /**
+     * this method wil check if the intersection has been hit
+     * @return if so it will return true else false
+     */
+    public boolean hasHitIntersection() {
+        return (this.middleSensorStatus == LineFollowerValue.Black &&
+                this.leftSensorStatus == LineFollowerValue.Black &&
+                this.rightSensorStatus == LineFollowerValue.Black);
+    }
+
+    @java.lang.Override
+    public boolean isOn() {
+        return this.isFollowingRoute;
+    }
+
+    @java.lang.Override
+    public void on() {
+        this.isFollowingRoute = true;
+        this.isTurning = false;
+        this.hasSeenWhite = false;
+    }
+
+    @java.lang.Override
+    public void off() {
+        this.isFollowingRoute = false;
+        this.isTurning = false;
+        this.hasSeenWhite = false;
+    }
+
+    /**
+     * callback from the LineFollower class
+     * @param lineFollower the callback returns an object, we specify each sensor by switching on the objects name
+     */
     public void onLineFollowerStatus(LineFollower lineFollower) {
         switch (lineFollower.getSensorName()){
 
@@ -144,42 +180,6 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
                 this.rightSensorStatus = lineFollower.getDetectedColor();
                 break;
         }
-    }
-
-    public boolean hasHitIntersection() {
-        return (this.middleSensorStatus == LineFollowerValue.Black &&
-                this.leftSensorStatus == LineFollowerValue.Black &&
-                this.rightSensorStatus == LineFollowerValue.Black);
-    }
-
-    @java.lang.Override
-    public boolean isOn() {
-        return lineFollowerState;
-    }
-
-    @java.lang.Override
-    public void on() {
-        this.lineFollowerState = true;
-
-        this.isTurning = false;
-
-        this.hasSeenWhite = false;
-
-        this.fellOffLeft = false;
-        this.fellOffRight = false;
-    }
-
-    @java.lang.Override
-    public void off() {
-        this.lineFollowerState = false;
-
-        this.isTurning = false;
-
-        this.hasSeenWhite = false;
-
-        this.fellOffLeft = false;
-        this.fellOffRight = false;
-        this.motorControl.setMotorsTarget(0, 0);
     }
 }
 
