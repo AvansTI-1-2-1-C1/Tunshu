@@ -2,7 +2,7 @@ package InterfaceLayer;
 
 import HardwareLayer.Navigation.LineFollower;
 import Utils.CallBacks.LineFollowerCallBack;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import Utils.Enums.LineFollowerValue;
 import TI.Timer;
 

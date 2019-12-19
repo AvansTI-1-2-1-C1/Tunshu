@@ -1,6 +1,6 @@
 package ApplicationLayer;
 
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import InterfaceLayer.*;
 import InterfaceLayer.Override;
 import TI.BoeBot;

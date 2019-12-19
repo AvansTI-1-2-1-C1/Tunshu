@@ -1,8 +1,8 @@
 package HardwareLayer.Navigation;
 
 import Utils.CallBacks.BluetoothCallBack;
-import Utils.CallBacks.Switchable;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Switchable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.SerialConnection;
 import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;

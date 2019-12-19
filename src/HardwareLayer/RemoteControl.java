@@ -2,8 +2,8 @@ package HardwareLayer;
 
 import TI.BoeBot;
 import Utils.CallBacks.RemoteControlCallBack;
-import Utils.CallBacks.Switchable;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Switchable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 
 public class RemoteControl implements Updatable, Switchable {
     private boolean isOn;

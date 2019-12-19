@@ -1,7 +1,7 @@
 package HardwareLayer.Notification;
 
-import Utils.CallBacks.Switchable;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Switchable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.BoeBot;
 
 import java.awt.*;

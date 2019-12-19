@@ -4,7 +4,7 @@ import HardwareLayer.Sensor.Antenna;
 import Utils.CallBacks.AntennaCallBack;
 import HardwareLayer.Sensor.Ultrasonic;
 import Utils.CallBacks.UltrasonicCallBack;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.Timer;
 
 public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallBack {

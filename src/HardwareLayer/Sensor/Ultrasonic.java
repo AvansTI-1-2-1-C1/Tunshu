@@ -1,8 +1,8 @@
 package HardwareLayer.Sensor;
 
-import Utils.CallBacks.Switchable;
+import InterfaceLayer.HeadInterfaces.Switchable;
 import Utils.CallBacks.UltrasonicCallBack;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.BoeBot;
 
 public class Ultrasonic implements Updatable, Switchable {

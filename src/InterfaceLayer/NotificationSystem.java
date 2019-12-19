@@ -2,7 +2,7 @@ package InterfaceLayer;
 
 import HardwareLayer.Notification.LED;
 import HardwareLayer.Notification.Speaker;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.BoeBot;
 import TI.Timer;
 import Utils.Enums.Statuses;

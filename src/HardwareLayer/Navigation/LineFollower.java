@@ -1,8 +1,8 @@
 package HardwareLayer.Navigation;
 
 import Utils.CallBacks.LineFollowerCallBack;
-import Utils.CallBacks.Switchable;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Switchable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.BoeBot;
 import Utils.Enums.LineFollowerValue;
 

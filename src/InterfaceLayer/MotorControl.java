@@ -1,7 +1,7 @@
 package InterfaceLayer;
 
 import HardwareLayer.Motor;
-import Utils.CallBacks.Updatable;
+import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.Timer;
 import Utils.Enums.Directions;
 
