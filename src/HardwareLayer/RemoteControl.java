@@ -40,7 +40,7 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
 
-    public static int convertBinary(int[] numbers) {
+    private static int convertBinary(int[] numbers) {
         int getal = 0;
         for (int i = 0; i < 12; i++) {
             getal += (Math.pow(2, i) * numbers[i]);

@@ -74,15 +74,15 @@ public class Bluetooth implements Updatable, Switchable {
                     break;
                 //Hand break(h)
                 case 104:
-                    bluetoothCallBack.onInput(DriveCommands.Handbrake);
+                    bluetoothCallBack.onInput(DriveCommands.Lock);
                     break;
                 //Set speed(o)
                 case 111:
-                    String speed = "";
+                    StringBuilder speed = new StringBuilder();
                     for (int j = 1; j < 2; j++) {
-                        speed += data[j];
+                        speed.append(data[j]);
                     }
-                    bluetoothCallBack.setState(BluetoothStateCommands.Speed, speed);
+                    bluetoothCallBack.setState(BluetoothStateCommands.Speed, speed.toString());
                     break;
                 //Get speed(O)
                 case 79:

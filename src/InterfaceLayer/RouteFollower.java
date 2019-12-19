@@ -17,7 +17,6 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
     private Timer updateDelayTimer;
     private OnOffTimer correctingDelayTimer;
     private Timer turningTimer;
-    private Timer intersectionTimer;
 
     private Directions currentlyTurningDirection;
 
@@ -134,7 +133,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      * this method wil check if the intersection has been hit
      * @return if so it will return true else false
      */
-    public boolean hasHitIntersection() {
+    private boolean hasHitIntersection() {
         return (this.middleSensorStatus == LineFollowerValue.Black &&
                 this.leftSensorStatus == LineFollowerValue.Black &&
                 this.rightSensorStatus == LineFollowerValue.Black);

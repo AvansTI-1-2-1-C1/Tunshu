@@ -22,7 +22,6 @@ public class NotificationSystem implements Updatable {
     private boolean isMuted;
     private Timer ledUpdateTimer;
     private Timer statusSwitchTimer;
-    private Timer reSetStatusTimer;
 
     private Tunshu tunshu;
 
@@ -63,7 +62,6 @@ public class NotificationSystem implements Updatable {
 
         ledUpdateTimer = new Timer(100);
         statusSwitchTimer = new Timer(200);
-        reSetStatusTimer = new Timer(200);
 
         //set the state
         this.tunshu = tunshu;

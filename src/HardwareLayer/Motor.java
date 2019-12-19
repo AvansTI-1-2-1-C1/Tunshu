@@ -46,7 +46,7 @@ public class Motor {
      * gets called every iteration that sets the speed of the servo
      *
      * @param speed   in float 1 is ful forward, -1 is backwards
-     * @param reverse
+     * @param reverse boolean to let the servo go clockwise or counter clockwise
      */
     public void update(float speed,boolean reverse) {
         servo.update(speedToPulseLength(speed,reverse));

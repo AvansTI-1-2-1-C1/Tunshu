@@ -11,7 +11,7 @@ public class MapSolver {
 
     /**
      * this method gets the quickest way to the exit when given a map of intersections
-     * @param intersections
+     * @param intersections a scan of every intersection
      * @return insctructions on what to do by an intersection, this can be right, left, forward and back
      */
     public static ArrayList<Directions> mapSolver(Intersection[][] intersections) {
@@ -67,6 +67,7 @@ public class MapSolver {
         }
         return driveMap(directionsNESW);
     }
+
 
     public static ArrayList<Directions> driveMap(ArrayList<WindDirections> directionsNESW) {
         ArrayList<Directions> directions = new ArrayList<>();

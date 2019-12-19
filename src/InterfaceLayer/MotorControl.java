@@ -77,11 +77,7 @@ public class MotorControl implements Updatable {
                     timer.mark();
 
                     //to make sure the notification system knows it is driving backwards
-                    if (currentSpeed < 0) {
-                        isDrivingBackward = true;
-                    } else {
-                        isDrivingBackward = false;
-                    }
+                    isDrivingBackward = currentSpeed < 0;
                 }
             } else {
                 setBotSpeed(targetSpeed, targetTurnRate);

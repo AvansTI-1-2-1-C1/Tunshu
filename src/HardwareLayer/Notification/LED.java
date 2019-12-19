@@ -42,7 +42,7 @@ public class LED implements Updatable, Switchable {
 
     /**
      * sets the according led to the given color
-     * @param color
+     * @param color java AWT color needed
      */
     public void setColor(Color color) {
         on();
@@ -51,9 +51,9 @@ public class LED implements Updatable, Switchable {
 
     /**
      * sets the led to the according rgb color
-     * @param red
-     * @param green
-     * @param blue
+     * @param red value from 0-255
+     * @param green value from 0-255
+     * @param blue value from 0-255
      */
     public void setColor(int red, int green, int blue) {
         on();
