@@ -8,7 +8,6 @@ import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.Timer;
 import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;
-import Utils.Enums.States;
 
 
 public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack {
@@ -28,25 +27,28 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     private Timer inputDelay;
 
-    private HitDetection hitDetection;
 
     private RouteFollower routeFollower;
+    private boolean isUnlocked;
 
-    public Override(MotorControl motorControl, NotificationSystem notificationSystem, HitDetection hitDetection, RouteFollower routeFollower, ActiveLineFollower activeLineFollower) {
+    public Override(MotorControl motorControl, NotificationSystem notificationSystem, RouteFollower routeFollower, ActiveLineFollower activeLineFollower) {
         this.remoteControlFront = new RemoteControl(this, 0);
         this.remoteControlBack = new RemoteControl(this, 4);
         this.motorControl = motorControl;
         this.bluetooth = new Bluetooth(this);
         this.notificationSystem = notificationSystem;
-        this.hitDetection = hitDetection;
         this.inputDelay = new Timer(250);
         this.routeFollower = routeFollower;
         this.activeLineFollower = activeLineFollower;
         this.selectedCommand = DriveCommands.None;
         this.previousCommand = DriveCommands.None;
+        this.isUnlocked = true;
     }
 
-    public void useButton() {
+    /**
+     * TODO
+     */
+    private void useButton() {
         //check if the selected button was pressed right before by checking it against the previous button code and the timer
         if (this.selectedCommand.equals(this.previousCommand)) {
             if (!this.inputDelay.timeout()) {
@@ -85,11 +87,8 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
             case LineFollower:
                 break;
-            case Handbrake:
-                //make sure there is nothing detected
-                if (!this.hitDetection.getState()) {
-                    this.motorControl.setHandBreak(false);
-                }
+            case Lock:
+                isUnlocked = !isUnlocked;
                 break;
             default:
 
@@ -108,6 +107,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         useButton();
     }
 
+    /**
+     * TODO
+     * @param buttonPress
+     */
     @java.lang.Override
     public void onButtonPress(int buttonPress) {
         switch (buttonPress) {
@@ -128,7 +131,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 //Boebot gaat achteruit
                 System.out.println("backward");
                 this.selectedCommand = DriveCommands.Backward;
-                notificationSystem.setStatus(States.Reverse, false);
                 break;
 
             case 3216:
@@ -145,8 +147,8 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
             case 2704:
                 //Stop
-                System.out.println("handbreak");
-                this.selectedCommand = DriveCommands.Handbrake;
+                System.out.println("lock");
+                this.selectedCommand = DriveCommands.Lock;
                 break;
 
             case 1936:
@@ -205,11 +207,20 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         }
     }
 
+    /**
+     * TODO
+     * @param command
+     */
     @java.lang.Override
     public void onInput(DriveCommands command) {
         this.selectedCommand = command;
     }
 
+    /**
+     * TODO
+     * @param command
+     * @return
+     */
     @java.lang.Override
     public String getState(BluetoothStateCommands command) {
         switch (command){
@@ -233,6 +244,11 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         return null;
     }
 
+    /**
+     * TODO
+     * @param command
+     * @param value
+     */
     @java.lang.Override
     public void setState(BluetoothStateCommands command, String value) {
         switch (command){
@@ -240,7 +256,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 if(value.equals("t")){
                     this.notificationSystem.LEDOn();
                 }else if(value.equals("f")){
-                    this.notificationSystem.ledOff();
+                    this.notificationSystem.LEDOff();
                 }
                 break;
             case Sound:
@@ -256,5 +272,21 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
             default:
                 break;
         }
+    }
+
+    /**
+     * simple getter for isUnlocked
+     * @return isUnlocked boolean
+     */
+    public boolean isUnlocked() {
+        return isUnlocked;
+    }
+
+    /**
+     * simple setter for isUnlocked
+     * @param unlocked is to what isUnlocked need to be set
+     */
+    public void setUnlocked(boolean unlocked) {
+        isUnlocked = unlocked;
     }
 }

@@ -6,6 +6,6 @@ public enum States {
     Reverse,
     Locked,
     LineFollower,
-    RouteFollowing,
+    RouteFollower,
     Error
 }

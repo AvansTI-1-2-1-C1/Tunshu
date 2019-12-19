@@ -11,5 +11,5 @@ public enum DriveCommands {
     Slower,
     Mute,
     LineFollower,
-    Handbrake
+    Lock
 }

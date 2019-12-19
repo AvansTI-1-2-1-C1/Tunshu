@@ -1,5 +1,6 @@
 package InterfaceLayer;
 
+import ApplicationLayer.Tunshu;
 import HardwareLayer.Notification.LED;
 import HardwareLayer.Notification.Speaker;
 import InterfaceLayer.HeadInterfaces.Updatable;
@@ -21,11 +22,15 @@ public class NotificationSystem implements Updatable {
     private boolean isMuted;
     private Timer ledUpdateTimer;
     private Timer statusSwitchTimer;
+    private Timer reSetStatusTimer;
+
+    private Tunshu tunshu;
+
 
     /**
      * we call initialise notification system so all the objects and variables are set right
      */
-    public NotificationSystem() {
+    public NotificationSystem(Tunshu tunshu) {
         //led initialise
         this.LEDs = new LED[6];
         LEDs[0] = new LED(0);
@@ -58,6 +63,11 @@ public class NotificationSystem implements Updatable {
 
         ledUpdateTimer = new Timer(100);
         statusSwitchTimer = new Timer(200);
+        reSetStatusTimer = new Timer(200);
+
+        //set the state
+        this.tunshu = tunshu;
+        this.status = tunshu.getState();
     }
 
 
@@ -73,7 +83,7 @@ public class NotificationSystem implements Updatable {
 
         //switch that selects which method needs to be run
         if (statusSwitchTimer.timeout()){
-
+            this.status = tunshu.getState();
             switch (status) {
                 case Running:
                     running();
@@ -180,7 +190,7 @@ public class NotificationSystem implements Updatable {
                 speaker.on();
 
             } else {
-                ledOff();
+                LEDOff();
                 speaker.off();
             }
 
@@ -244,27 +254,6 @@ public class NotificationSystem implements Updatable {
         LEDs[4].setColor(Color.yellow);
     }
 
-    /**
-     * sets the status of the BoeBot
-     *
-     * @param status status codes:
-     *               running
-     *               alert
-     *               reverse
-     *               lineFollower
-     *               else: error
-     */
-    private Timer reSetStatusTimer = new Timer(200);
-
-    public void setStatus(States status, boolean emergency) {
-        if (emergency){
-            this.status = status;
-        }else if (reSetStatusTimer.timeout()){
-            this.status = status;
-            reSetStatusTimer.mark();
-        }
-    }
-
 
     /**
      * turns every neopixel on
@@ -279,7 +268,7 @@ public class NotificationSystem implements Updatable {
     /**
      * turns every neopixel off
      */
-    public void ledOff() {
+    public void LEDOff() {
         for (LED led : LEDs) {
             led.off();
         }
@@ -287,7 +276,7 @@ public class NotificationSystem implements Updatable {
 
     public void toggleLED(){
         if(lightSwitch){
-            ledOff();
+            LEDOff();
         }else {
             LEDOn();
         }
@@ -320,9 +309,5 @@ public class NotificationSystem implements Updatable {
 
     public boolean getLight(){
         return this.lightSwitch;
-    }
-
-    public States getStatus() {
-        return status;
     }
 }
