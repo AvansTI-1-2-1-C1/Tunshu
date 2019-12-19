@@ -5,8 +5,8 @@ public class Motor {
     private int pin;
     private TI.Servo servo;
 
-    private final int BASEPULSEWIDTH = 1500; // pulse length when motor is standing still
-    private final int MAXPULSEWIDTH = 200; // the difference in pulse length to max speed and standing still
+    private final int basePulsewidth; // pulse length when motor is standing still
+    private final int maxPulsewidthDifference; // the difference in pulse length to max speed and standing still
 
     /**
      * constructor to set the pin number and initiate the servo
@@ -15,6 +15,8 @@ public class Motor {
     public Motor(int pin) {
         this.pin = pin;
         this.servo = new TI.Servo(pin);
+        basePulsewidth = 1500;
+        maxPulsewidthDifference = 200;
     }
 
     /**
@@ -25,7 +27,7 @@ public class Motor {
      * @return integer that contains the pulse length in micro seconds
      */
     private int speedToPulseLength(float speed, boolean reverse) {
-        int pulseLength = BASEPULSEWIDTH;
+        int pulseLength = basePulsewidth;
         if (speed > 1.0F) {
             speed = 1.0F;
         }
@@ -33,9 +35,9 @@ public class Motor {
             speed = -1.0F;
         }
         if (reverse) {
-            pulseLength -= Math.round(speed * MAXPULSEWIDTH);
+            pulseLength -= Math.round(speed * maxPulsewidthDifference);
         } else {
-            pulseLength += Math.round(speed * MAXPULSEWIDTH);
+            pulseLength += Math.round(speed * maxPulsewidthDifference);
         }
         return pulseLength;
     }

@@ -11,8 +11,8 @@ public class MotorControl implements Updatable {
     private Motor motorLeft;
     private Motor motorRight;
 
-    private final float speedStep = 0.025F; // the amount that is added to the speed when speeding up
-    private final float turnRateStep = 0.1F; // the amount that is added each step to the turn
+    private final float speedStep; // the amount that is added to the speed when speeding up
+    private final float turnRateStep; // the amount that is added each step to the turn
     private Timer timer = new Timer(50); // the time until the next change in milli seconds
 
     private float currentSpeed;
@@ -30,6 +30,8 @@ public class MotorControl implements Updatable {
     public MotorControl() {
         this.motorLeft = new Motor(12);
         this.motorRight = new Motor(13);
+        speedStep = 0.025F;
+        turnRateStep = 0.1F;
         handBreak = false;
         isDrivingBackward = false;
         slowAccelerate = true;
