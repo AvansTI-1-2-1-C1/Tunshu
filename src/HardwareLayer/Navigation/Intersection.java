@@ -1,51 +1,36 @@
 package HardwareLayer.Navigation;
 
+
 public class Intersection {
-    private boolean north;
-    private boolean east;
-    private boolean south;
-    private boolean west;
-    private int counter;
+    private int tentativeDistance;
+    private boolean isVisited;
 
-
-    public Intersection(boolean north, boolean east,boolean south, boolean west) {
-        this.north = north;
-        this.east = east;
-        this.south = south;
-        this.west = west;
-        this.counter = 1;
-    }
-
-    public boolean isNorth() {
-        return north;
-    }
-
-    public boolean isEast() {
-        return east;
-    }
-
-    public boolean isSouth() {
-        return south;
-    }
-
-    public boolean isWest() {
-        return west;
-    }
-
-    public void count(){
-        this.counter++;
+    /**
+     * constructor sets the intersection to has not been visited and sets the tentative distance to infinite
+     */
+    public Intersection() {
+        this.tentativeDistance = Integer.MAX_VALUE;
+        this.isVisited = false;
     }
 
     @Override
     public String toString() {
-        return ""+counter;
+        return ""+ tentativeDistance;
     }
 
-    public int getCounter() {
-        return counter;
+    public int getTentativeDistance() {
+        return tentativeDistance;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
+    public void setTentativeDistance(int tentativeDistance) {
+        this.tentativeDistance = tentativeDistance;
+    }
+
+    public void setVisited(boolean visited) {
+        isVisited = visited;
+    }
+
+    public boolean isVisited() {
+        return isVisited;
     }
 }
