@@ -5,7 +5,6 @@ import Utils.Enums.Instructions;
 import Utils.Enums.WindDirections;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MapSolver {
 
@@ -28,18 +27,23 @@ public class MapSolver {
 
     /**
      * this method gets the shortest path to the exit when given a map of intersections using the Dijkstra algorithm
-     *
-     * @param intersections a scan of every intersection
-     * @return instructions on what to do by an intersection, this can be right, left, forward and back
+     * @param mapOutOfIntersections double array with intersections
+     * @param mapWidth is an integer how many intersections the map has horizontally
+     * @param mapHeight is an integer how many intersections the map has vertically
+     * @param startingX is the starting coordinate x
+     * @param startingY is the starting coordinate y
+     * @param endX is the end coordinate x
+     * @param endY is the end coordinate y
+     * @return instructions how to drive the shortest path
      */
-    public static ArrayList<Instructions> solveMap(Intersection[][] intersections, int mapWidth, int mapHeight, int startingX, int startingY, int endX, int endY) {
+    public static ArrayList<Instructions> solveMap(Intersection[][] mapOutOfIntersections, int mapWidth, int mapHeight, int startingX, int startingY, int endX, int endY) {
         //initialise some variables
         int tentativeDistance = 0;
         ArrayList<WindDirections> directionsNESW = new ArrayList<>();
 
         //set the starting point tentative distance and the end point
-        intersections[startingX][startingY].setTentativeDistance(tentativeDistance);
-        intersections[endX][endY].setTentativeDistance(tentativeDistance);
+        mapOutOfIntersections[startingX][startingY].setTentativeDistance(tentativeDistance);
+        mapOutOfIntersections[endX][endY].setTentativeDistance(tentativeDistance);
 
         //this is where we keep the currentCoordinates coordinates index 0 = x and index 1 = y
         int[] currentCoordinates = new int[2];
@@ -48,16 +52,16 @@ public class MapSolver {
 
         //while loop that searches for the shortest path
         while (true) {
-            tentativeDistance = intersections[startingX][startingY].getTentativeDistance() + 1;
+            tentativeDistance = mapOutOfIntersections[startingX][startingY].getTentativeDistance() + 1;
 
             //check for all the intersections around the current intersection
             {
                 //check intersection to the north
                 try {
-                    if (!intersections[currentCoordinates[0]][currentCoordinates[1] - 1].isVisited()) {
+                    if (!mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].isVisited()) {
                         //if the tentative distance is smaller then intersection tentative distance set it to the current tentative distance
-                        if (tentativeDistance < intersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance())
-                            intersections[currentCoordinates[0]][currentCoordinates[1] - 1].setTentativeDistance(tentativeDistance);
+                        if (tentativeDistance < mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance())
+                            mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].setTentativeDistance(tentativeDistance);
                     }
                 } catch (Exception exception) {
                     //this intersection doesnt exist on the map or is blocked
@@ -65,10 +69,10 @@ public class MapSolver {
 
                 //check the intersection to the east
                 try {
-                    if (!intersections[currentCoordinates[0] + 1][currentCoordinates[1]].isVisited()) {
+                    if (!mapOutOfIntersections[currentCoordinates[0] + 1][currentCoordinates[1]].isVisited()) {
                         //if the tentative distance is smaller then intersection tentative distance set it to the current tentative distance
-                        if (tentativeDistance < intersections[currentCoordinates[0] + 1][currentCoordinates[1]].getTentativeDistance())
-                            intersections[currentCoordinates[0] + 1][currentCoordinates[1]].setTentativeDistance(tentativeDistance);
+                        if (tentativeDistance < mapOutOfIntersections[currentCoordinates[0] + 1][currentCoordinates[1]].getTentativeDistance())
+                            mapOutOfIntersections[currentCoordinates[0] + 1][currentCoordinates[1]].setTentativeDistance(tentativeDistance);
                     }
                 } catch (Exception exception) {
                     //this intersection doesnt exist on the map or is blocked
@@ -76,10 +80,10 @@ public class MapSolver {
 
                 //check intersection to the south
                 try {
-                    if (!intersections[currentCoordinates[0]][currentCoordinates[1] - 1].isVisited()) {
+                    if (!mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].isVisited()) {
                         //if the tentative distance is smaller then intersection tentative distance set it to the current tentative distance
-                        if (tentativeDistance < intersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance())
-                            intersections[currentCoordinates[0]][currentCoordinates[1] - 1].setTentativeDistance(tentativeDistance);
+                        if (tentativeDistance < mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance())
+                            mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].setTentativeDistance(tentativeDistance);
                     }
                 } catch (Exception exception) {
                     //this intersection doesnt exist on the map or is blocked
@@ -87,10 +91,10 @@ public class MapSolver {
 
                 //check intersection to the west
                 try {
-                    if (!intersections[currentCoordinates[0] - 1][currentCoordinates[1]].isVisited()) {
+                    if (!mapOutOfIntersections[currentCoordinates[0] - 1][currentCoordinates[1]].isVisited()) {
                         //if the tentative distance is smaller then intersection tentative distance set it to the current tentative distance
-                        if (tentativeDistance < intersections[currentCoordinates[0] - 1][currentCoordinates[1]].getTentativeDistance())
-                            intersections[currentCoordinates[0] - 1][currentCoordinates[1]].setTentativeDistance(tentativeDistance);
+                        if (tentativeDistance < mapOutOfIntersections[currentCoordinates[0] - 1][currentCoordinates[1]].getTentativeDistance())
+                            mapOutOfIntersections[currentCoordinates[0] - 1][currentCoordinates[1]].setTentativeDistance(tentativeDistance);
                     }
                 } catch (Exception exception) {
                     //this intersection doesnt exist on the map or is blocked
@@ -98,7 +102,7 @@ public class MapSolver {
             }
 
             //set the current intersection as visited
-            intersections[startingX][startingY].setVisited(true);
+            mapOutOfIntersections[startingX][startingY].setVisited(true);
 
             //temperately variables
             int smallestTentativeDistance = Integer.MAX_VALUE;
@@ -108,9 +112,9 @@ public class MapSolver {
             //go through all the intersections of the map and gets the smallest tentative distance from the not visited nodes
             for (int x = 0; x < mapWidth; x++) {
                 for (int y = 0; y < mapHeight; y++) {
-                    if (!intersections[x][y].isVisited()) {
-                        if (intersections[x][y].getTentativeDistance() < smallestTentativeDistance) {
-                            smallestTentativeDistance = intersections[x][y].getTentativeDistance();
+                    if (!mapOutOfIntersections[x][y].isVisited()) {
+                        if (mapOutOfIntersections[x][y].getTentativeDistance() < smallestTentativeDistance) {
+                            smallestTentativeDistance = mapOutOfIntersections[x][y].getTentativeDistance();
                             nextCoordinates[0] = x;
                             nextCoordinates[1] = y;
                         }
@@ -122,11 +126,11 @@ public class MapSolver {
             currentCoordinates = nextCoordinates;
 
             //the end condition is if the end point has been reached
-            if (intersections[endX][endY].isVisited())
+            if (mapOutOfIntersections[endX][endY].isVisited())
                 break;
             //when there is no intersection left we can check we know there is no valid route to the exit
             if (smallestTentativeDistance == Integer.MAX_VALUE)
-                return driveMap(directionsNESW);
+                return converterFromWindDirectionsToInstructions(directionsNESW);
         }
 
 
@@ -146,8 +150,8 @@ public class MapSolver {
                     //check intersection to the north
                     try {
                         //if the smallest tentative distance is bigger then intersection tentative distance that is the new smallest distance
-                        if (smallestTentativeDistance > intersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance()) {
-                            smallestTentativeDistance = intersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance();
+                        if (smallestTentativeDistance > mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance()) {
+                            smallestTentativeDistance = mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance();
                             gotoDirection = WindDirections.North;
                         }
                     } catch (Exception exception) {
@@ -157,8 +161,8 @@ public class MapSolver {
                     //check the intersection to the east
                     try {
                         //if the smallest tentative distance is bigger then intersection tentative distance that is the new smallest distance
-                        if (smallestTentativeDistance > intersections[currentCoordinates[0] + 1][currentCoordinates[1]].getTentativeDistance()) {
-                            smallestTentativeDistance = intersections[currentCoordinates[0] + 1][currentCoordinates[1]].getTentativeDistance();
+                        if (smallestTentativeDistance > mapOutOfIntersections[currentCoordinates[0] + 1][currentCoordinates[1]].getTentativeDistance()) {
+                            smallestTentativeDistance = mapOutOfIntersections[currentCoordinates[0] + 1][currentCoordinates[1]].getTentativeDistance();
                             gotoDirection = WindDirections.East;
                         }
                     } catch (Exception exception) {
@@ -168,8 +172,8 @@ public class MapSolver {
                     //check intersection to the south
                     try {
                         //if the smallest tentative distance is bigger then intersection tentative distance that is the new smallest distance
-                        if (smallestTentativeDistance > intersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance()) {
-                            smallestTentativeDistance = intersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance();
+                        if (smallestTentativeDistance > mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance()) {
+                            smallestTentativeDistance = mapOutOfIntersections[currentCoordinates[0]][currentCoordinates[1] - 1].getTentativeDistance();
                             gotoDirection = WindDirections.South;
                         }
                     } catch (Exception exception) {
@@ -179,8 +183,8 @@ public class MapSolver {
                     //check intersection to the west
                     try {
                         //if the smallest tentative distance is bigger then intersection tentative distance that is the new smallest distance
-                        if (smallestTentativeDistance > intersections[currentCoordinates[0] - 1][currentCoordinates[1]].getTentativeDistance()) {
-                            smallestTentativeDistance = intersections[currentCoordinates[0] - 1][currentCoordinates[1]].getTentativeDistance();
+                        if (smallestTentativeDistance > mapOutOfIntersections[currentCoordinates[0] - 1][currentCoordinates[1]].getTentativeDistance()) {
+                            smallestTentativeDistance = mapOutOfIntersections[currentCoordinates[0] - 1][currentCoordinates[1]].getTentativeDistance();
                             gotoDirection = WindDirections.West;
                         }
                     } catch (Exception exception) {
@@ -195,7 +199,7 @@ public class MapSolver {
             }
         }
 
-        return driveMap(directionsNESW);
+        return converterFromWindDirectionsToInstructions(directionsNESW);
     }
 
     /**
@@ -204,7 +208,7 @@ public class MapSolver {
      * @param directionsNESW ArrayList with directions
      * @return ArrayList with Instructions
      */
-    public static ArrayList<Instructions> driveMap(ArrayList<WindDirections> directionsNESW) {
+    public static ArrayList<Instructions> converterFromWindDirectionsToInstructions(ArrayList<WindDirections> directionsNESW) {
         ArrayList<Instructions> instructions = new ArrayList<>();
         WindDirections facingDirection = WindDirections.North;
         for (WindDirections direction : directionsNESW) {
