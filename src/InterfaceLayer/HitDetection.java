@@ -20,6 +20,7 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     private boolean hitDetectionState;
 
+
     public HitDetection() {
 
         //the ultrasonic and the antenna are initialized with the callback as parameter
@@ -29,8 +30,11 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
         this.hitDetectStateTimer = new Timer(250);
     }
 
+
+    /**
+     * this is the default update function this will iterate every loop
+     */
     @java.lang.Override
-    //this is the default update function this will iterate every loop
     public void update() {
         if (detectTimer.timeout()){
             //the sensors are updated here, doing this will change the attributes in this class to use them afterwards
@@ -52,6 +56,10 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     }
 
+    /**
+     * getter for the hit detection state
+     * @return boolean true when the sensors detect an object too close
+     */
     public boolean getState(){
 
         //this method returns the state of the hit detection currently if true there is a detect
@@ -59,6 +67,10 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     }
 
+    /**
+     * this is the callback when the ultrasonic gets updated.
+     * @param distance this parameter will set the attribute in the class
+     */
     public void ultrasonicSensorDistance(double distance){
 
         //This is one of the callbacks from the sensors, both of these callbacks call a method from the sensor
@@ -67,6 +79,10 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     }
 
+    /**
+     * this is the callback when the antenna class gets updated
+     * @param state this parameter will set the attribute in the class
+     */
     public void antennaState(boolean state){
         //This is one of the callbacks from the sensors, both of these callbacks call a method from the sensor
         //to communicate with the hit detection class

@@ -6,8 +6,11 @@ import InterfaceLayer.HeadInterfaces.Switchable;
 import InterfaceLayer.HeadInterfaces.Updatable;
 
 public class RemoteControl implements Updatable, Switchable {
+
     private boolean isOn;
+
     private RemoteControlCallBack remoteControlCallBack;
+
     private int pin;
 
     public RemoteControl(RemoteControlCallBack remoteControlCallBack, int pin) {
@@ -15,10 +18,13 @@ public class RemoteControl implements Updatable, Switchable {
         this.pin = pin;
     }
 
+    /**
+     * this method will read pin signals when called
+     */
     public void update() {
         int[] binaryInput = new int[12];
 
-        // if the puls length is longer then 2000 its the starting bit.
+        // if the pulse length is longer then 2000 its the starting bit.
         if (BoeBot.pulseIn(this.pin, false, 6000) > 2000) {
             int[] lengths = new int[12];
 
@@ -39,7 +45,11 @@ public class RemoteControl implements Updatable, Switchable {
         }
     }
 
-
+    /**
+     *
+     * @param numbers
+     * @return
+     */
     private static int convertBinary(int[] numbers) {
         int getal = 0;
         for (int i = 0; i < 12; i++) {

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class ActiveLineFollower implements Updatable, LineFollowerCallBack {
 
+    //the three line follower sensors
     private LineFollowerValue middleSensorStatus;
     private LineFollowerValue rightSensorStatus;
     private LineFollowerValue leftSensorStatus;
