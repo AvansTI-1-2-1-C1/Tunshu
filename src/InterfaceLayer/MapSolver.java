@@ -1,9 +1,8 @@
 package InterfaceLayer;
 
 import HardwareLayer.Navigation.Intersection;
-import Utils.Enums.Directions;
+import Utils.Enums.Instructions;
 import Utils.Enums.WindDirections;
-import javafx.geometry.NodeOrientation;
 
 import java.util.ArrayList;
 
@@ -14,7 +13,7 @@ public class MapSolver {
      * @param intersections a scan of every intersection
      * @return insctructions on what to do by an intersection, this can be right, left, forward and back
      */
-    public static ArrayList<Directions> mapSolver(Intersection[][] intersections) {
+    public static ArrayList<Instructions> mapSolver(Intersection[][] intersections) {
         ArrayList<WindDirections> directionsNESW = new ArrayList<>();
         int x = 20;
         int y = 20;
@@ -69,24 +68,24 @@ public class MapSolver {
     }
 
 
-    public static ArrayList<Directions> driveMap(ArrayList<WindDirections> directionsNESW) {
-        ArrayList<Directions> directions = new ArrayList<>();
+    public static ArrayList<Instructions> driveMap(ArrayList<WindDirections> directionsNESW) {
+        ArrayList<Instructions> directions = new ArrayList<>();
         WindDirections facingDirection = WindDirections.North;
         for (WindDirections direction : directionsNESW) {
             if (facingDirection == WindDirections.North) {
                 if (direction == WindDirections.West) {
                     //turn left
-                    directions.add(Directions.Left);
+                    directions.add(Instructions.Left);
                     facingDirection = WindDirections.West;
                     //wait for next intersection
                 } else if (direction == WindDirections.North) {
                     //drive forward
-                    directions.add(Directions.Forward);
+                    directions.add(Instructions.Forward);
                     //wait for next intersection
 
                 } else if (direction == WindDirections.East) {
                     //turn right
-                    directions.add(Directions.Right);
+                    directions.add(Instructions.Right);
                     facingDirection = WindDirections.East;
                     //wait for next intersection
 
@@ -94,18 +93,18 @@ public class MapSolver {
             } else if (facingDirection == WindDirections.East) {
                 if (direction == WindDirections.East) {
                     //drive forward
-                    directions.add(Directions.Forward);
+                    directions.add(Instructions.Forward);
                     //wait for next intersection
 
                 } else if (direction == WindDirections.South) {
                     //turn right
-                    directions.add(Directions.Right);
+                    directions.add(Instructions.Right);
                     facingDirection = WindDirections.South;
                     //wait for next intersection
 
                 } else if (direction == WindDirections.North) {
                     //turn left
-                    directions.add(Directions.Left);
+                    directions.add(Instructions.Left);
                     facingDirection = WindDirections.North;
                     //wait for next intersection
 
@@ -113,18 +112,18 @@ public class MapSolver {
             } else if (facingDirection == WindDirections.South) {
                 if (direction == WindDirections.South) {
                     //drive forward
-                    directions.add(Directions.Forward);
+                    directions.add(Instructions.Forward);
                     //wait for next intersection
 
                 } else if (direction == WindDirections.West) {
                     //turn right
-                    directions.add(Directions.Right);
+                    directions.add(Instructions.Right);
                     facingDirection = WindDirections.West;
                     //wait for next intersection
 
                 } else if (direction == WindDirections.East) {
                     //turn left
-                    directions.add(Directions.Left);
+                    directions.add(Instructions.Left);
                     facingDirection = WindDirections.East;
                     //wait for next intersection
 
@@ -132,18 +131,18 @@ public class MapSolver {
             } else if (facingDirection == WindDirections.West) {
                 if (direction == WindDirections.West) {
                     //drive forward
-                    directions.add(Directions.Forward);
+                    directions.add(Instructions.Forward);
                     //wait for next intersection
 
                 } else if (direction == WindDirections.North) {
                     //turn right
-                    directions.add(Directions.Right);
+                    directions.add(Instructions.Right);
                     facingDirection = WindDirections.North;
                     //wait for next intersection
 
                 } else if (direction == WindDirections.South) {
                     //turn left
-                    directions.add(Directions.Left);
+                    directions.add(Instructions.Left);
                     facingDirection = WindDirections.South;
                     //wait for next intersection
 

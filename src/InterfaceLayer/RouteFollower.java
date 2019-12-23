@@ -5,7 +5,7 @@ import Utils.CallBacks.LineFollowerCallBack;
 import InterfaceLayer.HeadInterfaces.Switchable;
 import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.Timer;
-import Utils.Enums.Directions;
+import Utils.Enums.Instructions;
 import Utils.Enums.LineFollowerValue;
 import Utils.OnOffTimer;
 
@@ -18,7 +18,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
     private OnOffTimer correctingDelayTimer;
     private Timer turningTimer;
 
-    private Directions currentlyTurningDirection;
+    private Instructions currentlyTurningDirection;
 
     private ActiveLineFollower activeLineFollower;
 
@@ -81,7 +81,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         then the bot wil start rotating into the right direction
          */
         if (this.hasHitIntersection() && !this.isTurning && this.isFollowingRoute) {
-            this.currentlyTurningDirection = this.route.getDirection();
+            this.currentlyTurningDirection = this.route.getInstruction();
             System.out.println(this.currentlyTurningDirection);
             this.isTurning = true;
             this.activeLineFollower.setLineFollowerState(false);
@@ -101,7 +101,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      * this is the method that manages the turning
      */
     private void turn() {
-        if(currentlyTurningDirection != Directions.Forward) {
+        if(currentlyTurningDirection != Instructions.Forward) {
             if (correctingDelayTimer.timeout()) {
                 this.motorControl.rotate(this.currentlyTurningDirection);
                 this.correctingDelayTimer.setEnabled(false);
@@ -116,7 +116,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             }
 
             if (this.hasSeenWhite && this.middleSensorStatus == LineFollowerValue.Black) {
-                this.currentlyTurningDirection = Directions.None;
+                this.currentlyTurningDirection = Instructions.None;
                 this.isTurning = false;
                 this.hasSeenWhite = false;
                 this.activeLineFollower.setLineFollowerState(true);

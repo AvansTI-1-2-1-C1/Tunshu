@@ -1,6 +1,6 @@
 package Utils.Enums;
 
-public enum Directions {
+public enum Instructions {
     Right,
     Left,
     Forward,

@@ -3,7 +3,7 @@ package InterfaceLayer;
 import HardwareLayer.Motor;
 import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.Timer;
-import Utils.Enums.Directions;
+import Utils.Enums.Instructions;
 
 public class MotorControl implements Updatable {
 
@@ -146,7 +146,7 @@ public class MotorControl implements Updatable {
         motorRight.update(motorRightSpeed, true);
     }
 
-    public void rotate(Directions direction) {
+    public void rotate(Instructions direction) {
         this.isTurning = true;
         switch (direction) {
             case Right:

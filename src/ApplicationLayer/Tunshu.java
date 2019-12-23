@@ -4,7 +4,7 @@ import InterfaceLayer.*;
 import InterfaceLayer.Override;
 import TI.BoeBot;
 import TI.Timer;
-import Utils.Enums.Directions;
+import Utils.Enums.Instructions;
 import Utils.Enums.States;
 
 import java.util.ArrayList;
@@ -222,18 +222,18 @@ public class Tunshu {
     }
 
     private void setRoute() {
-        ArrayList<Directions> dir = new ArrayList<>();
-        dir.add(Directions.Right);
-        dir.add(Directions.Forward);
-        dir.add(Directions.Left);
-        dir.add(Directions.Forward);
-        dir.add(Directions.Left);
-        dir.add(Directions.Left);
-        dir.add(Directions.Right);
-        dir.add(Directions.Left);
-        dir.add(Directions.Forward);
-        dir.add(Directions.Forward);
-        this.route.setDirections(dir);
+        ArrayList<Instructions> dir = new ArrayList<>();
+        dir.add(Instructions.Right);
+        dir.add(Instructions.Forward);
+        dir.add(Instructions.Left);
+        dir.add(Instructions.Forward);
+        dir.add(Instructions.Left);
+        dir.add(Instructions.Left);
+        dir.add(Instructions.Right);
+        dir.add(Instructions.Left);
+        dir.add(Instructions.Forward);
+        dir.add(Instructions.Forward);
+        this.route.setInstructions(dir);
     }
 
     public States getState() {
