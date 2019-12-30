@@ -28,18 +28,26 @@ public class MapSolver {
     /**
      * this method gets the shortest path to the exit when given a map of intersections using the Dijkstra algorithm
      * @param mapOutOfIntersections double array with intersections
-     * @param mapWidth is an integer how many intersections the map has horizontally
-     * @param mapHeight is an integer how many intersections the map has vertically
      * @param startingX is the starting coordinate x
      * @param startingY is the starting coordinate y
      * @param endX is the end coordinate x
      * @param endY is the end coordinate y
      * @return instructions how to drive the shortest path
      */
-    public static ArrayList<Instructions> solveMap(Intersection[][] mapOutOfIntersections, int mapWidth, int mapHeight, int startingX, int startingY, int endX, int endY) {
+    public static ArrayList<Instructions> solveMap(Intersection[][] mapOutOfIntersections, int startingX, int startingY, int endX, int endY) {
         //initialise some variables
         int tentativeDistance = 0;
         ArrayList<WindDirections> directionsNESW = new ArrayList<>();
+        int mapWidth = 0;
+        int mapHeight = 0;
+
+        //determines the map width and height
+        while (mapOutOfIntersections[mapWidth][0] != null) {
+            mapWidth++;
+        }
+        while (mapOutOfIntersections[0][mapHeight] != null) {
+            mapHeight++;
+        }
 
         //set the starting point tentative distance and the end point
         mapOutOfIntersections[startingX][startingY].setTentativeDistance(tentativeDistance);
