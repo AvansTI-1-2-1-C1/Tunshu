@@ -15,8 +15,9 @@ import java.util.List;
 public class RouteFollower implements Updatable, Switchable, LineFollowerCallBack {
 
     private Timer updateDelayTimer;
-    private OnOffTimer correctingDelayTimer;
     private Timer turningTimer;
+    private Timer forwardDrivingTimer;
+    private OnOffTimer correctingDelayTimer;
 
     private Instructions currentlyTurningDirection;
 
@@ -28,6 +29,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
     private Route route;
 
+    //These are the three objects that resemble the light sensors on the bottom of the bot
     private LineFollowerValue leftSensorStatus;
     private LineFollowerValue rightSensorStatus;
     private LineFollowerValue middleSensorStatus;
@@ -53,6 +55,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         this.updateDelayTimer = new Timer(50);
         this.correctingDelayTimer = new OnOffTimer(100);
         this.turningTimer = new Timer(250);
+        this.forwardDrivingTimer = new Timer(1000);
 
         //Here the Line follower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient
@@ -76,7 +79,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             updateDelayTimer.mark();
         }
 
-        /*
+        /**
         if the bot sees a intersection, and is not allready turning and the routefollowing is turned on
         then the bot wil start rotating into the right direction
          */
@@ -87,9 +90,10 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             this.activeLineFollower.setLineFollowerState(false);
             System.out.println("linefollower uit");
             correctingDelayTimer.setEnabled(true);
+            this.forwardDrivingTimer.mark();
         }
 
-        /*
+        /**
         if the turning sequence has been set true, then the turn method will be constantly updated
          */
         if(this.isTurning) {
@@ -101,6 +105,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      * this is the method that manages the turning
      */
     private void turn() {
+        //the first statement is to make sure that the forward instruction will be ignored
         if(currentlyTurningDirection != Instructions.Forward) {
             if (correctingDelayTimer.timeout()) {
                 this.motorControl.rotate(this.currentlyTurningDirection);
@@ -123,7 +128,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
                 this.motorControl.setTurning(false);
                 System.out.println("done turning");
             }
-        } else {
+        } else if(this.forwardDrivingTimer.timeout()) {
             this.isTurning = false;
         }
 
