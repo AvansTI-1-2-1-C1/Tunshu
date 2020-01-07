@@ -8,6 +8,8 @@ import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.Timer;
 import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;
+import Utils.Enums.RemoteCommand;
+import Utils.Enums.States;
 
 
 public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack {
@@ -58,7 +60,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
             this.previousCommand = this.selectedCommand;
         }
 
-
         //switch statement that selects the corresponding method
         switch (this.selectedCommand) {
             case Forward:
@@ -91,7 +92,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 isUnlocked = !isUnlocked;
                 break;
             default:
-
                 break;
         }
 
@@ -109,67 +109,67 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     /**
      * TODO
-     * @param buttonPress
+     * @param
      */
     @java.lang.Override
-    public void onButtonPress(int buttonPress) {
-        switch (buttonPress) {
-            case 0:
+    public void onButtonPress(RemoteCommand command) {
+        switch (command) {
+            case None:
                 break;
-            case 1:
+            case Brake:
                 System.out.println("brake");
                 this.selectedCommand = DriveCommands.Brake;
                 break;
 
-            case 144:
+            case Forward:
                 // Boebot gaat vooruit
                 System.out.println("forward");
                 this.selectedCommand = DriveCommands.Forward;
                 break;
 
-            case 2192:
+            case Backward:
                 //Boebot gaat achteruit
                 System.out.println("backward");
                 this.selectedCommand = DriveCommands.Backward;
                 break;
 
-            case 3216:
+            case Left:
                 //Boebot turns left
                 System.out.println("left");
                 this.selectedCommand = DriveCommands.Left;
                 break;
 
-            case 1168:
+            case Right:
                 //Boebot turns right
                 System.out.println("right");
                 this.selectedCommand = DriveCommands.Right;
                 break;
 
-            case 2704:
+            case Handbrake:
                 //Stop
                 System.out.println("lock");
                 this.selectedCommand = DriveCommands.Lock;
                 break;
 
-            case 1936:
+            case Faster:
                 //Faster
                 System.out.println("faster");
                 this.selectedCommand = DriveCommands.Faster;
                 break;
 
-            case 3984:
+            case Slower:
                 //Slower
                 System.out.println("slower");
                 this.selectedCommand = DriveCommands.Slower;
                 break;
 
-            case 656:
+            case Mute:
                 //Mute speaker
                 System.out.println("mute");
                 this.notificationSystem.mute();
                 break;
 
-            case 16:
+            case LineFollower:
                 if(this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()){
                     this.activeLineFollower.setLineFollowerState(false);
                 } else if(!this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()){
@@ -178,7 +178,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 this.selectedCommand = DriveCommands.LineFollower;
                 System.out.println("LineFollower");
                 break;
-            case 2640:
+            case RouteFollower:
                 if(this.routeFollower.isOn()){
                     this.routeFollower.off();
                 } else{
@@ -186,21 +186,24 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 }
                 System.out.println("AB");
                 break;
-            case 2064:
+            case Button2:
                 //button 2
                 System.out.println("Button 2");
                 break;
-            case 1040:
+            case Button3:
                 //button 3
                 System.out.println("Button 3");
-            case 3088:
+            case Button4:
                 //button 4
+                System.out.println("Button 4");
                 break;
-            case 7480:
+            case Enter:
                 //enter
+                System.out.println("Enter button");
                 break;
-            case 464:
+            case Vierkant:
                 //vierkantje
+                System.out.println("Vierkant button");
                 break;
             default:
                 break;
@@ -267,7 +270,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 }
                 break;
             case Speed:
-                this.motorControl.setMotorsTarget(Float.parseFloat(value), 0f);
+                this.motorControl.setMotorsTarget(Float.parseFloat(value),0f);
                 break;
             default:
                 break;

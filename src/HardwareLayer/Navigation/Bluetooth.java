@@ -24,18 +24,19 @@ public class Bluetooth implements Updatable, Switchable {
         return isOn;
     }
 
+    /**
+     * This function checks if there is a new command received via bluetooth
+     */
     public void update() {
         if (serialConnection.available() > 0) {
-            int[] data;
-            data = new int[3];
-            int i = 0;
-            while (serialConnection.available() > 0) {
-                data[i] = serialConnection.readByte();
-                i++;
+            int amount = (char)serialConnection.readByte();
+            int[] buffer = new int[amount];
+            for (int i = 0; i < amount-1; i++) {
+                buffer[i] = serialConnection.readByte();
             }
 //            serialConnection.writeByte(data);
 //            System.out.println("Received Data: " + (char)data);
-            switch (data[0]) {
+            switch (buffer[0]) {
                 //Forward(w)
                 case 119:
                     bluetoothCallBack.onInput(DriveCommands.Forward);
@@ -78,11 +79,11 @@ public class Bluetooth implements Updatable, Switchable {
                     break;
                 //Set speed(o)
                 case 111:
-                    StringBuilder speed = new StringBuilder();
-                    for (int j = 1; j < 2; j++) {
-                        speed.append(data[j]);
+                    String number = "";
+                    for (int i = 1; i < buffer.length-1; i++) {
+                        number += (char)buffer[i];
                     }
-                    bluetoothCallBack.setState(BluetoothStateCommands.Speed, speed.toString());
+                    bluetoothCallBack.setState(BluetoothStateCommands.Speed, number);
                     break;
                 //Get speed(O)
                 case 79:
@@ -93,7 +94,7 @@ public class Bluetooth implements Updatable, Switchable {
                     break;
                 //Set Light state(l)
                 case 108:
-                    bluetoothCallBack.setState(BluetoothStateCommands.Lights, (char)data[1] + "");
+                    bluetoothCallBack.setState(BluetoothStateCommands.Lights, buffer[1]+"");
                     break;
                 //Get Light state(L)
                 case 76:
@@ -102,7 +103,7 @@ public class Bluetooth implements Updatable, Switchable {
                     break;
                 //Set Speaker state(p)
                 case 112:
-                    bluetoothCallBack.setState(BluetoothStateCommands.Sound, (char)data[1] + "");
+                    bluetoothCallBack.setState(BluetoothStateCommands.Sound, buffer[1]+"");
                     break;
                 //Get Speaker state(P)
                 case 80:
