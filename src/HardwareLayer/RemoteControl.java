@@ -23,10 +23,12 @@ public class RemoteControl implements Updatable, Switchable {
      * this method will read pin signals when called
      */
     public void update() {
+
         int[] binaryInput = new int[12];
 
         // if the pulse length is longer then 2000 its the starting bit.
         if (BoeBot.pulseIn(this.pin, false, 6000) > 2000) {
+
             int[] lengths = new int[12];
 
             // fill 12 slots of the array in reversed order.

@@ -250,6 +250,7 @@ public class NotificationSystem implements Updatable {
 
         LEDs[1].setColor(Color.yellow);
         LEDs[4].setColor(Color.yellow);
+        speaker.on();
     }
 
 

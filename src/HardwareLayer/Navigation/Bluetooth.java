@@ -29,10 +29,13 @@ public class Bluetooth implements Updatable, Switchable {
      */
     public void update() {
         if (serialConnection.available() > 0) {
-            int amount = (char)serialConnection.readByte();
-            int[] buffer = new int[amount];
-            for (int i = 0; i < amount-1; i++) {
-                buffer[i] = serialConnection.readByte();
+            int[] data;
+            data = new int[3];
+            int i = 0;
+            while (serialConnection.available() > 0) {
+                System.out.println((char)serialConnection.readByte());
+                data[i] = serialConnection.readByte();
+                i++;
             }
 //            serialConnection.writeByte(data);
 //            System.out.println("Received Data: " + (char)data);
