@@ -40,8 +40,8 @@ public class RemoteControl implements Updatable, Switchable {
                 } else {
                     binaryInput[i] = 1;
                 }
-                remoteControlCallBack.onButtonPress(convertBinary(binaryInput));
             }
+            remoteControlCallBack.onButtonPress(convertBinary(binaryInput));
         }
     }
 
