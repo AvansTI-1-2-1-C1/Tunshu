@@ -38,7 +38,6 @@ public class Tunshu {
 
         this.stateUpdateTimer = new Timer(100);
 
-        this.activeLineFollower.setLineFollowerState(true);
 
         state = States.Running;
     }
@@ -78,7 +77,7 @@ public class Tunshu {
             }
 
             //makes the application less processing heavy
-            BoeBot.wait(10);
+            BoeBot.wait(20);
         }
     }
 
@@ -149,6 +148,7 @@ public class Tunshu {
         }
 
         //updates
+        notificationSystem.update();
         hitDetection.update();
         override.update();
     }

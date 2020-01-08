@@ -4,6 +4,7 @@ import TI.BoeBot;
 import Utils.CallBacks.RemoteControlCallBack;
 import InterfaceLayer.HeadInterfaces.Switchable;
 import InterfaceLayer.HeadInterfaces.Updatable;
+import Utils.Enums.RemoteCommand;
 
 public class RemoteControl implements Updatable, Switchable {
 
@@ -22,10 +23,12 @@ public class RemoteControl implements Updatable, Switchable {
      * this method will read pin signals when called
      */
     public void update() {
+
         int[] binaryInput = new int[12];
 
         // if the pulse length is longer then 2000 its the starting bit.
         if (BoeBot.pulseIn(this.pin, false, 6000) > 2000) {
+
             int[] lengths = new int[12];
 
             // fill 12 slots of the array in reversed order.
@@ -42,6 +45,91 @@ public class RemoteControl implements Updatable, Switchable {
                 }
             }
             remoteControlCallBack.onButtonPress(convertBinary(binaryInput));
+        }
+    }
+
+    public void buttonPress(int buttonPress){
+        switch (buttonPress) {
+            case 0:
+                break;
+            case 1:
+                System.out.println("brake");
+                remoteControlCallBack.onButtonPress(RemoteCommand.Brake);
+                break;
+
+            case 144:
+                // Boebot gaat vooruit
+                System.out.println("forward");
+                remoteControlCallBack.onButtonPress(RemoteCommand.Forward);
+                break;
+
+            case 2192:
+                //Boebot gaat achteruit
+                System.out.println("backward");
+                remoteControlCallBack.onButtonPress(RemoteCommand.Backward);
+                break;
+
+            case 3216:
+                //Boebot turns left
+                System.out.println("left");
+                remoteControlCallBack.onButtonPress(RemoteCommand.Left);
+                break;
+
+            case 1168:
+                //Boebot turns right
+                System.out.println("right");
+                remoteControlCallBack.onButtonPress(RemoteCommand.Right);
+                break;
+
+            case 2704:
+                //Stop
+                System.out.println("handbreak");
+                remoteControlCallBack.onButtonPress(RemoteCommand.Handbrake);
+                break;
+
+            case 1936:
+                //Faster
+                System.out.println("faster");
+                remoteControlCallBack.onButtonPress(RemoteCommand.Faster);
+                break;
+
+            case 3984:
+                //Slower
+                remoteControlCallBack.onButtonPress(RemoteCommand.Slower);
+                break;
+            case 656:
+                //Mute speaker
+                remoteControlCallBack.onButtonPress(RemoteCommand.Mute);
+                break;
+            case 16:
+                //Linefollower
+                remoteControlCallBack.onButtonPress(RemoteCommand.LineFollower);
+                break;
+            case 2640:
+                //RouteFollower
+                remoteControlCallBack.onButtonPress(RemoteCommand.RouteFollower);
+                break;
+            case 2064:
+                //button 2
+                remoteControlCallBack.onButtonPress(RemoteCommand.Button2);
+                break;
+            case 1040:
+                //button 3
+                remoteControlCallBack.onButtonPress(RemoteCommand.Button3);
+            case 3088:
+                //button 4
+                remoteControlCallBack.onButtonPress(RemoteCommand.Button4);
+                break;
+            case 7480:
+                //enter
+                remoteControlCallBack.onButtonPress(RemoteCommand.Enter);
+                break;
+            case 464:
+                //vierkantje
+                remoteControlCallBack.onButtonPress(RemoteCommand.Vierkant);
+                break;
+            default:
+                break;
         }
     }
 
