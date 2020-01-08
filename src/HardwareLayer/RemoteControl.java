@@ -44,7 +44,7 @@ public class RemoteControl implements Updatable, Switchable {
                     binaryInput[i] = 1;
                 }
             }
-            remoteControlCallBack.onButtonPress(convertBinary(binaryInput));
+            buttonPress(convertBinary(binaryInput));
         }
     }
 
@@ -134,7 +134,7 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
     /**
-     *
+     *  //TODO
      * @param numbers
      * @return
      */
