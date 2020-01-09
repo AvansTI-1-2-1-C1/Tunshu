@@ -34,7 +34,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private boolean isUnlocked;
 
     public Override(MotorControl motorControl, NotificationSystem notificationSystem, RouteFollower routeFollower, ActiveLineFollower activeLineFollower) {
-        this.remoteControlFront = new RemoteControl(this, 0);
+        this.remoteControlFront = new RemoteControl(this, 8);
         this.remoteControlBack = new RemoteControl(this, 4);
         this.motorControl = motorControl;
         this.bluetooth = new Bluetooth(this);
