@@ -20,7 +20,7 @@ public class MotorControl implements Updatable {
     private float targetTurnRate;
 
     //makes sure the vehicle doesn't drive if true
-    private boolean handBreak;
+    private boolean isLocked;
     private boolean isDrivingBackward;
     private boolean slowAccelerate;
 
@@ -31,7 +31,7 @@ public class MotorControl implements Updatable {
         this.motorRight = new Motor(13);
         speedStep = 0.025F;
         turnRateStep = 0.1F;
-        handBreak = false;
+        isLocked = false;
         isDrivingBackward = false;
         slowAccelerate = true;
         isTurning = false;
@@ -58,7 +58,8 @@ public class MotorControl implements Updatable {
         if (isTurning)
             return;
 
-        if (!handBreak) {
+
+        if (!isLocked) {
 
             if (slowAccelerate) {
                 //timer so the bot accelerates slowly
@@ -184,9 +185,11 @@ public class MotorControl implements Updatable {
         return currentTurnRate;
     }
 
-    public void setHandBreak(boolean handBreak) {
+    public void setLocked(boolean isLocked) {
+        setSlowAccelerate(false);
         setMotorsTarget(0, 0);
-        this.handBreak = handBreak;
+        setSlowAccelerate(true);
+        this.isLocked = isLocked;
     }
 
     public void setTurning(boolean turning) {
@@ -201,8 +204,8 @@ public class MotorControl implements Updatable {
         this.slowAccelerate = slowAccelerate;
     }
 
-    public boolean isHandBreak() {
-        return handBreak;
+    public boolean isLocked() {
+        return isLocked;
     }
 }
 

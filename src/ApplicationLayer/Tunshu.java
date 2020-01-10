@@ -57,7 +57,7 @@ public class Tunshu implements RouteCallBack {
                     running();
                     break;
                 case Reverse:
-                    //state reverse only has impact on the notification system so we use the standard running check
+                    //state reverse only has impact on the notification system so we use the standard running state
                     running();
                     break;
                 case Alert:
@@ -76,9 +76,8 @@ public class Tunshu implements RouteCallBack {
                     error();
                     break;
             }
-
             //makes the application less processing heavy
-            BoeBot.wait(50);
+            BoeBot.wait(10);
         }
     }
 
@@ -90,7 +89,7 @@ public class Tunshu implements RouteCallBack {
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState()) {
                 this.state = States.Alert;
-                motorControl.setHandBreak(true);
+                motorControl.setLocked(true);
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
                 this.state = States.Reverse;
@@ -120,7 +119,7 @@ public class Tunshu implements RouteCallBack {
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState()) {
                 notificationSystem.update();
-                override.setUnlocked(false);
+                override.setLocked(true);
             } else {
                 this.state = States.Locked;
             }
@@ -141,7 +140,7 @@ public class Tunshu implements RouteCallBack {
             if (hitDetection.getState()) {
                 this.state = States.Alert;
                 notificationSystem.update();
-            } else if (override.isUnlocked()) {
+            } else if (!override.isLocked()) {
                 this.state = States.Running;
                 notificationSystem.update();
             }
@@ -162,7 +161,7 @@ public class Tunshu implements RouteCallBack {
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState()) {
                 this.state = States.Alert;
-                motorControl.setHandBreak(true);
+                motorControl.setLocked(true);
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
                 this.state = States.Reverse;
@@ -192,7 +191,7 @@ public class Tunshu implements RouteCallBack {
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState()) {
                 this.state = States.Alert;
-                motorControl.setHandBreak(true);
+                motorControl.setLocked(true);
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
                 this.state = States.Reverse;

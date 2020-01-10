@@ -44,6 +44,7 @@ public class RemoteControl implements Updatable, Switchable {
                     binaryInput[i] = 1;
                 }
             }
+            System.out.println(convertBinary(binaryInput));
             buttonPress(convertBinary(binaryInput));
         }
     }
@@ -52,7 +53,7 @@ public class RemoteControl implements Updatable, Switchable {
         switch (buttonPress) {
             case 0:
                 break;
-            case 1:
+            case 2704:
                 System.out.println("brake");
                 remoteControlCallBack.onButtonPress(RemoteCommand.Brake);
                 break;
@@ -81,7 +82,7 @@ public class RemoteControl implements Updatable, Switchable {
                 remoteControlCallBack.onButtonPress(RemoteCommand.Right);
                 break;
 
-            case 2704:
+            case 2872:
                 //Stop
                 System.out.println("handbreak");
                 remoteControlCallBack.onButtonPress(RemoteCommand.Handbrake);

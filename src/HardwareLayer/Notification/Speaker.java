@@ -14,7 +14,7 @@ public class Speaker implements Updatable, Switchable {
 
     public Speaker() {
 
-        this.pin = 1;//GPIO pin number for the speaker.
+        this.pin = 7;//GPIO pin number for the speaker.
         this.speakerFrequency = 0;
         this.speakerPWM = new PWM(pin, 128);
         this.isOn = false;

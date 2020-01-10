@@ -15,7 +15,6 @@ import Utils.Enums.RemoteCommand;
 public class Override implements Updatable, RemoteControlCallBack, BluetoothCallBack {
 
     private RemoteControl remoteControlFront;
-    private RemoteControl remoteControlBack;
     private Bluetooth bluetooth;
 
     private ActiveLineFollower activeLineFollower;
@@ -31,11 +30,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
 
     private RouteFollower routeFollower;
-    private boolean isUnlocked;
+    private boolean isLocked;
 
     public Override(MotorControl motorControl, NotificationSystem notificationSystem, RouteFollower routeFollower, ActiveLineFollower activeLineFollower, RouteCallBack routeCallBack) {
         this.remoteControlFront = new RemoteControl(this, 0);
-        this.remoteControlBack = new RemoteControl(this, 4);
         this.motorControl = motorControl;
         this.bluetooth = new Bluetooth(this, routeCallBack);
         this.notificationSystem = notificationSystem;
@@ -44,7 +42,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         this.activeLineFollower = activeLineFollower;
         this.selectedCommand = DriveCommands.None;
         this.previousCommand = DriveCommands.None;
-        this.isUnlocked = true;
+        this.isLocked = false;
     }
 
     /**
@@ -89,7 +87,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
             case LineFollower:
                 break;
             case Lock:
-                isUnlocked = !isUnlocked;
+                isLocked = !isLocked;
                 break;
             default:
                 break;
@@ -102,7 +100,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     @java.lang.Override
     public void update() {
         this.remoteControlFront.update();
-        this.remoteControlBack.update();
         this.bluetooth.update();
         useButton();
     }
@@ -146,9 +143,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
 
             case Handbrake:
-                //Stop
+                //lock
                 System.out.println("lock");
                 this.selectedCommand = DriveCommands.Lock;
+                motorControl.setLocked(isLocked);
                 break;
 
             case Faster:
@@ -285,18 +283,18 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * simple getter for isUnlocked
-     * @return isUnlocked boolean
+     * simple getter for isLocked
+     * @return isLocked boolean
      */
-    public boolean isUnlocked() {
-        return isUnlocked;
+    public boolean isLocked() {
+        return isLocked;
     }
 
     /**
-     * simple setter for isUnlocked
-     * @param unlocked is to what isUnlocked need to be set
+     * simple setter for isLocked
+     * @param isLocked is to what isLocked need to be set
      */
-    public void setUnlocked(boolean unlocked) {
-        isUnlocked = unlocked;
+    public void setLocked(boolean isLocked) {
+        isLocked = isLocked;
     }
 }
