@@ -72,7 +72,7 @@ public class NotificationSystem implements Updatable {
     @java.lang.Override
     public void update() {
         //update all the leds
-        if (ledUpdateTimer.timeout()){
+        if (ledUpdateTimer.timeout()) {
             BoeBot.rgbShow();
             ledUpdateTimer.mark();
         }
@@ -80,7 +80,7 @@ public class NotificationSystem implements Updatable {
         speaker.update();
 
         //switch that selects which method needs to be run
-        if (statusSwitchTimer.timeout()){
+        if (statusSwitchTimer.timeout()) {
             this.status = tunshu.getState();
             switch (status) {
                 case Running:
@@ -241,7 +241,7 @@ public class NotificationSystem implements Updatable {
 
     }
 
-    private void locked(){
+    private void locked() {
         LEDs[5].setColor(Color.white);
         LEDs[3].setColor(Color.white);
 
@@ -273,10 +273,10 @@ public class NotificationSystem implements Updatable {
         }
     }
 
-    public void toggleLED(){
-        if(lightSwitch){
+    public void toggleLED() {
+        if (lightSwitch) {
             LEDOff();
-        }else {
+        } else {
             LEDOn();
         }
     }
@@ -294,19 +294,19 @@ public class NotificationSystem implements Updatable {
         }
     }
 
-    public void speakerOn(){
+    public void speakerOn() {
         speaker.on();
     }
 
-    public void speakerOff(){
+    public void speakerOff() {
         speaker.off();
     }
 
-    public boolean getSound(){
+    public boolean getSound() {
         return !this.isMuted;
     }
 
-    public boolean getLight(){
+    public boolean getLight() {
         return this.lightSwitch;
     }
 }

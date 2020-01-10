@@ -19,6 +19,7 @@ public class Route {
 
     /**
      * simple getter for the list of instructions
+     *
      * @return ArrayList with instructions
      */
     public ArrayList<Instructions> getInstructions() {
@@ -27,6 +28,7 @@ public class Route {
 
     /**
      * this method sets the arrayList of instructions and resets the instructionCounter
+     *
      * @param instructions ArrayList of Instructions Enums
      */
     public void setInstructions(ArrayList<Instructions> instructions) {
@@ -37,6 +39,7 @@ public class Route {
     /**
      * this method will get an instruction on what to do at an intersection
      * if there is an available instruction it will return that one else it will idle at the intersection
+     *
      * @return a single instruction from enums Instructions
      */
     public Instructions getInstruction() {
@@ -44,7 +47,7 @@ public class Route {
 
         try {
             instruction = this.instructions.get(this.instructionCounter);
-        } catch (NullPointerException nullPointer){
+        } catch (NullPointerException nullPointer) {
             instruction = Instructions.None;
         }
 

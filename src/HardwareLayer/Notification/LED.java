@@ -26,7 +26,7 @@ public class LED implements Updatable, Switchable {
             BoeBot.rgbShow();
         } else {
             BoeBot.rgbSet(number, 0, 0, 0);
-    }
+        }
     }
 
     @Override
@@ -36,12 +36,13 @@ public class LED implements Updatable, Switchable {
 
     @Override
     public void off() {
-        BoeBot.rgbSet(number,0,0,0);
+        BoeBot.rgbSet(number, 0, 0, 0);
         isOn = false;
     }
 
     /**
      * sets the according led to the given color
+     *
      * @param color java AWT color needed
      */
     public void setColor(Color color) {
@@ -51,12 +52,13 @@ public class LED implements Updatable, Switchable {
 
     /**
      * sets the led to the according rgb color
-     * @param red value from 0-255
+     *
+     * @param red   value from 0-255
      * @param green value from 0-255
-     * @param blue value from 0-255
+     * @param blue  value from 0-255
      */
     public void setColor(int red, int green, int blue) {
         on();
-        BoeBot.rgbSet(number, red,green,blue);
+        BoeBot.rgbSet(number, red, green, blue);
     }
 }

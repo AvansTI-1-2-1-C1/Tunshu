@@ -28,19 +28,21 @@ public class MapSolver implements Updatable {
 
     /**
      * constructor that enables the map solver directly
-     * @param map takes a new map of intersections
+     *
+     * @param map       takes a new map of intersections
      * @param startingX starting x coordinate
      * @param startingY starting y coordinate
-     * @param endX ending x coordinate
-     * @param endY ending y coordinate
+     * @param endX      ending x coordinate
+     * @param endY      ending y coordinate
      */
     public MapSolver(Intersection[][] map, int startingX, int startingY, int endX, int endY) {
         setMap(map);
-        enableMapSolve(startingX,startingY,endX,endY);
+        enableMapSolve(startingX, startingY, endX, endY);
     }
 
     /**
      * constructor that sets the map already
+     *
      * @param map takes in a new map of intersections
      */
     public MapSolver(Intersection[][] map) {
@@ -56,7 +58,7 @@ public class MapSolver implements Updatable {
 
     @java.lang.Override
     public void update() {
-        switch (this.state){
+        switch (this.state) {
             case SolvingMap:
                 solveStep();
                 break;
@@ -230,7 +232,7 @@ public class MapSolver implements Updatable {
         //end condition is when the starting point has been reached
         if (currentX == startingX && currentY == startingY) {
             this.instructions = converterFromWindDirectionsToInstructions(this.directionsNESW);
-            this.firstCall= true;
+            this.firstCall = true;
             this.state = MapSolverState.Done;
         }
     }
@@ -388,6 +390,7 @@ public class MapSolver implements Updatable {
 
     /**
      * this function resets the mapsolver and makes the parameter the new map
+     *
      * @param map new map that will be used to make a route
      */
     public void setMap(Intersection[][] map) {

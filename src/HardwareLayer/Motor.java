@@ -10,7 +10,8 @@ public class Motor {
 
     /**
      * constructor to set the pin number and initiate the servo
-     * @param pin   int that determines where to send the data to
+     *
+     * @param pin int that determines where to send the data to
      */
     public Motor(int pin) {
         this.pin = pin;
@@ -48,8 +49,8 @@ public class Motor {
      * @param speed   in float 1 is ful forward, -1 is backwards
      * @param reverse boolean to let the servo go clockwise or counter clockwise
      */
-    public void update(float speed,boolean reverse) {
-        servo.update(speedToPulseLength(speed,reverse));
+    public void update(float speed, boolean reverse) {
+        servo.update(speedToPulseLength(speed, reverse));
     }
 
 }

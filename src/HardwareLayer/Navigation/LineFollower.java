@@ -35,7 +35,7 @@ public class LineFollower implements Updatable, Switchable {
     }
 
     /**
-     this function will iterate to update the sensors
+     * this function will iterate to update the sensors
      */
     @Override
     public void update() {
@@ -47,12 +47,12 @@ public class LineFollower implements Updatable, Switchable {
         return sensorName;
     }
 
-    public LineFollowerValue getDetectedColor(){
-        if((this.lineSensorOutput < this.thresholdValue) && (this.lineSensorOutput > 0)){
+    public LineFollowerValue getDetectedColor() {
+        if ((this.lineSensorOutput < this.thresholdValue) && (this.lineSensorOutput > 0)) {
             return LineFollowerValue.White;
-        } else if((this.lineSensorOutput >= thresholdValue) && (this.lineSensorOutput > 0)){
+        } else if ((this.lineSensorOutput >= thresholdValue) && (this.lineSensorOutput > 0)) {
             return LineFollowerValue.Black;
-        } else{
+        } else {
             return LineFollowerValue.NA;
         }
     }

@@ -70,7 +70,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), 0.8f);
                 break;
             case Right:
-                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(),  -0.8f);
+                this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), -0.8f);
                 break;
             case Brake:
                 this.motorControl.setMotorsTarget(0f, 0f);
@@ -106,6 +106,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     /**
      * TODO
+     *
      * @param
      */
     @java.lang.Override
@@ -168,18 +169,18 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
 
             case LineFollower:
-                if(this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()){
+                if (this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()) {
                     this.activeLineFollower.setLineFollowerState(false);
-                } else if(!this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()){
+                } else if (!this.activeLineFollower.isLineFollowerState() && !this.routeFollower.isOn()) {
                     this.activeLineFollower.setLineFollowerState(true);
                 }
                 this.selectedCommand = DriveCommands.LineFollower;
                 System.out.println("LineFollower");
                 break;
             case RouteFollower:
-                if(this.routeFollower.isOn()){
+                if (this.routeFollower.isOn()) {
                     this.routeFollower.off();
-                } else{
+                } else {
                     this.routeFollower.on();
                 }
                 System.out.println("AB");
@@ -210,6 +211,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     /**
      * TODO
+     *
      * @param command
      */
     @java.lang.Override
@@ -219,22 +221,23 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     /**
      * TODO
+     *
      * @param command
      * @return
      */
     @java.lang.Override
     public String getState(BluetoothStateCommands command) {
-        switch (command){
+        switch (command) {
             case Lights:
-                if(this.notificationSystem.getLight()){
+                if (this.notificationSystem.getLight()) {
                     return "t";
-                }else {
+                } else {
                     return "f";
                 }
             case Sound:
-                if(this.notificationSystem.getSound()){
+                if (this.notificationSystem.getSound()) {
                     return "t";
-                }else {
+                } else {
                     return "f";
                 }
             case Speed:
@@ -247,28 +250,29 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     /**
      * TODO
+     *
      * @param command
      * @param value
      */
     @java.lang.Override
     public void setState(BluetoothStateCommands command, String value) {
-        switch (command){
+        switch (command) {
             case Lights:
-                if(value.equals("t")){
+                if (value.equals("t")) {
                     this.notificationSystem.LEDOn();
-                }else if(value.equals("f")){
+                } else if (value.equals("f")) {
                     this.notificationSystem.LEDOff();
                 }
                 break;
             case Sound:
-                if(value.equals("t")){
+                if (value.equals("t")) {
                     this.notificationSystem.speakerOn();
-                }else if(value.equals("f")){
+                } else if (value.equals("f")) {
                     this.notificationSystem.speakerOff();
                 }
                 break;
             case Speed:
-                this.motorControl.setMotorsTarget(Float.parseFloat(value),0f);
+                this.motorControl.setMotorsTarget(Float.parseFloat(value), 0f);
                 break;
             case RouteFollower:
                 if(value.equals("t")){
@@ -283,16 +287,18 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * simple getter for isLocked
-     * @return isLocked boolean
+     * simple getter for isUnlocked
+     *
+     * @return isUnlocked boolean
      */
     public boolean isLocked() {
         return isLocked;
     }
 
     /**
-     * simple setter for isLocked
-     * @param isLocked is to what isLocked need to be set
+     * simple setter for isUnlocked
+     *
+     * @param unlocked is to what isUnlocked need to be set
      */
     public void setLocked(boolean isLocked) {
         isLocked = isLocked;
