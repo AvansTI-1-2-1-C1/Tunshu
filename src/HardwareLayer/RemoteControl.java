@@ -27,7 +27,6 @@ public class RemoteControl implements Updatable, Switchable {
         int[] binaryInput = new int[12];
 
         // if the pulse length is longer then 2000 its the starting bit.
-
         if (BoeBot.pulseIn(this.pin, false, 6000) > 2000) {
             int[] lengths = new int[12];
 
@@ -44,6 +43,7 @@ public class RemoteControl implements Updatable, Switchable {
                     binaryInput[i] = 1;
                 }
             }
+            System.out.println(binaryInput);
             buttonPress(convertBinary(binaryInput));
         }
     }
