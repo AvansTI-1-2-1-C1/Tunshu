@@ -66,9 +66,6 @@ public class Tunshu implements RouteCallBack {
                 case Locked:
                     locked();
                     break;
-                case LineFollower:
-                    lineFollower();
-                    break;
                 case RouteFollower:
                     routeFollower();
                     break;
@@ -78,6 +75,8 @@ public class Tunshu implements RouteCallBack {
             }
             //makes the application less processing heavy
             BoeBot.wait(10);
+            System.out.println(state);
+            System.out.println(override.isLocked());
         }
     }
 
@@ -94,8 +93,8 @@ public class Tunshu implements RouteCallBack {
             } else if (motorControl.isDrivingBackward()) {
                 this.state = States.Reverse;
                 notificationSystem.update();
-            } else if (activeLineFollower.isLineFollowerState()) {
-                this.state = States.LineFollower;
+            } else if (routeFollower.isOn()) {
+                this.state = States.RouteFollower;
                 notificationSystem.update();
             } else {
                 this.state = States.Running;
@@ -137,10 +136,11 @@ public class Tunshu implements RouteCallBack {
     private void locked() {
         //status changer
         if (stateUpdateTimer.timeout()) {
+            routeFollower.off();
             if (hitDetection.getState()) {
                 this.state = States.Alert;
                 notificationSystem.update();
-            } else if (!override.isLocked()) {
+            } else if (override.isLocked()) {
                 this.state = States.Running;
                 notificationSystem.update();
             }
@@ -156,32 +156,32 @@ public class Tunshu implements RouteCallBack {
     /**
      * BoeBot is following a line
      */
-    private void lineFollower() {
-        //status changer
-        if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState()) {
-                this.state = States.Alert;
-                motorControl.setLocked(true);
-                notificationSystem.update();
-            } else if (motorControl.isDrivingBackward()) {
-                this.state = States.Reverse;
-                notificationSystem.update();
-            } else if (activeLineFollower.isLineFollowerState()) {
-                this.state = States.LineFollower;
-                notificationSystem.update();
-            } else {
-                this.state = States.Running;
-                notificationSystem.update();
-            }
-            stateUpdateTimer.mark();
-        }
-
-        //updates
-        hitDetection.update();
-        override.update();
-        motorControl.update();
-        activeLineFollower.update();
-    }
+//    private void lineFollower() {
+//        //status changer
+//        if (stateUpdateTimer.timeout()) {
+//            if (hitDetection.getState()) {
+//                this.state = States.Alert;
+//                motorControl.setLocked(true);
+//                notificationSystem.update();
+//            } else if (motorControl.isDrivingBackward()) {
+//                this.state = States.Reverse;
+//                notificationSystem.update();
+//            } else if (routeFollower.isOn()) {
+//                this.state = States.LineFollower;
+//                notificationSystem.update();
+//            } else {
+//                this.state = States.Running;
+//                notificationSystem.update();
+//            }
+//            stateUpdateTimer.mark();
+//        }
+//
+//        //updates
+//        hitDetection.update();
+//        override.update();
+//        motorControl.update();
+//        activeLineFollower.update();
+//    }
 
     /**
      * BoeBot is following a route
@@ -196,10 +196,7 @@ public class Tunshu implements RouteCallBack {
             } else if (motorControl.isDrivingBackward()) {
                 this.state = States.Reverse;
                 notificationSystem.update();
-            } else if (activeLineFollower.isLineFollowerState()) {
-                this.state = States.LineFollower;
-                notificationSystem.update();
-            } else {
+            } else if(!routeFollower.isOn()) {
                 this.state = States.Running;
                 notificationSystem.update();
             }
@@ -217,7 +214,7 @@ public class Tunshu implements RouteCallBack {
     /**
      * something went wrong
      */
-    private void error(){
+    private void error() {
         notificationSystem.update();
     }
 
