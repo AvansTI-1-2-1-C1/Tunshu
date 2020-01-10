@@ -4,12 +4,13 @@ import InterfaceLayer.*;
 import InterfaceLayer.Override;
 import TI.BoeBot;
 import TI.Timer;
+import Utils.CallBacks.RouteCallBack;
 import Utils.Enums.Instructions;
 import Utils.Enums.States;
 
 import java.util.ArrayList;
 
-public class Tunshu {
+public class Tunshu implements RouteCallBack {
 
     private MotorControl motorControl;
     private HitDetection hitDetection;
@@ -34,7 +35,7 @@ public class Tunshu {
         this.route = new Route();
         this.routeFollower = new RouteFollower(this.motorControl, this.route, this.activeLineFollower);
         this.notificationSystem = new NotificationSystem(this);
-        this.override = new Override(this.motorControl, this.notificationSystem, this.routeFollower, this.activeLineFollower);
+        this.override = new Override(this.motorControl, this.notificationSystem, this.routeFollower, this.activeLineFollower, this);
 
         this.stateUpdateTimer = new Timer(100);
 
@@ -234,6 +235,11 @@ public class Tunshu {
         dir.add(Instructions.Forward);
         dir.add(Instructions.Forward);
         this.route.setInstructions(dir);
+    }
+
+    @java.lang.Override
+    public void setRoute(ArrayList<Instructions> instructions) {
+        this.route.setInstructions(instructions);
     }
 
     public States getState() {
