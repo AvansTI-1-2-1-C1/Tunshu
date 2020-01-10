@@ -76,6 +76,7 @@ public class Tunshu implements RouteCallBack {
                     error();
                     break;
             }
+
             //makes the application less processing heavy
             BoeBot.wait(10);
         }
@@ -87,7 +88,7 @@ public class Tunshu implements RouteCallBack {
     private void running() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState()) {
+            if (hitDetection.isDetectingObject()) {
                 this.state = States.Alert;
                 motorControl.setLocked(true);
                 notificationSystem.update();
@@ -97,7 +98,9 @@ public class Tunshu implements RouteCallBack {
             } else if (activeLineFollower.isLineFollowerState()) {
                 this.state = States.LineFollower;
                 notificationSystem.update();
-            } else {
+            } else if (override.isLocked()) {
+                this.state = States.Locked;
+            }else {
                 this.state = States.Running;
                 notificationSystem.update();
             }
@@ -117,7 +120,7 @@ public class Tunshu implements RouteCallBack {
     private void alert() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState()) {
+            if (hitDetection.isDetectingObject()) {
                 notificationSystem.update();
                 override.setLocked(true);
             } else {
@@ -137,12 +140,13 @@ public class Tunshu implements RouteCallBack {
     private void locked() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState()) {
+            if (hitDetection.isDetectingObject()) {
                 this.state = States.Alert;
                 notificationSystem.update();
             } else if (!override.isLocked()) {
                 this.state = States.Running;
                 notificationSystem.update();
+                motorControl.setLocked(false);
             }
             stateUpdateTimer.mark();
         }
@@ -159,7 +163,7 @@ public class Tunshu implements RouteCallBack {
     private void lineFollower() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState()) {
+            if (hitDetection.isDetectingObject()) {
                 this.state = States.Alert;
                 motorControl.setLocked(true);
                 notificationSystem.update();
@@ -189,7 +193,7 @@ public class Tunshu implements RouteCallBack {
     private void routeFollower() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState()) {
+            if (hitDetection.isDetectingObject()) {
                 this.state = States.Alert;
                 motorControl.setLocked(true);
                 notificationSystem.update();

@@ -18,7 +18,7 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
     private Timer detectTimer;
     private Timer hitDetectStateTimer;
 
-    private boolean hitDetectionState;
+    private boolean isDetectingObject;
 
 
     public HitDetection() {
@@ -44,11 +44,11 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
             detectTimer.mark();
 
             if ((this.ultraSonicDistance < 20 && this.ultraSonicDistance > 0) || this.antennaState) {
-                hitDetectionState = true;
+                isDetectingObject = true;
                 hitDetectStateTimer.mark();
             } else {
                 if (hitDetectStateTimer.timeout()) {
-                    hitDetectionState = false;
+                    isDetectingObject = false;
                 }
             }
         }
@@ -61,10 +61,10 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
      *
      * @return boolean true when the sensors detect an object too close
      */
-    public boolean getState() {
+    public boolean isDetectingObject() {
 
         //this method returns the state of the hit detection currently if true there is a detect
-        return hitDetectionState;
+        return isDetectingObject;
 
     }
 

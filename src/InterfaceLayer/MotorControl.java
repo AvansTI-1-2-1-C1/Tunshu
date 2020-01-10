@@ -186,9 +186,9 @@ public class MotorControl implements Updatable {
     }
 
     public void setLocked(boolean isLocked) {
-        setSlowAccelerate(false);
-        setMotorsTarget(0, 0);
-        setSlowAccelerate(true);
+        motorLeft.update(0, false);
+        motorRight.update(0, false);
+        setMotorsTarget(0,0);
         this.isLocked = isLocked;
     }
 
