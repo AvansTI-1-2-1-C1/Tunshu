@@ -37,8 +37,7 @@ public class Bluetooth implements Updatable, Switchable {
                 for (int i = 0; i < amount - 1; i++) {
                     buffer[i] = serialConnection.readByte();
                 }
-//            serialConnection.writeByte(data);
-//            System.out.println("Received Data: " + (char)data);
+
                 switch (buffer[0]) {
                     //Forward(w)
                     case 119:

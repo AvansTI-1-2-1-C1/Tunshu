@@ -17,6 +17,8 @@ public class LineFollower implements Updatable, Switchable {
     private int pin;
     private int thresholdValue;
 
+    private boolean isOn;
+
     public LineFollower(String sensorName, int pin, LineFollowerCallBack lineFollowerCallBack) {
 
         //To make a callback possible we need to give the interface through the constructor
@@ -26,8 +28,6 @@ public class LineFollower implements Updatable, Switchable {
         this.pin = pin;
         this.thresholdValue = 1500;
     }
-
-    private boolean isOn;
 
     @Override
     public boolean isOn() {
@@ -39,7 +39,6 @@ public class LineFollower implements Updatable, Switchable {
      */
     @Override
     public void update() {
-
         this.lineSensorOutput = BoeBot.analogRead(this.pin);
         lineFollowerCallBack.onLineFollowerStatus(this);
     }
@@ -49,9 +48,9 @@ public class LineFollower implements Updatable, Switchable {
     }
 
     public LineFollowerValue getDetectedColor(){
-        if(this.lineSensorOutput < this.thresholdValue && this.lineSensorOutput > 0){
+        if((this.lineSensorOutput < this.thresholdValue) && (this.lineSensorOutput > 0)){
             return LineFollowerValue.White;
-        } else if(this.lineSensorOutput >= thresholdValue && this.lineSensorOutput > 0){
+        } else if((this.lineSensorOutput >= thresholdValue) && (this.lineSensorOutput > 0)){
             return LineFollowerValue.Black;
         } else{
             return LineFollowerValue.NA;

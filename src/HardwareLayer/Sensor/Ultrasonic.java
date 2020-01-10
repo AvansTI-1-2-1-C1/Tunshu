@@ -14,6 +14,7 @@ public class Ultrasonic implements Updatable, Switchable {
         this.ultrasonicCallBack = ultrasonicCallBack;
     }
 
+
     public void update() {
 
         //to make sure there is no collision in inputs we will reset the trigger pin by switching the pin false

@@ -2,7 +2,11 @@ package InterfaceLayer.HeadInterfaces;
 
 public interface Switchable {
 
-    //a contract between implemented classes that have all of following mentioned methods
+    /**
+     * this interface will manage the objects that
+     * need to be turned on and of frequently
+     *  @return the state of the object
+     */
     boolean isOn();
     void on();
     void off();

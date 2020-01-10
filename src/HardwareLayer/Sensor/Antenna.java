@@ -20,6 +20,9 @@ public class Antenna implements Updatable, Switchable {
         return isOn;
     }
 
+    /**
+     * the update method will be constantly called, this is to ensure the bot does not react too late
+     */
     @Override
     public void update() {
 

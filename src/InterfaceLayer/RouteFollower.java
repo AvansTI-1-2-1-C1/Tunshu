@@ -79,9 +79,9 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             updateDelayTimer.mark();
         }
 
-        /**
-        if the bot sees a intersection, and is not allready turning and the routefollowing is turned on
-        then the bot wil start rotating into the right direction
+        /*
+         if the bot sees a intersection, and is not allready turning and the routefollowing is turned on
+         then the bot wil start rotating into the right direction
          */
         if (this.hasHitIntersection() && !this.isTurning && this.isFollowingRoute) {
             this.currentlyTurningDirection = this.route.getInstruction();
@@ -93,10 +93,8 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             this.forwardDrivingTimer.mark();
         }
 
-        /**
-        if the turning sequence has been set true, then the turn method will be constantly updated
-         */
-        if(this.isTurning) {
+         // if the turning sequence has been set true, then the turn method will be constantly updated
+        if (this.isTurning) {
             this.turn();
         }
     }
@@ -105,22 +103,23 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      * this is the method that manages the turning
      */
     private void turn() {
+
         //the first statement is to make sure that the forward instruction will be ignored
-        if(currentlyTurningDirection != Instructions.Forward) {
+        if (currentlyTurningDirection != Instructions.Forward) {
             if (correctingDelayTimer.timeout()) {
                 this.motorControl.rotate(this.currentlyTurningDirection);
                 this.correctingDelayTimer.setEnabled(false);
                 this.turningTimer.mark();
             }
 
-            if (this.leftSensorStatus == LineFollowerValue.White &&
-                    this.middleSensorStatus == LineFollowerValue.White &&
-                    this.rightSensorStatus == LineFollowerValue.White && this.turningTimer.timeout()) {
+            if ((this.leftSensorStatus == LineFollowerValue.White) &&
+                    (this.middleSensorStatus == LineFollowerValue.White) &&
+                    (this.rightSensorStatus == LineFollowerValue.White) && this.turningTimer.timeout()) {
                 System.out.println("white");
                 this.hasSeenWhite = true;
             }
 
-            if (this.hasSeenWhite && this.middleSensorStatus == LineFollowerValue.Black) {
+            if (this.hasSeenWhite && (this.middleSensorStatus == LineFollowerValue.Black)) {
                 this.currentlyTurningDirection = Instructions.None;
                 this.isTurning = false;
                 this.hasSeenWhite = false;
@@ -128,7 +127,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
                 this.motorControl.setTurning(false);
                 System.out.println("done turning");
             }
-        } else if(this.forwardDrivingTimer.timeout()) {
+        } else if (this.forwardDrivingTimer.timeout()) {
             this.isTurning = false;
         }
 
@@ -139,9 +138,9 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      * @return if so it will return true else false
      */
     private boolean hasHitIntersection() {
-        return (this.middleSensorStatus == LineFollowerValue.Black &&
-                this.leftSensorStatus == LineFollowerValue.Black &&
-                this.rightSensorStatus == LineFollowerValue.Black);
+        return ((this.middleSensorStatus == LineFollowerValue.Black) &&
+                (this.leftSensorStatus == LineFollowerValue.Black) &&
+                (this.rightSensorStatus == LineFollowerValue.Black));
     }
 
     @java.lang.Override
@@ -168,7 +167,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
      * @param lineFollower the callback returns an object, we specify each sensor by switching on the objects name
      */
     public void onLineFollowerStatus(LineFollower lineFollower) {
-        switch (lineFollower.getSensorName()){
+        switch (lineFollower.getSensorName()) {
 
             case "leftSensor":
                 this.leftSensorStatus = lineFollower.getDetectedColor();
