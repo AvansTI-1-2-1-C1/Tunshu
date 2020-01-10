@@ -78,7 +78,7 @@ public class Tunshu implements RouteCallBack {
             }
 
             //makes the application less processing heavy
-            BoeBot.wait(20);
+            BoeBot.wait(50);
         }
     }
 

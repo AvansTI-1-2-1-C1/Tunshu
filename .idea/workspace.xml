@@ -245,6 +245,7 @@
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="13838000" />
   </component>
+<<<<<<< Updated upstream
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
@@ -465,5 +466,56 @@
         </state>
       </provider>
     </entry>
+=======
+  <component name="WindowStateProjectService">
+    <state x="552" y="178" key="#Project_Structure" timestamp="1576168302249">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="178" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1576168302249" />
+    <state x="765" y="203" key="#com.intellij.ide.util.MemberChooser" timestamp="1576670129198">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="203" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1576670129198" />
+    <state x="209" y="307" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1576770472406">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="209" y="307" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1576770472406" />
+    <state x="707" y="252" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1576666288748">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="707" y="252" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1920.1040@0.0.1920.1040" timestamp="1576666288748" />
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1576666287967">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1576666287967" />
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom" timestamp="1578401807808">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1578401807808" />
+    <state width="1877" height="281" key="GridCell.Tab.0.center" timestamp="1578401807808">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1578401807808" />
+    <state width="1877" height="281" key="GridCell.Tab.0.left" timestamp="1578401807808">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1578401807808" />
+    <state width="1877" height="281" key="GridCell.Tab.0.right" timestamp="1578401807808">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="281" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1578401807808" />
+    <state x="342" y="140" key="new project wizard" timestamp="1578411439046">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="342" y="140" key="new project wizard/0.0.1920.1040@0.0.1920.1040" timestamp="1578411439046" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1576668555197">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1576668555197" />
+    <state x="616" y="173" width="670" height="676" key="search.everywhere.popup" timestamp="1576169491668">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="173" width="670" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1576169491668" />
+>>>>>>> Stashed changes
   </component>
 </project>

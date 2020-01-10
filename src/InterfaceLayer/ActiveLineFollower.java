@@ -93,7 +93,6 @@ public class ActiveLineFollower implements Updatable, LineFollowerCallBack {
 
     /**
      * callback from the line followers to update the line position
-     *
      * @param lineFollower gives himself back
      */
     public void onLineFollowerStatus(LineFollower lineFollower) {

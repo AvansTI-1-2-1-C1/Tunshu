@@ -21,9 +21,7 @@ public class Speaker implements Updatable, Switchable {
     }
 
     public void speakerFrequencyUpdate(int frequency) {
-
         this.speakerFrequency = frequency;
-
     }
 
     @Override
@@ -31,6 +29,9 @@ public class Speaker implements Updatable, Switchable {
         return isOn;
     }
 
+    /**
+     * the update method will pwm the new
+     */
     @Override
     public void update() {
 

@@ -27,8 +27,8 @@ public class RemoteControl implements Updatable, Switchable {
         int[] binaryInput = new int[12];
 
         // if the pulse length is longer then 2000 its the starting bit.
-        if (BoeBot.pulseIn(this.pin, false, 6000) > 2000) {
 
+        if (BoeBot.pulseIn(this.pin, false, 6000) > 2000) {
             int[] lengths = new int[12];
 
             // fill 12 slots of the array in reversed order.
@@ -134,9 +134,9 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
     /**
-     *  //TODO
-     * @param numbers
-     * @return
+     *  converts binary array to integer
+     * @param numbers the array of 0 and 1
+     * @return converted number
      */
     private static int convertBinary(int[] numbers) {
         int getal = 0;

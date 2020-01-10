@@ -2,6 +2,9 @@ package InterfaceLayer.HeadInterfaces;
 
 public interface Updatable {
 
-    //contract between all the classes that have been implemented, that they will have an update function
+    /**
+     * this interface will manage the updatable objects, we did this because it
+     * makes it easier to update multiple objects in a loop.
+     */
     void update();
 }
