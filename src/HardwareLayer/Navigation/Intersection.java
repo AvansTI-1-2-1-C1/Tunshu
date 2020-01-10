@@ -17,7 +17,7 @@ public class Intersection {
 
     @Override
     public String toString() {
-        return ""+ tentativeDistance;
+        return "" + tentativeDistance;
     }
 
     public boolean isBlocked() {

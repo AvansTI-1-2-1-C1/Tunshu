@@ -93,7 +93,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             this.forwardDrivingTimer.mark();
         }
 
-         // if the turning sequence has been set true, then the turn method will be constantly updated
+        // if the turning sequence has been set true, then the turn method will be constantly updated
         if (this.isTurning) {
             this.turn();
         }
@@ -135,6 +135,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
     /**
      * this method wil check if the intersection has been hit
+     *
      * @return if so it will return true else false
      */
     private boolean hasHitIntersection() {
@@ -164,6 +165,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
     /**
      * callback from the LineFollower class
+     *
      * @param lineFollower the callback returns an object, we specify each sensor by switching on the objects name
      */
     public void onLineFollowerStatus(LineFollower lineFollower) {

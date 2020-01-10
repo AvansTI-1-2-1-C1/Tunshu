@@ -48,7 +48,7 @@ public class RemoteControl implements Updatable, Switchable {
         }
     }
 
-    public void buttonPress(int buttonPress){
+    public void buttonPress(int buttonPress) {
         switch (buttonPress) {
             case 0:
                 break;
@@ -134,7 +134,8 @@ public class RemoteControl implements Updatable, Switchable {
     }
 
     /**
-     *  converts binary array to integer
+     * converts binary array to integer
+     *
      * @param numbers the array of 0 and 1
      * @return converted number
      */

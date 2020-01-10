@@ -8,6 +8,7 @@ public class OnOffTimer extends Timer {
 
     /**
      * this timer is a child of the main timer class from the Boebot library
+     *
      * @param interval the interval time
      */
     public OnOffTimer(int interval) {
@@ -23,6 +24,7 @@ public class OnOffTimer extends Timer {
     /**
      * this timer extends on the normal timer in a way that the timer is able to be turned of and on
      * this will give more opportunities to use this in an efficient way
+     *
      * @param enabled set the state of the timer, enabled or disabled.
      */
     public void setEnabled(boolean enabled) {

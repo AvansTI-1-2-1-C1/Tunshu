@@ -36,18 +36,18 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
      */
     @java.lang.Override
     public void update() {
-        if (detectTimer.timeout()){
+        if (detectTimer.timeout()) {
             //the sensors are updated here, doing this will change the attributes in this class to use them afterwards
             // for more detail, read the comments in both these classes
             ultrasonic.update();
             antenna.update();
             detectTimer.mark();
 
-            if ((this.ultraSonicDistance < 20 && this.ultraSonicDistance > 0) || this.antennaState){
+            if ((this.ultraSonicDistance < 20 && this.ultraSonicDistance > 0) || this.antennaState) {
                 hitDetectionState = true;
                 hitDetectStateTimer.mark();
-            }else {
-                if (hitDetectStateTimer.timeout()){
+            } else {
+                if (hitDetectStateTimer.timeout()) {
                     hitDetectionState = false;
                 }
             }
@@ -58,9 +58,10 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     /**
      * getter for the hit detection state
+     *
      * @return boolean true when the sensors detect an object too close
      */
-    public boolean getState(){
+    public boolean getState() {
 
         //this method returns the state of the hit detection currently if true there is a detect
         return hitDetectionState;
@@ -69,9 +70,10 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     /**
      * this is the callback when the ultrasonic gets updated.
+     *
      * @param distance this parameter will set the attribute in the class
      */
-    public void ultrasonicSensorDistance(double distance){
+    public void ultrasonicSensorDistance(double distance) {
 
         //This is one of the callbacks from the sensors, both of these callbacks call a method from the sensor
         //to communicate with the hit detection class
@@ -81,9 +83,10 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
     /**
      * this is the callback when the antenna class gets updated
+     *
      * @param state this parameter will set the attribute in the class
      */
-    public void antennaState(boolean state){
+    public void antennaState(boolean state) {
         //This is one of the callbacks from the sensors, both of these callbacks call a method from the sensor
         //to communicate with the hit detection class
         this.antennaState = state;
