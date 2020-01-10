@@ -6,6 +6,7 @@ import Utils.CallBacks.RemoteControlCallBack;
 import Utils.CallBacks.BluetoothCallBack;
 import InterfaceLayer.HeadInterfaces.Updatable;
 import TI.Timer;
+import Utils.CallBacks.RouteCallBack;
 import Utils.Enums.BluetoothStateCommands;
 import Utils.Enums.DriveCommands;
 import Utils.Enums.RemoteCommand;
@@ -32,11 +33,11 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private RouteFollower routeFollower;
     private boolean isUnlocked;
 
-    public Override(MotorControl motorControl, NotificationSystem notificationSystem, RouteFollower routeFollower, ActiveLineFollower activeLineFollower) {
-        this.remoteControlFront = new RemoteControl(this, 8);
+    public Override(MotorControl motorControl, NotificationSystem notificationSystem, RouteFollower routeFollower, ActiveLineFollower activeLineFollower, RouteCallBack routeCallBack) {
+        this.remoteControlFront = new RemoteControl(this, 0);
         this.remoteControlBack = new RemoteControl(this, 4);
         this.motorControl = motorControl;
-        this.bluetooth = new Bluetooth(this);
+        this.bluetooth = new Bluetooth(this, routeCallBack);
         this.notificationSystem = notificationSystem;
         this.inputDelay = new Timer(250);
         this.routeFollower = routeFollower;
@@ -274,6 +275,13 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
             case Speed:
                 this.motorControl.setMotorsTarget(Float.parseFloat(value), 0f);
+                break;
+            case RouteFollower:
+                if(value.equals("t")){
+                    this.routeFollower.on();
+                }else if(value.equals("f")){
+                    this.routeFollower.off();
+                }
                 break;
             default:
                 break;
