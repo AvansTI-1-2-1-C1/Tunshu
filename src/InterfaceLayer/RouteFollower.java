@@ -38,6 +38,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
 
     private boolean hasSeenWhite;
     private boolean isFollowingRoute;
+    private boolean isTurning180Degrees;
 
     private List<LineFollower> lineFollowerList;
 
@@ -51,6 +52,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         this.isFollowingRoute = false;
         this.isTurning = false;
         this.hasSeenWhite = false;
+        this.isTurning180Degrees = false;
 
         this.lineFollowerList = new ArrayList<>();
         this.linefollowingStateSetter = false;
@@ -99,7 +101,12 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             System.out.println("linefollower uit");
             correctingDelayTimer.setEnabled(true);
             this.forwardDrivingTimer.mark();
+
+            //boolean to make sure it passes the black line twice
+            if (this.currentlyTurningDirection == Instructions.Backward)
+                this.isTurning180Degrees = true;
         }
+
 
         // if the turning sequence has been set true, then the turn method will be constantly updated
         if (this.isTurning) {
@@ -115,8 +122,12 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         //the first statement is to make sure that the forward instruction will be ignored
         this.motorControl.rotate(Instructions.Forward);
 
+        //stop the BoeBot if it needs to be stopped
+        if (this.currentlyTurningDirection == Instructions.Stop)
+            this.motorControl.rotate(this.currentlyTurningDirection);
+
         if (correctingDelayTimer.timeout()) {
-            if (currentlyTurningDirection == Instructions.Forward) {
+            if (this.currentlyTurningDirection == Instructions.Forward) {
                 this.isTurning = false;
                 this.activeLineFollowingTimer.setEnabled(true);
                 return;
@@ -133,14 +144,21 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             this.hasSeenWhite = true;
         }
 
+
         if (this.hasSeenWhite && (this.middleSensorStatus == LineFollowerValue.Black)) {
-            this.currentlyTurningDirection = Instructions.None;
-            this.isTurning = false;
-            this.hasSeenWhite = false;
-            this.activeLineFollower.setLineFollowerState(true);
-            this.motorControl.setTurning(false);
-            System.out.println("done turning");
+            if (!this.isTurning180Degrees) {
+                this.currentlyTurningDirection = Instructions.None;
+                this.isTurning = false;
+                this.hasSeenWhite = false;
+                this.activeLineFollower.setLineFollowerState(true);
+                this.motorControl.setTurning(false);
+                System.out.println("done turning");
+            }else {
+                this.hasSeenWhite = false;
+                this.isTurning180Degrees=false;
+            }
         }
+        
     }
 
     /**

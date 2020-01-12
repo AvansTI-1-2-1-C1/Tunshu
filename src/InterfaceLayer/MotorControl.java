@@ -171,10 +171,25 @@ public class MotorControl implements Updatable {
                 // drive straight
                 motorLeft.update(0.3f, false);
                 motorRight.update(0.3f, true);
+
+                break;
+            case Backward:
+                // turn 180 degrees to the left
+                motorLeft.update(0.3f, true);
+                motorRight.update(0.3f, true);
+
+                break;
+            case Stop:
+                //stop the BoeBot
+                motorLeft.update(0,false);
+                motorRight.update(0,false);
+
                 break;
             case None:
+                //stop the BoeBot
                 motorLeft.update(0, false);
                 motorRight.update(0, false);
+
                 break;
             default:
                 System.out.println(direction + " is unknown");
