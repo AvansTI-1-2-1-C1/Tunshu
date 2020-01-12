@@ -98,7 +98,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             System.out.println(this.currentlyTurningDirection);
             this.isTurning = true;
             this.activeLineFollower.setLineFollowerState(false);
-            System.out.println("linefollower uit");
+            System.out.println("LineFollower turned off");
             correctingDelayTimer.setEnabled(true);
             this.forwardDrivingTimer.mark();
 
@@ -123,9 +123,13 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         this.motorControl.rotate(Instructions.Forward);
 
         //stop the BoeBot if it needs to be stopped
-        if (this.currentlyTurningDirection == Instructions.Stop)
+        if (this.currentlyTurningDirection == Instructions.Stop) {
             this.motorControl.rotate(this.currentlyTurningDirection);
+            this.isTurning=false;
+            return;
+        }
 
+        //skip the intersection if the instruction is forward
         if (correctingDelayTimer.timeout()) {
             if (this.currentlyTurningDirection == Instructions.Forward) {
                 this.isTurning = false;
@@ -137,6 +141,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             this.turningTimer.mark();
         }
 
+        //setter for has seen white
         if ((this.leftSensorStatus == LineFollowerValue.White) &&
                 (this.middleSensorStatus == LineFollowerValue.White) &&
                 (this.rightSensorStatus == LineFollowerValue.White) && this.turningTimer.timeout()) {
@@ -144,7 +149,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
             this.hasSeenWhite = true;
         }
 
-
+        //if the middle sensors sees the black line it is done turning or it needs to go to the next black line
         if (this.hasSeenWhite && (this.middleSensorStatus == LineFollowerValue.Black)) {
             if (!this.isTurning180Degrees) {
                 this.currentlyTurningDirection = Instructions.None;
@@ -158,7 +163,7 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
                 this.isTurning180Degrees=false;
             }
         }
-        
+
     }
 
     /**
