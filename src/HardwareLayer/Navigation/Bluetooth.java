@@ -90,7 +90,7 @@ public class Bluetooth implements Updatable, Switchable {
                 //Set speed(o)
                 case 'o':
                     String number = "";
-                    for (int i = 1; i < amount - 1; i++) {
+                    for (int i = 1; i < buffer.length - 1; i++) {
                         number += (char) buffer[i];
                     }
 
@@ -132,19 +132,15 @@ public class Bluetooth implements Updatable, Switchable {
                     for (int i = 1; i < buffer.length - 1; i++) {
                         switch ((char) buffer[i]) {
                             case 'w':
-                                System.out.println("Added Forward");
                                 route.add(Instructions.Forward);
                                 break;
                             case 'a':
-                                System.out.println("Added Left");
                                 route.add(Instructions.Left);
                                 break;
                             case 'd':
-                                System.out.println("Added Right");
                                 route.add(Instructions.Right);
                                 break;
                             case 's':
-                                System.out.println("Added stop");
                                 route.add(Instructions.Stop);
                                 break;
                         }

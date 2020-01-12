@@ -76,7 +76,6 @@ public class Tunshu implements RouteCallBack {
                     error();
                     break;
             }
-
             //makes the application less processing heavy
             BoeBot.wait(10);
             //System.out.println(state);
@@ -90,7 +89,7 @@ public class Tunshu implements RouteCallBack {
     private void running() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.isDetectingObject()) {
+            if (hitDetection.getState()) {
                 this.state = States.Alert;
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
@@ -99,9 +98,7 @@ public class Tunshu implements RouteCallBack {
             } else if (routeFollower.isOn()) {
                 this.state = States.RouteFollower;
                 notificationSystem.update();
-            } else if (override.isLocked()) {
-                this.state = States.Locked;
-            }else {
+            } else {
                 this.state = States.Running;
                 notificationSystem.update();
             }
@@ -121,7 +118,7 @@ public class Tunshu implements RouteCallBack {
     private void alert() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.isDetectingObject()) {
+            if (hitDetection.getState()) {
                 notificationSystem.update();
             } else {
                 this.state = States.Locked;
@@ -148,13 +145,12 @@ public class Tunshu implements RouteCallBack {
                 this.state = States.Running;
             }
             routeFollower.off();
-            if (hitDetection.isDetectingObject()) {
+            if (hitDetection.getState()) {
                 this.state = States.Alert;
                 notificationSystem.update();
             } else if (!override.isLocked()) {
                 this.state = States.Running;
                 notificationSystem.update();
-                motorControl.setLocked(false);
             }
             stateUpdateTimer.mark();
         }
@@ -200,7 +196,7 @@ public class Tunshu implements RouteCallBack {
     private void routeFollower() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.isDetectingObject() || !this.routeIsSet) {
+            if (hitDetection.getState() || !this.routeIsSet) {
                 /*
                 * this boolean will ensure if the locked state is called if the route is not set when wanting to use the
                 * route follower state, as an alert

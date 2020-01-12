@@ -305,7 +305,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     /**
      * simple setter for isUnlocked
      *
-     * @param isLocked is to what isLocked is set to
+     * @param unlocked is to what isUnlocked need to be set
      */
     public void setLocked(boolean isLocked) {
         this.isLocked = isLocked;
