@@ -24,6 +24,7 @@ public class Tunshu implements RouteCallBack {
     private Timer stateUpdateTimer;
 
     private boolean routeIsSet;
+    private boolean alerter;
 
     private States state;
 
@@ -40,6 +41,7 @@ public class Tunshu implements RouteCallBack {
         this.override = new Override(this.motorControl, this.notificationSystem, this.routeFollower, this.activeLineFollower, this);
         this.hitDetection = new HitDetection(this.override, this.motorControl);
         this.routeIsSet = false;
+        this.alerter = false;
         this.stateUpdateTimer = new Timer(100);
 
 
@@ -133,9 +135,15 @@ public class Tunshu implements RouteCallBack {
      * then the state will be set to running
      */
     private void locked() {
+
+        notificationSystem.update();
+
         //status changer
         if (stateUpdateTimer.timeout()) {
-
+            if(this.alerter){
+                this.alerter = false;
+                this.state = States.Running;
+            }
             routeFollower.off();
             if (hitDetection.getState()) {
                 this.state = States.Alert;
@@ -148,7 +156,6 @@ public class Tunshu implements RouteCallBack {
         }
 
         //updates
-        notificationSystem.update();
         hitDetection.update();
         override.update();
     }
@@ -190,6 +197,11 @@ public class Tunshu implements RouteCallBack {
         //status changer
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState() || !this.routeIsSet) {
+                /*
+                * this boolean will ensure if the locked state is called if the route is not set when wanting to use the
+                * route follower state, as an alert
+                 */
+                this.alerter = true;
                 this.state = States.Alert;
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
@@ -240,6 +252,7 @@ public class Tunshu implements RouteCallBack {
      */
     public void setRoute(ArrayList<Instructions> instructions) {
         this.routeIsSet = true;
+        System.out.println(instructions);
         this.route.setInstructions(instructions);
     }
 

@@ -42,55 +42,58 @@ public class Bluetooth implements Updatable, Switchable {
                 buffer[i] = serialConnection.readByte();
             }
 
+            System.out.println((char)buffer[0]);
 //            serialConnection.writeByte(data);
 //            System.out.println("Received Data: " + (char)data);
-            switch (buffer[0]) {
+            switch ((char)buffer[0]) {
                 //Forward(w)
-                case 119:
+
+                case 'w':
                     bluetoothCallBack.onInput(DriveCommands.Forward);
                     break;
                 //Backwards(s)
-                case 115:
+                case 's':
                     bluetoothCallBack.onInput(DriveCommands.Backward);
                     break;
                 //Left(a)
-                case 97:
+                case 'a':
                     bluetoothCallBack.onInput(DriveCommands.Left);
                     break;
                 //Right(d)
-                case 100:
+                case 'd':
                     bluetoothCallBack.onInput(DriveCommands.Right);
                     break;
                 //Handbrake(space)
-                case 32:
+                case ' ':
                     bluetoothCallBack.onInput(DriveCommands.Brake);
                     break;
                 //Faster(e)
-                case 101:
+                case 'e':
                     bluetoothCallBack.onInput(DriveCommands.Faster);
                     break;
                 //Slower(q)
-                case 113:
+                case 'q':
                     bluetoothCallBack.onInput(DriveCommands.Slower);
                     break;
                 //Mute(m)
-                case 109:
+                case 'm':
                     bluetoothCallBack.onInput(DriveCommands.Mute);
                     break;
                 //LineFollower(r)
-                case 114:
+                case 'r':
                     bluetoothCallBack.onInput(DriveCommands.LineFollower);
                     break;
                 //Hand break(h)
-                case 104:
+                case 'h':
                     bluetoothCallBack.onInput(DriveCommands.Lock);
                     break;
                 //Set speed(o)
-                case 111:
+                case 'o':
                     String number = "";
                     for (int i = 1; i < buffer.length - 1; i++) {
                         number += (char) buffer[i];
                     }
+
                     if (number.length() > 2) {
                         number = number.charAt(0) + "." + number.substring(1);
                     } else {
@@ -99,32 +102,32 @@ public class Bluetooth implements Updatable, Switchable {
                     bluetoothCallBack.setState(BluetoothStateCommands.Speed, number);
                     break;
                 //Get speed(O)
-                case 79:
+                case 'O':
                     char[] answerSpeed = bluetoothCallBack.getState(BluetoothStateCommands.Speed).toCharArray();
                     for (char ret : answerSpeed) {
                         serialConnection.writeByte(ret);
                     }
                     break;
                 //Set Light state(l)
-                case 108:
+                case 'l':
                     bluetoothCallBack.setState(BluetoothStateCommands.Lights, buffer[1] + "");
                     break;
                 //Get Light state(L)
-                case 76:
+                case (int)'L':
                     char[] answerLight = bluetoothCallBack.getState(BluetoothStateCommands.Lights).toCharArray();
                     serialConnection.writeByte((int) answerLight[0]);
                     break;
                 //Set Speaker state(p)
-                case 112:
+                case 'p':
                     bluetoothCallBack.setState(BluetoothStateCommands.Sound, buffer[1] + "");
                     break;
                 //Get Speaker state(P)
-                case 80:
+                case 'P':
                     char[] answerSound = bluetoothCallBack.getState(BluetoothStateCommands.Sound).toCharArray();
                     serialConnection.writeByte((int) answerSound[0]);
                     break;
                 //Set Route(i)
-                case 105:
+                case 'i':
                     ArrayList<Instructions> route = new ArrayList<>();
                     for (int i = 1; i < buffer.length - 1; i++) {
                         switch ((char) buffer[i]) {
