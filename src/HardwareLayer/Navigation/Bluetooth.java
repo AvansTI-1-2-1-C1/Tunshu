@@ -51,16 +51,28 @@ public class Bluetooth implements Updatable, Switchable {
                 ArrayList<Instructions> route = new ArrayList<>();
                 for (int i = 1; i < buffer.length - 1; i++) {
                     switch ((char) buffer[i]) {
+                        //forward
                         case 'w':
                             route.add(Instructions.Forward);
                             break;
+                        //left
                         case 'a':
                             route.add(Instructions.Left);
                             break;
+                        //backward
+                        case 's':
+                            route.add(Instructions.Backward);
+                            break;
+                        //right
                         case 'd':
                             route.add(Instructions.Right);
                             break;
-                        case 's':
+                        //halt or stop
+                        case 'h':
+                            route.add(Instructions.Stop);
+                            break;
+                        //route not found
+                        case 'n':
                             route.add(Instructions.Stop);
                             break;
                     }
