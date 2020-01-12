@@ -7,6 +7,7 @@ import TI.Timer;
 import Utils.CallBacks.RouteCallBack;
 import Utils.Enums.Instructions;
 import Utils.Enums.States;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,8 @@ public class Tunshu implements RouteCallBack {
 
     private Timer stateUpdateTimer;
 
+    private boolean routeIsSet;
+
     private States state;
 
     /**
@@ -30,13 +33,13 @@ public class Tunshu implements RouteCallBack {
     public Tunshu() {
         this.motorControl = new MotorControl();
 
-        this.hitDetection = new HitDetection();
         this.activeLineFollower = new ActiveLineFollower(this.motorControl);
         this.route = new Route();
         this.routeFollower = new RouteFollower(this.motorControl, this.route, this.activeLineFollower);
         this.notificationSystem = new NotificationSystem(this);
         this.override = new Override(this.motorControl, this.notificationSystem, this.routeFollower, this.activeLineFollower, this);
-
+        this.hitDetection = new HitDetection(this.override, this.motorControl);
+        this.routeIsSet = false;
         this.stateUpdateTimer = new Timer(100);
 
 
@@ -48,8 +51,6 @@ public class Tunshu implements RouteCallBack {
      * here you loop constantly the state that the machine is in
      */
     public void start() {
-        //we use this method to set the programmed route
-        setRoute();
 
         while (true) {
             switch (state) {
@@ -75,8 +76,8 @@ public class Tunshu implements RouteCallBack {
             }
             //makes the application less processing heavy
             BoeBot.wait(10);
-            System.out.println(state);
-            System.out.println(override.isLocked());
+            //System.out.println(state);
+            //System.out.println(override.isLocked());
         }
     }
 
@@ -88,7 +89,6 @@ public class Tunshu implements RouteCallBack {
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState()) {
                 this.state = States.Alert;
-                motorControl.setLocked(true);
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
                 this.state = States.Reverse;
@@ -118,7 +118,6 @@ public class Tunshu implements RouteCallBack {
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState()) {
                 notificationSystem.update();
-                override.setLocked(true);
             } else {
                 this.state = States.Locked;
             }
@@ -136,11 +135,12 @@ public class Tunshu implements RouteCallBack {
     private void locked() {
         //status changer
         if (stateUpdateTimer.timeout()) {
+
             routeFollower.off();
             if (hitDetection.getState()) {
                 this.state = States.Alert;
                 notificationSystem.update();
-            } else if (override.isLocked()) {
+            } else if (!override.isLocked()) {
                 this.state = States.Running;
                 notificationSystem.update();
             }
@@ -189,14 +189,14 @@ public class Tunshu implements RouteCallBack {
     private void routeFollower() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState()) {
+            if (hitDetection.getState() || !this.routeIsSet) {
                 this.state = States.Alert;
-                motorControl.setLocked(true);
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
                 this.state = States.Reverse;
                 notificationSystem.update();
             } else if(!routeFollower.isOn()) {
+                motorControl.setSlowAccelerate(true);
                 this.state = States.Running;
                 notificationSystem.update();
             }
@@ -204,6 +204,7 @@ public class Tunshu implements RouteCallBack {
         }
 
         //updates
+        notificationSystem.update();
         hitDetection.update();
         override.update();
         motorControl.update();
@@ -234,7 +235,11 @@ public class Tunshu implements RouteCallBack {
     }
 
     @java.lang.Override
+    /**
+     * the callback to set the route, this callback is used in the bluetooth class
+     */
     public void setRoute(ArrayList<Instructions> instructions) {
+        this.routeIsSet = true;
         this.route.setInstructions(instructions);
     }
 

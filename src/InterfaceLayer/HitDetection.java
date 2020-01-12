@@ -18,16 +18,21 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
     private Timer detectTimer;
     private Timer hitDetectStateTimer;
 
+    private Override override;
+    private MotorControl motorControl;
+
     private boolean hitDetectionState;
 
 
-    public HitDetection() {
+    public HitDetection(Override override, MotorControl motorControl) {
 
         //the ultrasonic and the antenna are initialized with the callback as parameter
         this.ultrasonic = new Ultrasonic(this);
         this.antenna = new Antenna(this);
+        this.override = override;
         this.detectTimer = new Timer(10);
         this.hitDetectStateTimer = new Timer(250);
+        this.motorControl = motorControl;
     }
 
 
@@ -45,10 +50,15 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
 
             if ((this.ultraSonicDistance < 20 && this.ultraSonicDistance > 0) || this.antennaState) {
                 hitDetectionState = true;
+                override.setLocked(true);
+                motorControl.setLocked(true);
+                motorControl.setTurning(false);
+                motorControl.stop();
                 hitDetectStateTimer.mark();
             } else {
                 if (hitDetectStateTimer.timeout()) {
                     hitDetectionState = false;
+                    motorControl.setLocked(false);
                 }
             }
         }

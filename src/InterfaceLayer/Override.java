@@ -1,5 +1,6 @@
 package InterfaceLayer;
 
+import ApplicationLayer.Tunshu;
 import HardwareLayer.Navigation.Bluetooth;
 import HardwareLayer.RemoteControl;
 import Utils.CallBacks.RemoteControlCallBack;
@@ -27,6 +28,8 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     private NotificationSystem notificationSystem;
 
     private Timer inputDelay;
+
+
 
 
     private RouteFollower routeFollower;
@@ -73,6 +76,9 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 this.motorControl.setMotorsTarget(motorControl.getCurrentSpeed(), -0.8f);
                 break;
             case Brake:
+                routeFollower.setTurning(false);
+                motorControl.setTurning(false);
+                this.routeFollower.off();
                 this.motorControl.setMotorsTarget(0f, 0f);
                 break;
             case Faster:
@@ -88,6 +94,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
             case Lock:
                 isLocked = !isLocked;
+                motorControl.setLocked(false);
                 break;
             default:
                 break;
@@ -301,6 +308,6 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
      * @param unlocked is to what isUnlocked need to be set
      */
     public void setLocked(boolean isLocked) {
-        isLocked = isLocked;
+        this.isLocked = isLocked;
     }
 }

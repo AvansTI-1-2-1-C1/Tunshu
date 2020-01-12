@@ -53,4 +53,8 @@ public class Motor {
         servo.update(speedToPulseLength(speed, reverse));
     }
 
+    public void stop(){
+        servo.update(this.basePulsewidth);
+    }
+
 }

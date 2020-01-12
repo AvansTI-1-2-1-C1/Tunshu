@@ -71,6 +71,10 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
     @java.lang.Override
     public void update() {
 
+        if (!this.isFollowingRoute){
+            return;
+        }
+
         //makes sure the line sensors get updated
         if (updateDelayTimer.timeout()) {
             for (LineFollower lineFollower : lineFollowerList) {
@@ -142,6 +146,10 @@ public class RouteFollower implements Updatable, Switchable, LineFollowerCallBac
         return ((this.middleSensorStatus == LineFollowerValue.Black) &&
                 (this.leftSensorStatus == LineFollowerValue.Black) &&
                 (this.rightSensorStatus == LineFollowerValue.Black));
+    }
+
+    public void setTurning(boolean turning) {
+        isTurning = turning;
     }
 
     @java.lang.Override

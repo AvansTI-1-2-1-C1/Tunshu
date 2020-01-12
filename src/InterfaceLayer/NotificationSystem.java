@@ -92,7 +92,7 @@ public class NotificationSystem implements Updatable {
                 case Reverse:
                     reverse();
                     break;
-                case LineFollower:
+                case RouteFollower:
                     lineFollower();
                     break;
                 case Locked:
