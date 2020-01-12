@@ -60,7 +60,6 @@ public class ActiveLineFollower implements Updatable, LineFollowerCallBack {
         motorControl.setSlowAccelerate(false);
 
         if (performanceDelayTimer.timeout()) {
-
             //if the middle sensor is misplaced the correcting will start
             if (this.middleSensorStatus == LineFollowerValue.White) {
 

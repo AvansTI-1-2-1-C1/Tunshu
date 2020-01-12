@@ -55,6 +55,7 @@ public class MotorControl implements Updatable {
      * this is the method that need to be called every update loop so the motors get adjusted properly
      */
     public void update() {
+
         if (isTurning)
             return;
 
@@ -84,6 +85,10 @@ public class MotorControl implements Updatable {
                 setBotSpeed(targetSpeed, targetTurnRate);
             }
         } else {
+            currentSpeed = 0;
+            currentTurnRate = 0;
+            targetSpeed = 0;
+            targetTurnRate = 0;
             setBotSpeed(0, 0);
         }
     }
@@ -126,7 +131,7 @@ public class MotorControl implements Updatable {
      * @param turnRate this is done with a float where 1 is full counter clockwise turning, -1 is clockwise turning
      *                 and 0 is standing still
      */
-    private void setBotSpeed(float speed, float turnRate) {
+    public void setBotSpeed(float speed, float turnRate) {
         float motorLeftSpeed;
         float motorRightSpeed;
         if (turnRate == 0) {
@@ -186,10 +191,19 @@ public class MotorControl implements Updatable {
     }
 
     public void setLocked(boolean isLocked) {
-        motorLeft.update(0, false);
-        motorRight.update(0, false);
-        setMotorsTarget(0,0);
+        if(isLocked && !this.isLocked) {
+            this.setSlowAccelerate(false);
+            this.motorRight.update(0,false);
+            this.motorLeft.update(0,false);
+            this.setMotorsTarget(0, 0);
+            this.setSlowAccelerate(true);
+        }
         this.isLocked = isLocked;
+    }
+
+    public void stop(){
+        motorLeft.stop();
+        motorRight.stop();
     }
 
     public void setTurning(boolean turning) {
