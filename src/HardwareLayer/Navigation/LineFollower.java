@@ -26,7 +26,7 @@ public class LineFollower implements Updatable, Switchable {
         this.lineFollowerCallBack = lineFollowerCallBack;
         this.sensorName = sensorName;
         this.pin = pin;
-        this.thresholdValue = 1500;
+        this.thresholdValue = 1400;
     }
 
     @Override

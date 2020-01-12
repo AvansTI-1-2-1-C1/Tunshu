@@ -29,13 +29,12 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
 
     private Timer inputDelay;
 
-
-
+    private Route route;
 
     private RouteFollower routeFollower;
     private boolean isLocked;
 
-    public Override(MotorControl motorControl, NotificationSystem notificationSystem, RouteFollower routeFollower, ActiveLineFollower activeLineFollower, RouteCallBack routeCallBack) {
+    public Override(MotorControl motorControl, NotificationSystem notificationSystem, RouteFollower routeFollower, ActiveLineFollower activeLineFollower, RouteCallBack routeCallBack, Route route) {
         this.remoteControlFront = new RemoteControl(this, 0);
         this.motorControl = motorControl;
         this.bluetooth = new Bluetooth(this, routeCallBack);
@@ -46,6 +45,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
         this.selectedCommand = DriveCommands.None;
         this.previousCommand = DriveCommands.None;
         this.isLocked = false;
+        this.route = route;
     }
 
     /**
@@ -205,6 +205,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
                 break;
             case Enter:
                 //enter
+                this.route.clear();
                 System.out.println("Enter button");
                 break;
             case Vierkant:

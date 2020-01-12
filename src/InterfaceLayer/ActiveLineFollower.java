@@ -31,7 +31,7 @@ public class ActiveLineFollower implements Updatable, LineFollowerCallBack {
 
         this.performanceDelayTimer = new Timer(50);
 
-        this.lineFollowerState = false;
+        this.lineFollowerState = true;
 
         //Here the Line follower is created, this class stands for all three the sensors,
         //we chose this option to make the callbacks and updates more easy and line efficient

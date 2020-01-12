@@ -172,7 +172,7 @@ public class Bluetooth implements Updatable, Switchable {
                         }
                     }
                     this.routeCallBack.setRoute(route);
-                    this.bluetoothCallBack.setState(BluetoothStateCommands.RouteFollower,"t");
+                    //this.bluetoothCallBack.setState(BluetoothStateCommands.RouteFollower,"t");
                     break;
                 //All other keys
                 default:

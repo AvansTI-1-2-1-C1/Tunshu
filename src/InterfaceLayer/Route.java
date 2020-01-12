@@ -47,12 +47,20 @@ public class Route {
 
         try {
             instruction = this.instructions.get(this.instructionCounter);
-        } catch (NullPointerException nullPointer) {
+        } catch (Exception exception) {
             instruction = Instructions.None;
         }
 
         this.instructionCounter++;
         return instruction;
+    }
+
+    public void clear(){
+        try {
+            this.instructions.clear();
+        } catch (Exception exception) {
+            System.out.println("Already clear!");
+        }
     }
 
 }

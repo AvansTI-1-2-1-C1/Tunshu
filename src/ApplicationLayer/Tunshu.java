@@ -38,7 +38,7 @@ public class Tunshu implements RouteCallBack {
         this.route = new Route();
         this.routeFollower = new RouteFollower(this.motorControl, this.route, this.activeLineFollower);
         this.notificationSystem = new NotificationSystem(this);
-        this.override = new Override(this.motorControl, this.notificationSystem, this.routeFollower, this.activeLineFollower, this);
+        this.override = new Override(this.motorControl, this.notificationSystem, this.routeFollower, this.activeLineFollower, this, this.route);
         this.hitDetection = new HitDetection(this.override, this.motorControl);
         this.routeIsSet = false;
         this.alerter = false;
@@ -117,6 +117,7 @@ public class Tunshu implements RouteCallBack {
      */
     private void alert() {
         //status changer
+
         if (stateUpdateTimer.timeout()) {
             if (hitDetection.getState()) {
                 notificationSystem.update();
@@ -139,11 +140,13 @@ public class Tunshu implements RouteCallBack {
         notificationSystem.update();
 
         //status changer
+        if(this.alerter){
+            this.alerter = false;
+            notificationSystem.update();
+            this.state = States.Running;
+        }
         if (stateUpdateTimer.timeout()) {
-            if(this.alerter){
-                this.alerter = false;
-                this.state = States.Running;
-            }
+
             routeFollower.off();
             if (hitDetection.getState()) {
                 this.state = States.Alert;
@@ -195,13 +198,25 @@ public class Tunshu implements RouteCallBack {
      */
     private void routeFollower() {
         //status changer
+        if(!this.routeIsSet){
+            /*
+             * this boolean will ensure if the locked state is called if the route is not set when wanting to use the
+             * route follower state, as an alert
+             */
+            this.alerter = true;
+            this.routeFollower.off();
+            this.state = States.Alert;
+            return;
+        }
+
+        notificationSystem.update();
+        hitDetection.update();
+        override.update();
+        motorControl.update();
+        activeLineFollower.update();
+        routeFollower.update();
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState() || !this.routeIsSet) {
-                /*
-                * this boolean will ensure if the locked state is called if the route is not set when wanting to use the
-                * route follower state, as an alert
-                 */
-                this.alerter = true;
+            if (hitDetection.getState()) {
                 this.state = States.Alert;
                 notificationSystem.update();
             } else if (motorControl.isDrivingBackward()) {
@@ -216,12 +231,6 @@ public class Tunshu implements RouteCallBack {
         }
 
         //updates
-        notificationSystem.update();
-        hitDetection.update();
-        override.update();
-        motorControl.update();
-        activeLineFollower.update();
-        routeFollower.update();
     }
 
     /**
