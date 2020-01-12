@@ -21,7 +21,7 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
     private Override override;
     private MotorControl motorControl;
 
-    private boolean hitDetectionState;
+    private boolean isDetectingObject;
 
 
     public HitDetection(Override override, MotorControl motorControl) {
@@ -49,7 +49,7 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
             detectTimer.mark();
 
             if ((this.ultraSonicDistance < 20 && this.ultraSonicDistance > 0) || this.antennaState) {
-                hitDetectionState = true;
+                isDetectingObject = true;
                 override.setLocked(true);
                 motorControl.setLocked(true);
                 motorControl.setTurning(false);
@@ -57,7 +57,7 @@ public class HitDetection implements Updatable, UltrasonicCallBack, AntennaCallB
                 hitDetectStateTimer.mark();
             } else {
                 if (hitDetectStateTimer.timeout()) {
-                    hitDetectionState = false;
+                    isDetectingObject = false;
                     motorControl.setLocked(false);
                 }
             }

@@ -148,7 +148,7 @@ public class Tunshu implements RouteCallBack {
                 this.state = States.Running;
             }
             routeFollower.off();
-            if (hitDetection.getState()) {
+            if (hitDetection.isDetectingObject()) {
                 this.state = States.Alert;
                 notificationSystem.update();
             } else if (!override.isLocked()) {
@@ -200,7 +200,7 @@ public class Tunshu implements RouteCallBack {
     private void routeFollower() {
         //status changer
         if (stateUpdateTimer.timeout()) {
-            if (hitDetection.getState() || !this.routeIsSet) {
+            if (hitDetection.isDetectingObject() || !this.routeIsSet) {
                 /*
                 * this boolean will ensure if the locked state is called if the route is not set when wanting to use the
                 * route follower state, as an alert
