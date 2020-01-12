@@ -40,14 +40,14 @@ public class Bluetooth implements Updatable, Switchable {
             int[] buffer = new int[amount];
             for (int i = 0; i < amount - 1; i++) {
                 buffer[i] = serialConnection.readByte();
-                System.out.println((char)buffer[i]);
+                System.out.println((char) buffer[i]);
             }
 
 
 //            serialConnection.writeByte(data);
 //            System.out.println("Received Data: " + (char)data);
 
-            if((char)buffer[1] == 'i'){
+            if ((char) buffer[1] == 'i') {
                 ArrayList<Instructions> route = new ArrayList<>();
                 for (int i = 1; i < buffer.length - 1; i++) {
                     switch ((char) buffer[i]) {
@@ -66,12 +66,12 @@ public class Bluetooth implements Updatable, Switchable {
                     }
                 }
                 this.routeCallBack.setRoute(route);
-                this.bluetoothCallBack.setState(BluetoothStateCommands.RouteFollower,"t");
+                this.bluetoothCallBack.setState(BluetoothStateCommands.RouteFollower, "t");
                 return;
             }
 
 
-            switch ((char)buffer[0]) {
+            switch ((char) buffer[0]) {
                 //Forward(w)
 
                 case 'w':
@@ -139,7 +139,7 @@ public class Bluetooth implements Updatable, Switchable {
                     bluetoothCallBack.setState(BluetoothStateCommands.Lights, buffer[1] + "");
                     break;
                 //Get Light state(L)
-                case (int)'L':
+                case (int) 'L':
                     char[] answerLight = bluetoothCallBack.getState(BluetoothStateCommands.Lights).toCharArray();
                     serialConnection.writeByte((int) answerLight[0]);
                     break;
@@ -157,16 +157,28 @@ public class Bluetooth implements Updatable, Switchable {
                     ArrayList<Instructions> route = new ArrayList<>();
                     for (int i = 1; i < buffer.length - 1; i++) {
                         switch ((char) buffer[i]) {
+                            //forward
                             case 'w':
                                 route.add(Instructions.Forward);
                                 break;
+                            //left
                             case 'a':
                                 route.add(Instructions.Left);
                                 break;
+                            //backward
+                            case 's':
+                                route.add(Instructions.Backward);
+                                break;
+                            //right
                             case 'd':
                                 route.add(Instructions.Right);
                                 break;
-                            case 's':
+                            //halt or stop
+                            case 'h':
+                                route.add(Instructions.Stop);
+                                break;
+                            //route not found
+                            case 'n':
                                 route.add(Instructions.Stop);
                                 break;
                         }
