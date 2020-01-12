@@ -40,11 +40,37 @@ public class Bluetooth implements Updatable, Switchable {
             int[] buffer = new int[amount];
             for (int i = 0; i < amount - 1; i++) {
                 buffer[i] = serialConnection.readByte();
+                System.out.println((char)buffer[i]);
             }
 
-            System.out.println((char)buffer[0]);
+
 //            serialConnection.writeByte(data);
 //            System.out.println("Received Data: " + (char)data);
+
+            if((char)buffer[1] == 'i'){
+                ArrayList<Instructions> route = new ArrayList<>();
+                for (int i = 1; i < buffer.length - 1; i++) {
+                    switch ((char) buffer[i]) {
+                        case 'w':
+                            route.add(Instructions.Forward);
+                            break;
+                        case 'a':
+                            route.add(Instructions.Left);
+                            break;
+                        case 'd':
+                            route.add(Instructions.Right);
+                            break;
+                        case 's':
+                            route.add(Instructions.Stop);
+                            break;
+                    }
+                }
+                this.routeCallBack.setRoute(route);
+                this.bluetoothCallBack.setState(BluetoothStateCommands.RouteFollower,"t");
+                return;
+            }
+
+
             switch ((char)buffer[0]) {
                 //Forward(w)
 
