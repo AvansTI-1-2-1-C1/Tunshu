@@ -6,23 +6,23 @@ import Utils.Enums.DriveCommands;
 public interface BluetoothCallBack {
 
     /**
-     * TODO
+     * callback to set a command
      *
-     * @param command
+     * @param command is a Enum list of available commands
      */
     void onInput(DriveCommands command);
 
     /**
-     * TODO
+     * callback to get the state
      *
-     * @param command
+     * @param command is a Enum list of available commands
      */
     String getState(BluetoothStateCommands command);
 
     /**
-     * TODO
+     * callback to set the state
      *
-     * @param command
+     * @param command is a Enum list of available commands
      */
     void setState(BluetoothStateCommands command, String value);
 }

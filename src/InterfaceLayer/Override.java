@@ -49,7 +49,7 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * TODO
+     * this function uses the selected command and calls the corresponding methods
      */
     private void useButton() {
         //check if the selected button was pressed right before by checking it against the previous button code and the timer
@@ -112,9 +112,9 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * TODO
+     * this is a callback to set the selected command to the given command
      *
-     * @param
+     * @param command is a Enum list of available commands
      */
     @java.lang.Override
     public void onButtonPress(RemoteCommand command) {
@@ -218,9 +218,9 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * TODO
+     * callback for setting the selected command
      *
-     * @param command
+     * @param command is a Enum list of available commands
      */
     @java.lang.Override
     public void onInput(DriveCommands command) {
@@ -228,10 +228,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * TODO
+     * get the state of the notification system
      *
-     * @param command
-     * @return
+     * @param command is a Enum list of available commands
+     * @return what the state of the override is
      */
     @java.lang.Override
     public String getState(BluetoothStateCommands command) {
@@ -257,10 +257,10 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * TODO
+     * a simple setter for notification system with the given command
      *
-     * @param command
-     * @param value
+     * @param command is a Enum list of available commands
+     * @param value is the value of the LineFollowers
      */
     @java.lang.Override
     public void setState(BluetoothStateCommands command, String value) {
@@ -304,9 +304,9 @@ public class Override implements Updatable, RemoteControlCallBack, BluetoothCall
     }
 
     /**
-     * simple setter for isUnlocked
+     * simple setter for isLocked
      *
-     * @param unlocked is to what isUnlocked need to be set
+     * @param isLocked is to what isLocked need to be set
      */
     public void setLocked(boolean isLocked) {
         this.isLocked = isLocked;
